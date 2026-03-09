@@ -1,0 +1,38 @@
+{
+  "campaigns": {
+    "elem_6": {
+      "timeLimitMinutes": 45,
+      "levels": [
+        {
+          "id": "room_airlock",
+          "componentPath": "RoomEngine",
+          "backgroundUrl": "/assets/rooms/corridor.png",
+          "hotspots": [
+             { "id": "mysterious_note", "x": 40, "y": 70, "action": "LORE", "label": "room.mysteriousNoteTitle", "content": "room.mysteriousNote" },
+             { "id": "employee_log", "x": 20, "y": 80, "action": "LORE", "label": "room.employeeLogTitle", "content": "room.employeeLog", "requires": ["mysterious_note"] },
+             { "id": "mainframe", "x": 60, "y": 55, "action": "NEXT_LEVEL", "label": "room.mainframeTitle", "requires": ["employee_log"] }
+          ]
+        },
+        {
+          "id": "1",
+          "componentPath": "Level1_Sorting"
+        },
+        {
+          "id": "desktop",
+          "componentPath": "DesktopSim"
+        },
+        {
+          "id": "2",
+          "componentPath": "Level2_Loops"
+        }
+      ]
+    },
+    "elem_7": { "levels": [] },
+    "elem_8": { "levels": [] },
+    "elem_9": { "levels": [] },
+    "hs_1":   { "levels": [] },
+    "hs_2":   { "levels": [] },
+    "hs_3":   { "levels": [] },
+    "hs_4":   { "levels": [] }
+  }
+}

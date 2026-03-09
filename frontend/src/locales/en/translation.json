@@ -1,0 +1,141 @@
+{
+  "system": {
+    "title": "Escape_Platform",
+    "os": "OS",
+    "subtitle": "An interactive learning environment for CS competencies under the Czech RVP standards.",
+    "version": "System v0.1.0-alpha"
+  },
+  "inventory": {
+    "title": "Inventory",
+    "empty": "Empty"
+  },
+  "items": {
+    "usb_decryptor": "USB Decryptor",
+    "cpu": "CPU",
+    "ram": "RAM",
+    "gpu": "GPU",
+    "storage": "Storage"
+  },
+  "level1": {
+    "title": "Mainframe Logic Gate",
+    "awaitingAlignment": "AWAITING HARDWARE SEQUENCE ALIGNMENT...",
+    "sequenceAccepted": "SEQUENCE ACCEPTED. DOOR UNLOCKED. DISPENSING ACCESS TOKEN...",
+    "tokenGranted": "TOKEN GRANTED. PROCEEDING TO NEXT ZONE...",
+    "hardwareArray": "Hardware Rack Array",
+    "module": "Module",
+    "accessGranted": "Access Granted",
+    "secureArea": "Secure Area"
+  },
+  "gameContainer": {
+    "puzzleNotFound": "Puzzle logic not found for level {{level}}",
+    "level": "Level",
+    "unknownZone": "Unknown Zone",
+    "loadingModule": "Loading Module {{module}}...",
+    "purging": "SYSTEM PURGING... INITIALIZING NEXT PROTOCOL",
+    "returning": "ACCESSING PREVIOUS NODE..."
+  },
+  "menu": {
+    "main": {
+      "difficulty": {
+        "title": "Initialize Protocol",
+        "subtitle": "Select simulation difficulty"
+      },
+      "options": {
+        "title": "System Configuration",
+        "subtitle": "Audio, Video & Accessibility"
+      },
+      "credits": {
+        "title": "Core Contributors",
+        "subtitle": "Development team & credits"
+      },
+      "exit": {
+        "title": "Terminate Session",
+        "subtitle": "Exit the platform"
+      }
+    },
+    "difficultyView": {
+      "title": "Select Simulation Protocol",
+      "levelPrefix": "LEVEL"
+    },
+    "optionsView": {
+      "title": "System Configuration",
+      "crt": {
+        "title": "Terminal CRT Effect",
+        "desc": "Enable retro scanlines and chromatic aberration"
+      },
+      "audio": {
+        "title": "Audio Telemetry",
+        "desc": "Master volume control for environment and FX ({{volume}}%)"
+      },
+      "dyslexia": {
+        "title": "Dyslexia Support",
+        "desc": "Use specialized fonts across all terminal outputs"
+      },
+      "language": {
+        "title": "System Language",
+        "desc": "Toggle between English and Czech interface"
+      }
+    },
+    "creditsView": {
+      "title": "Core Contributors",
+      "lead": "Lead Architect & Pedagogy",
+      "ai": "AI Systems Integration",
+      "footer": "Built for the Revize RVP 2021/2026"
+    }
+  },
+  "difficulties": {
+    "1": {
+      "title": "Algorithmic Sequence",
+      "desc": "Move a character using blocks."
+    },
+    "2": {
+       "title": "The Repetitive Lock",
+       "desc": "Implementing basic loops to bypass security."
+    },
+    "3": {
+       "title": "Binary Torch",
+       "desc": "Toggle lights to match patterns."
+    },
+    "4": {
+       "title": "The Archives",
+       "desc": "Organizing physical objects into arrays."
+    },
+    "5": {
+       "title": "Wire the Gate",
+       "desc": "Use AND/OR gates to power locks."
+    },
+    "6": {
+       "title": "Phishing the Guard",
+       "desc": "Identifying safe digital messages."
+    },
+    "7": {
+       "title": "Brute Force Generator",
+       "desc": "Optimizing a processing path to crack a PIN."
+    },
+    "8": {
+       "title": "SQL Infiltration",
+       "desc": "Terminal interface crafting queries."
+    }
+  },
+  "desktopSim": {
+    "emptyFolder": "This folder is empty.",
+    "executing": "EXECUTING OVERRIDE PROTOCOL...",
+    "lore": {
+      "sys": "SYSTEM CONFIGURATION [RESTRICTED]\n\nMemory allocation module bypassed.\nNext zone requires cyclic repetition.\nBe aware of the admin tools access level.",
+      "warn": "INCIDENT REPORT #04\n\nThe guard algorithm is repeating its patrol loop indefinitely. If you find the override tool, it can break the loop mechanism. Do not share the loop_override.exe payload.",
+      "readme": "WELCOME TO THE STAFF PORTAL.\n\nReminder: Unauthorized execution of the 'loop_override' tool is strictly prohibited. If you are stuck reading this, you are in the wrong place."
+    }
+  },
+  "room": {
+    "mysteriousNoteTitle": "Mysterious Note",
+    "mysteriousNote": "Where am I? The last thing I remember... the facility AI went rogue and locked the blast doors. It keeps infinitely looping its security protocols.\n\nIf you're reading this, we need to bypass the mainframe to get out. Sadly, I don't know the hardware sequence needed to unlock it, but the shift supervisor's log might have it.",
+    "employeeLogTitle": "Employee Log",
+    "employeeLog": "SHIFT SUPERVISOR LOG\n\nDaily Reminder: The AI is very particular about the Mainframe array order. Always sequence it as: Central Processing Unit first, then Volatile Memory, then the Graphics Processor, and finally Persistent Storage.",
+    "mainframeTitle": "Inspect Mainframe"
+  },
+  "notepad": {
+    "title": "Personal Logs",
+    "placeholder": "Record protocol observations and sequences here...",
+    "saved": "SAVED"
+  }
+}

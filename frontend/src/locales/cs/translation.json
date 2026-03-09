@@ -1,0 +1,141 @@
+{
+  "system": {
+    "title": "Úniková_Platforma",
+    "os": "OS",
+    "subtitle": "Interaktivní výukové prostředí pro informatické kompetence podle standardů RVP ČR.",
+    "version": "Systém v0.1.0-alpha"
+  },
+  "inventory": {
+    "title": "Inventář",
+    "empty": "Prázdný"
+  },
+  "items": {
+    "usb_decryptor": "USB Dekryptor",
+    "cpu": "CPU",
+    "ram": "RAM",
+    "gpu": "GPU",
+    "storage": "Úložiště"
+  },
+  "level1": {
+    "title": "Logické Hradlo Mainframu",
+    "awaitingAlignment": "ČEKÁ NA ZAROVNÁNÍ HARDWAROVÉ SEKVENCE...",
+    "sequenceAccepted": "SEKVENCE PŘIJATA. DVEŘE ODEMČENY. VYDÁVÁNÍ PŘÍSTUPOVÉHO TOKENU...",
+    "tokenGranted": "TOKEN UDĚLEN. POKRAČOVÁNÍ DO DALŠÍ ZÓNY...",
+    "hardwareArray": "Pole Hardwarových Racků",
+    "module": "Modul",
+    "accessGranted": "Přístup Zaručen",
+    "secureArea": "Zabezpečená Oblast"
+  },
+  "gameContainer": {
+    "puzzleNotFound": "Logika hádanky nenalezena pro úroveň {{level}}",
+    "level": "Úroveň",
+    "unknownZone": "Neznámá Zóna",
+    "loadingModule": "Načítání Modulu {{module}}...",
+    "purging": "ČIŠTĚNÍ SYSTÉMU... INICIALIZACE DALŠÍHO PROTOKOLU",
+    "returning": "PŘÍSTUP K PŘEDCHOZÍMU UZLU..."
+  },
+  "menu": {
+    "main": {
+      "difficulty": {
+        "title": "Inicializovat Protokol",
+        "subtitle": "Výběr obtížnosti simulace"
+      },
+      "options": {
+        "title": "Konfigurace Systému",
+        "subtitle": "Audio, Video & Přístupnost"
+      },
+      "credits": {
+        "title": "Hlavní Přispěvatelé",
+        "subtitle": "Vývojový tým a titulky"
+      },
+      "exit": {
+        "title": "Ukončit Relaci",
+        "subtitle": "Odejít z platformy"
+      }
+    },
+    "difficultyView": {
+      "title": "Výběr Simulačního Protokolu",
+      "levelPrefix": "ÚROVEŇ"
+    },
+    "optionsView": {
+      "title": "Konfigurace Systému",
+      "crt": {
+        "title": "CRT Efekt Terminálu",
+        "desc": "Povolit retro řádkování a chromatickou aberaci"
+      },
+      "audio": {
+        "title": "Audio Telemetrie",
+        "desc": "Hlavní ovládání hlasitosti pro prostředí a efekty ({{volume}}%)"
+      },
+      "dyslexia": {
+        "title": "Podpora pro Dyslektiky",
+        "desc": "Použít speciální fonty pro veškeré terminálové výstupy"
+      },
+      "language": {
+        "title": "Jazyk Systému",
+        "desc": "Přepínání mezi anglickým a českým rozhraním"
+      }
+    },
+    "creditsView": {
+      "title": "Hlavní Přispěvatelé",
+      "lead": "Hlavní Architekt & Pedagogika",
+      "ai": "Integrace AI Systémů",
+      "footer": "Vytvořeno pro Revizi RVP 2021/2026"
+    }
+  },
+  "difficulties": {
+    "1": {
+      "title": "Algoritmická Sekvence",
+      "desc": "Pohyb postavy pomocí bloků."
+    },
+    "2": {
+       "title": "Opakující se Zámek",
+       "desc": "Implementace základních smyček k obejití bezpečnosti."
+    },
+    "3": {
+       "title": "Binární Pochodeň",
+       "desc": "Přepínání světel podle vzorů."
+    },
+    "4": {
+       "title": "Archivy",
+       "desc": "Organizace fyzických objektů do polí."
+    },
+    "5": {
+       "title": "Zapojení Brány",
+       "desc": "Použití hradel AND/OR k napájení zámků."
+    },
+    "6": {
+       "title": "Phishing na Stráž",
+       "desc": "Identifikace bezpečných digitálních zpráv."
+    },
+    "7": {
+       "title": "Generátor Brute Force",
+       "desc": "Optimalizace zpracovací cesty k prolomení PINu."
+    },
+    "8": {
+       "title": "SQL Infiltrace",
+       "desc": "Terminálové rozhraní pro tvorbu dotazů."
+    }
+  },
+  "desktopSim": {
+    "emptyFolder": "Tato složka je prázdná.",
+    "executing": "SPOUŠTĚNÍ PROTOKOLU PŘEPSÁNÍ...",
+    "lore": {
+      "sys": "KONFIGURACE SYSTÉMU [UTAJENO]\n\nModul alokace paměti obejit.\nDalší zóna vyžaduje cyklické opakování.\nDávejte pozor na úroveň přístupu administrátorských nástrojů.",
+      "warn": "ZPRÁVA O INCIDENTU #04\n\nAlgoritmus stráže opakuje svou hlídkovací smyčku donekonečna. Pokud najdete nástroj pro přepsání, může přerušit mechanismus smyčky. Nesdílejte payload loop_override.exe.",
+      "readme": "VÍTEJTE NA PORTÁLU PRO ZAMĚSTNANCE.\n\nPřipomenutí: Neoprávněné spuštění nástroje 'loop_override' je přísně zakázáno. Pokud trčíte u čtení tohoto dokumentu, jste na špatném místě."
+    }
+  },
+  "room": {
+    "mysteriousNoteTitle": "Záhadný Vzkaz",
+    "mysteriousNote": "Kde to jsem? Poslední co si pamatuji... umělá inteligence zařízení se zbláznila a zamkla protitlaké dveře. Neustále opakuje své bezpečnostní protokoly.\n\nPokud to čtete, musíme obejít hlavní počítač, abychom se dostali ven. Bohužel neznám hardwarovou sekvenci potřebnou k odemčení, ale možná to bude v logu vedoucího směny.",
+    "employeeLogTitle": "Log Zaměstnance",
+    "employeeLog": "LOG VEDOUCÍHO SMĚNY\n\nDenní připomenutí: Umělá inteligence je velmi vybíravá ohledně pořadí v poli hlavního počítače. Hardware vždy seřaďte jako: Centrální procesorovou jednotku jako první, pak dočasnou paměť (Volatile Memory), následuje grafický procesor a nakonec trvalé úložiště.",
+    "mainframeTitle": "Zkontrolovat Mainframe"
+  },
+  "notepad": {
+    "title": "Osobní Záznamy",
+    "placeholder": "Zde zaznamenejte svá pozorování a sekvence protokolů...",
+    "saved": "ULOŽENO"
+  }
+}
