@@ -1,28 +1,39 @@
-export type EventType = 'ITEM_FOUND' | 'DOOR_UNLOCKED' | 'PUZZLE_SOLVED' | 'PUZZLE_CLOSED' | 'STATE_CHANGED' | 'CAMPAIGN_COMPLETED' | 'CAMPAIGN_FAILED' | 'TIME_PENALTY';
+export interface EventPayloadMap {
+  ITEM_FOUND: string;
+  DOOR_UNLOCKED: { doorId: string };
+  PUZZLE_SOLVED: { nextLevel: number | string };
+  PUZZLE_CLOSED: undefined;
+  STATE_CHANGED: { key: string; value: unknown };
+  CAMPAIGN_COMPLETED: { campaignId: string };
+  CAMPAIGN_FAILED: { reason: string };
+  TIME_PENALTY: { seconds: number };
+}
 
-type EventCallback = (payload: any) => void;
+export type EventType = keyof EventPayloadMap;
+
+type ListenerMap = {
+  [K in EventType]?: Array<(payload: EventPayloadMap[K]) => void>;
+};
 
 class EventBus {
-  private listeners: Record<string, EventCallback[]> = {};
+  private listeners: ListenerMap = {};
 
-  subscribe(event: EventType, callback: EventCallback) {
-    if (!this.listeners[event]) {
-      this.listeners[event] = [];
-    }
-    this.listeners[event].push(callback);
+  subscribe<K extends EventType>(event: K, callback: (payload: EventPayloadMap[K]) => void) {
+    const listeners = (this.listeners[event] ?? []) as Array<(payload: EventPayloadMap[K]) => void>;
+    listeners.push(callback);
+    this.listeners[event] = listeners as ListenerMap[K];
 
-    // Return unsubscribe function
     return () => {
-      this.listeners[event] = this.listeners[event].filter(cb => cb !== callback);
+      const currentListeners = (this.listeners[event] ?? []) as Array<(payload: EventPayloadMap[K]) => void>;
+      this.listeners[event] = currentListeners.filter((cb) => cb !== callback) as ListenerMap[K];
     };
   }
 
-  publish(event: EventType, payload?: any) {
-    if (this.listeners[event]) {
-      this.listeners[event].forEach(callback => callback(payload));
-    }
+  publish<K extends EventType>(event: K, ...args: EventPayloadMap[K] extends undefined ? [] : [EventPayloadMap[K]]) {
+    const payload = args[0] as EventPayloadMap[K];
+    const listeners = (this.listeners[event] ?? []) as Array<(payload: EventPayloadMap[K]) => void>;
+    listeners.forEach((callback) => callback(payload));
   }
 }
 
-// Export a singleton instance
 export const gameEvents = new EventBus();

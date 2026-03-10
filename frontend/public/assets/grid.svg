@@ -1,0 +1,13 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="48" height="48" fill="transparent"/>
+  <path d="M0 0H48" stroke="#38BDF8" stroke-opacity="0.18"/>
+  <path d="M0 12H48" stroke="#38BDF8" stroke-opacity="0.18"/>
+  <path d="M0 24H48" stroke="#38BDF8" stroke-opacity="0.18"/>
+  <path d="M0 36H48" stroke="#38BDF8" stroke-opacity="0.18"/>
+  <path d="M0 48H48" stroke="#38BDF8" stroke-opacity="0.18"/>
+  <path d="M0 0V48" stroke="#38BDF8" stroke-opacity="0.18"/>
+  <path d="M12 0V48" stroke="#38BDF8" stroke-opacity="0.18"/>
+  <path d="M24 0V48" stroke="#38BDF8" stroke-opacity="0.18"/>
+  <path d="M36 0V48" stroke="#38BDF8" stroke-opacity="0.18"/>
+  <path d="M48 0V48" stroke="#38BDF8" stroke-opacity="0.18"/>
+</svg>

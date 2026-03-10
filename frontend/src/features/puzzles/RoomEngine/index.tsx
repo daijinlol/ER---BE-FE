@@ -1,130 +1,201 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Terminal, Lightbulb, Search, X } from 'lucide-react';
+import { Terminal, X, FileText, ScanSearch, ArrowRightCircle } from 'lucide-react';
 import { audio } from '../../../core/AudioEngine';
 import { gameEvents } from '../../../core/EventBus';
+import { useGameSession } from '../../../core/GameSession';
+import type { PuzzleComponentProps, PuzzleHotspot } from '../types';
 
-interface RoomConfig {
-  id: string;
-  componentPath: string;
-  backgroundUrl: string;
-  hotspots: Array<{
-    id: string;
-    x: number;
-    y: number;
-    action: 'NEXT_LEVEL' | 'LORE' | 'PUZZLE' | 'DIALOGUE';
-    label: string;
-    content?: string;
-    requires?: string[];
-  }>;
+export default function RoomEngine({ config, campaignSessionKey }: PuzzleComponentProps) {
+    const { t } = useTranslation();
+    const { session, recordRoomInteraction } = useGameSession();
+    const roomSessionKey = `${campaignSessionKey}:${config.id}`;
+    const [activeHotspot, setActiveHotspot] = useState<PuzzleHotspot | null>(null);
+    const [interactionHistory, setInteractionHistory] = useState<Set<string>>(
+        () => new Set(session.roomInteractions[roomSessionKey] ?? [])
+    );
+
+    useEffect(() => {
+        setInteractionHistory(new Set(session.roomInteractions[roomSessionKey] ?? []));
+    }, [roomSessionKey, session.roomInteractions]);
+
+    const visibleHotspots = config.hotspots?.filter((hotspot) => !hotspot.requires || hotspot.requires.every((requirement) => (
+        interactionHistory.has(requirement) || session.inventoryItems.includes(requirement)
+    ))) ?? [];
+
+    const handleHotspotClick = (hotspot: PuzzleHotspot) => {
+        audio.playClick();
+
+        setInteractionHistory((prev) => {
+            const next = new Set(prev).add(hotspot.id);
+            recordRoomInteraction(roomSessionKey, hotspot.id);
+            return next;
+        });
+
+        if (hotspot.rewardItem && !session.inventoryItems.includes(hotspot.rewardItem)) {
+            gameEvents.publish('ITEM_FOUND', hotspot.rewardItem);
+            audio.playItemFound();
+        }
+
+        if (hotspot.action === 'LORE') {
+            setActiveHotspot(hotspot);
+            return;
+        }
+
+        if (hotspot.action === 'NEXT_LEVEL') {
+            audio.playSuccess();
+            gameEvents.publish('PUZZLE_SOLVED', { nextLevel: 'NEXT' });
+        }
+    };
+
+    return (
+        <div className="group relative h-full w-full overflow-hidden bg-black">
+            {config.backgroundUrl ? (
+                <div
+                    className="pointer-events-none absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-[10s] group-hover:scale-[1.03]"
+                    style={{ backgroundImage: `url(${config.backgroundUrl})` }}
+                />
+            ) : (
+                <div className="absolute inset-0 flex items-center justify-center bg-slate-900 pointer-events-none">
+                    <span className="font-mono text-xl tracking-widest text-slate-700">NO VISUAL SIGNAL</span>
+                </div>
+            )}
+
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.14),transparent_40%),linear-gradient(to_top,rgba(0,0,0,0.85),rgba(0,0,0,0.18)_45%,rgba(0,0,0,0.75))]" />
+            <div className="pointer-events-none absolute inset-0 bg-brand-900/20 mix-blend-overlay" />
+
+            <div className="absolute left-6 top-6 z-20 max-w-md rounded-2xl border border-cyan-400/18 bg-slate-950/55 px-4 py-3 shadow-2xl backdrop-blur-md">
+                <div className="flex items-center gap-2 text-cyan-300">
+                    <ScanSearch size={15} />
+                    <span className="text-[11px] font-mono uppercase tracking-[0.22em]">{t('room.scanRecovered')}</span>
+                </div>
+                <p className="mt-2 text-sm leading-relaxed text-slate-300">{t('room.interactHint')}</p>
+            </div>
+
+            <div className="absolute inset-0 z-10">
+                {visibleHotspots.map((hotspot) => {
+                    const isRecovered = interactionHistory.has(hotspot.id);
+                    const theme = getHotspotTheme(hotspot.action);
+                    const Icon = hotspot.action === 'LORE' ? FileText : ArrowRightCircle;
+
+                    return (
+                        <button
+                            key={hotspot.id}
+                            onClick={() => handleHotspotClick(hotspot)}
+                            onMouseEnter={() => audio.playHover()}
+                            className="group/spot absolute -translate-x-1/2 -translate-y-1/2"
+                            style={{ left: `${hotspot.x}%`, top: `${hotspot.y}%` }}
+                        >
+                            <div className="relative">
+                                <div className={`absolute inset-0 rounded-full blur-xl transition-opacity ${theme.glow} opacity-70 group-hover/spot:opacity-100`} />
+
+                                {hotspot.action === 'LORE' ? (
+                                    <div className={`relative min-w-[10rem] -rotate-2 rounded-2xl border px-4 py-3 text-left shadow-2xl backdrop-blur-md transition-all group-hover/spot:-translate-y-1 group-hover/spot:rotate-0 ${theme.card}`}>
+                                        <div className="flex items-start gap-3">
+                                            <div className={`mt-0.5 rounded-xl border p-2 ${theme.iconBox}`}>
+                                                <Icon size={16} />
+                                            </div>
+                                            <div>
+                                                <div className={`text-[10px] font-mono uppercase tracking-[0.22em] ${theme.kicker}`}>
+                                                    {isRecovered ? t('room.recoveredState') : t('room.newState')}
+                                                </div>
+                                                <div className="mt-1 text-sm font-medium text-white">{t(hotspot.label)}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="relative flex flex-col items-center gap-2">
+                                        <div className={`relative flex h-16 w-16 items-center justify-center rounded-full border backdrop-blur-md transition-all group-hover/spot:scale-105 ${theme.card}`}>
+                                            <div className={`absolute inset-2 rounded-full border ${theme.ring}`} />
+                                            <Icon size={18} className="text-white" />
+                                        </div>
+                                        <div className={`rounded-full border px-3 py-1 text-[11px] font-mono uppercase tracking-[0.18em] shadow-lg backdrop-blur-md ${theme.badge}`}>
+                                            {t(hotspot.label)}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </button>
+                    );
+                })}
+            </div>
+
+            <AnimatePresence>
+                {activeHotspot && activeHotspot.content && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="absolute inset-0 z-50 flex items-center justify-center bg-black/65 p-6 backdrop-blur-md"
+                        onClick={() => {
+                            audio.playClick();
+                            setActiveHotspot(null);
+                        }}
+                    >
+                        <motion.div
+                            initial={{ y: 40, scale: 0.96 }}
+                            animate={{ y: 0, scale: 1 }}
+                            exit={{ y: 40, scale: 0.96 }}
+                            onClick={(event) => event.stopPropagation()}
+                            className="relative w-full max-w-2xl overflow-hidden rounded-[1.75rem] border border-slate-700 bg-slate-950/95 shadow-2xl"
+                        >
+                            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.12),transparent_38%)] pointer-events-none" />
+                            <div className="relative border-b border-slate-800 bg-black/35 px-6 py-5">
+                                <div className="flex items-start justify-between gap-4">
+                                    <div>
+                                        <div className="flex items-center gap-3 text-cyan-300">
+                                            <Terminal size={18} />
+                                            <span className="text-[11px] font-mono uppercase tracking-[0.22em]">{t('room.loreRecovered')}</span>
+                                        </div>
+                                        <h3 className="mt-3 text-2xl font-semibold text-white">{t(activeHotspot.label)}</h3>
+                                    </div>
+                                    <button
+                                        onClick={() => {
+                                            audio.playClick();
+                                            setActiveHotspot(null);
+                                        }}
+                                        className="rounded-xl border border-slate-700 bg-slate-900/80 p-2 text-slate-400 transition-colors hover:border-red-500/40 hover:bg-red-500/10 hover:text-red-300"
+                                    >
+                                        <X size={20} />
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div className="relative px-6 py-8">
+                                <div className="absolute inset-0 bg-[repeating-linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.03)_1px,transparent_1px,transparent_4px)] opacity-20 pointer-events-none" />
+                                <div className="relative rounded-2xl border border-cyan-400/15 bg-slate-900/70 p-6">
+                                    <div className="font-mono text-sm leading-8 text-slate-200 whitespace-pre-line">
+                                        {t(activeHotspot.content)}
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </div>
+    );
 }
 
-export default function RoomEngine({ config }: { config: RoomConfig }) {
-  const { t } = useTranslation();
-  const storageKey = `room_interactions_${config.id}`;
-  const [activeLore, setActiveLore] = useState<string | null>(null);
-  const [interactionHistory, setInteractionHistory] = useState<Set<string>>(() => {
-    try {
-      const saved = sessionStorage.getItem(storageKey);
-      return saved ? new Set(JSON.parse(saved)) : new Set();
-    } catch {
-      return new Set();
+function getHotspotTheme(action: PuzzleHotspot['action']) {
+    if (action === 'NEXT_LEVEL') {
+        return {
+            glow: 'bg-cyan-400/25',
+            card: 'border-cyan-400/35 bg-cyan-500/12 text-cyan-100',
+            iconBox: 'border-cyan-300/25 bg-cyan-500/10 text-cyan-100',
+            kicker: 'text-cyan-200',
+            ring: 'border-cyan-300/40',
+            badge: 'border-cyan-400/30 bg-slate-950/75 text-cyan-100',
+        };
     }
-  });
 
-  const handleHotspotClick = (hotspot: any) => {
-    audio.playClick();
-    
-    // Track that we interacted with this element
-    setInteractionHistory(prev => {
-      const next = new Set(prev).add(hotspot.id);
-      sessionStorage.setItem(storageKey, JSON.stringify(Array.from(next)));
-      return next;
-    });
-    
-    if (hotspot.action === 'LORE') {
-        setActiveLore(hotspot.content);
-    } else if (hotspot.action === 'NEXT_LEVEL') {
-        audio.playSuccess();
-        gameEvents.publish('PUZZLE_SOLVED', { nextLevel: 'NEXT' });
-    }
-  };
-
-  return (
-    <div className="w-full h-full relative bg-black overflow-hidden group">
-        {/* Environmental Background */}
-        {config.backgroundUrl ? (
-            <div 
-               className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-[10s] group-hover:scale-105 pointer-events-none"
-               style={{ backgroundImage: `url(${config.backgroundUrl})` }}
-            />
-        ) : (
-            <div className="absolute inset-0 bg-slate-900 pointer-events-none flex items-center justify-center">
-                <span className="text-slate-700 font-mono tracking-widest text-xl">NO VISUAL SIGNAL</span>
-            </div>
-        )}
-
-        {/* CSS Tint Overlay for Sci-Fi Vibe */}
-        <div className="absolute inset-0 bg-brand-900/20 mix-blend-overlay pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black pointer-events-none opacity-80" />
-
-        {/* Hotspots Container */}
-        <div className="absolute inset-0 z-10">
-            {config.hotspots?.filter((h) => !h.requires || h.requires.every(req => interactionHistory.has(req))).map((hotspot) => (
-                <button
-                   key={hotspot.id}
-                   onClick={() => handleHotspotClick(hotspot)}
-                   onMouseEnter={() => audio.playHover()}
-                   className="absolute group/spot cursor-pointer transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center"
-                   style={{ left: `${hotspot.x}%`, top: `${hotspot.y}%` }}
-                >
-                   {/* Glowing marker dot */}
-                   <div className="w-6 h-6 rounded-full border-2 border-brand-400 bg-brand-500/20 flex items-center justify-center shadow-[0_0_15px_rgba(59,130,246,0.6)] group-hover/spot:bg-brand-400 group-hover/spot:scale-125 transition-all">
-                      {hotspot.action === 'LORE' ? <Lightbulb size={12} className="text-white" /> : <Search size={12} className="text-white" />}
-                   </div>
-                   
-                   {/* Tooltip Label */}
-                   <div className="mt-2 px-3 py-1 bg-black/80 backdrop-blur-sm border border-brand-500/50 text-brand-200 text-xs font-mono rounded transition-all pointer-events-none whitespace-nowrap drop-shadow-md">
-                      {t(hotspot.label)}
-                   </div>
-                </button>
-            ))}
-        </div>
-
-        {/* Lore / Dialogue Overlay */}
-        <AnimatePresence>
-            {activeLore && (
-                <motion.div 
-                   initial={{ opacity: 0 }}
-                   animate={{ opacity: 1 }}
-                   exit={{ opacity: 0 }}
-                   className="absolute inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-8 cursor-pointer"
-                   onClick={() => { audio.playClick(); setActiveLore(null); }}
-                >
-                    <motion.div 
-                       initial={{ y: 50, scale: 0.95 }}
-                       animate={{ y: 0, scale: 1 }}
-                       exit={{ y: 50, scale: 0.95 }}
-                       onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the modal
-                       className="w-full max-w-lg bg-surface-dark border border-slate-700 shadow-2xl rounded-xl overflow-hidden relative cursor-default"
-                    >
-                        <div className="bg-slate-800 p-4 border-b border-slate-700 flex justify-between items-center">
-                            <div className="flex items-center gap-3">
-                                <Terminal className="text-brand-400" size={18} />
-                                <span className="text-slate-200 font-mono text-sm tracking-widest font-bold">DATA LOG RECOVERED</span>
-                            </div>
-                            <button onClick={() => { audio.playClick(); setActiveLore(null); }} className="text-slate-300 bg-red-500/20 p-1 rounded hover:bg-red-500 hover:text-white transition-colors border border-red-500/50">
-                                <X size={24} />
-                            </button>
-                        </div>
-                        <div className="p-8 font-mono text-slate-300 leading-relaxed min-h-[150px] flex items-center justify-center text-center">
-                            {t(activeLore)}
-                        </div>
-                    </motion.div>
-                </motion.div>
-            )}
-        </AnimatePresence>
-    </div>
-  );
+    return {
+        glow: 'bg-amber-300/20',
+        card: 'border-amber-300/30 bg-slate-950/82 text-amber-100',
+        iconBox: 'border-amber-300/25 bg-amber-500/10 text-amber-100',
+        kicker: 'text-amber-200',
+        ring: 'border-amber-300/35',
+        badge: 'border-amber-300/30 bg-slate-950/75 text-amber-100',
+    };
 }

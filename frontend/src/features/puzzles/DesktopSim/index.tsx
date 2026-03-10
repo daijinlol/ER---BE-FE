@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { Folder, FileText, Terminal, X, Minimize2, FileCode } from 'lucide-react';
 import { audio } from '../../../core/AudioEngine';
 import { gameEvents } from '../../../core/EventBus';
+import { useGameSession } from '../../../core/GameSession';
+import type { PuzzleComponentProps } from '../types';
 
 type FileType = 'folder' | 'text' | 'executable';
 
@@ -12,8 +14,19 @@ interface FileSystemNode {
   name: string;
   type: FileType;
   content?: string;
+  rewardItem?: string;
+  completesOnCollect?: boolean;
   children?: FileSystemNode[];
 }
+
+const LOOP_MODULE_NODE: FileSystemNode = {
+  id: 't_loop_module',
+  name: 'loop_module.pkg',
+  type: 'text',
+  content: 'desktopSim.lore.loopModule',
+  rewardItem: 'module_loop',
+  completesOnCollect: true,
+};
 
 const fileSystem: FileSystemNode[] = [
   {
@@ -30,6 +43,7 @@ const fileSystem: FileSystemNode[] = [
     name: 'Admin_Tools',
     type: 'folder',
     children: [
+      { id: 't_patch', name: 'legacy_patch.bin', type: 'text', content: 'desktopSim.lore.decryptor', rewardItem: 'usb_decryptor' },
       { id: 'e_loop', name: 'loop_override.exe', type: 'executable' }
     ]
   },
@@ -44,17 +58,38 @@ interface WindowState {
   zIndex: number;
 }
 
-export default function DesktopSim() {
+export default function DesktopSim(_props: PuzzleComponentProps) {
   const { t } = useTranslation();
+  const { session } = useGameSession();
   const [windows, setWindows] = useState<WindowState[]>([]);
   const [topZIndex, setTopZIndex] = useState(10);
   const [isExecuting, setIsExecuting] = useState(false);
+  const [pickupToast, setPickupToast] = useState<string | null>(null);
+  const [isLoopOverrideComplete, setIsLoopOverrideComplete] = useState(false);
+
+  const desktopNodes = [
+    ...fileSystem,
+    ...(isLoopOverrideComplete && !session.inventoryItems.includes('module_loop') ? [LOOP_MODULE_NODE] : []),
+  ];
 
   const openWindow = (node: FileSystemNode) => {
     // If it's the executable, run it
     if (node.type === 'executable') {
       executeFile(node);
       return;
+    }
+
+    if (node.rewardItem && !session.inventoryItems.includes(node.rewardItem)) {
+      gameEvents.publish('ITEM_FOUND', node.rewardItem);
+      audio.playItemFound();
+      setPickupToast(t(`desktopSim.pickups.${node.rewardItem}`, { defaultValue: `${node.rewardItem} recovered.` }));
+      window.setTimeout(() => setPickupToast(null), 2600);
+
+      if (node.completesOnCollect) {
+        window.setTimeout(() => {
+          gameEvents.publish('PUZZLE_SOLVED', { nextLevel: 'NEXT' });
+        }, 900);
+      }
     }
 
     if (windows.some(w => w.id === node.id)) {
@@ -87,17 +122,24 @@ export default function DesktopSim() {
   };
 
   const executeFile = (_node: FileSystemNode) => {
+    if (isLoopOverrideComplete) {
+      return;
+    }
+
     audio.playSuccess();
     setIsExecuting(true);
-    
+
     setTimeout(() => {
-      gameEvents.publish('PUZZLE_SOLVED', { nextLevel: 'NEXT' });
+      setIsExecuting(false);
+      setIsLoopOverrideComplete(true);
+      setPickupToast(t('desktopSim.pickups.module_loop_ready', { defaultValue: 'Loop Control Module dropped to desktop.' }));
+      window.setTimeout(() => setPickupToast(null), 2600);
     }, 2500);
   };
 
   const renderDesktopIcon = (node: FileSystemNode) => (
-    <div 
-      key={node.id} 
+    <div
+      key={node.id}
       className="flex flex-col items-center justify-center w-24 p-2 cursor-pointer hover:bg-white/10 rounded group transition-colors"
       onDoubleClick={() => openWindow(node)}
       onTouchEnd={() => openWindow(node)} // simple mobile support
@@ -117,7 +159,7 @@ export default function DesktopSim() {
 
       {/* Desktop Grid */}
       <div className="absolute inset-0 p-8 flex flex-col flex-wrap items-start content-start gap-4">
-        {fileSystem.map(renderDesktopIcon)}
+        {desktopNodes.map(renderDesktopIcon)}
       </div>
 
       {/* Windows Layer */}
@@ -135,16 +177,16 @@ export default function DesktopSim() {
           >
             {/* Window Header */}
             <div className={`h-8 flex items-center justify-between px-3 select-none ${w.type === 'explorer' ? 'bg-brand-900/50' : 'bg-slate-800'}`}>
-               <span className="text-xs font-mono font-bold text-slate-200 truncate flex items-center gap-2">
-                 {w.type === 'explorer' ? <Folder size={14} className="text-brand-400" /> : <FileText size={14} className="text-slate-400" />}
-                 {w.title}
-               </span>
-               <div className="flex items-center gap-2">
-                 <button className="text-slate-400 hover:text-white transition-colors"><Minimize2 size={14} /></button>
-                 <button onClick={(e) => closeWindow(w.id, e)} className="text-slate-400 hover:text-red-400 transition-colors"><X size={16} /></button>
-               </div>
+              <span className="text-xs font-mono font-bold text-slate-200 truncate flex items-center gap-2">
+                {w.type === 'explorer' ? <Folder size={14} className="text-brand-400" /> : <FileText size={14} className="text-slate-400" />}
+                {w.title}
+              </span>
+              <div className="flex items-center gap-2">
+                <button className="text-slate-400 hover:text-white transition-colors"><Minimize2 size={14} /></button>
+                <button onClick={(e) => closeWindow(w.id, e)} className="text-slate-400 hover:text-red-400 transition-colors"><X size={16} /></button>
+              </div>
             </div>
-            
+
             {/* Window Content */}
             <div className="flex-1 bg-[#0f172a] p-4 overflow-y-auto">
               {w.type === 'explorer' && w.contentNode.children && (
@@ -155,10 +197,10 @@ export default function DesktopSim() {
               )}
 
               {w.type === 'editor' && (
-                 <div className="font-mono text-sm text-green-400 whitespace-pre-wrap leading-relaxed">
-                   {/* Typed effect simulation or simple text */}
-                   {t(w.contentNode.content || '')}
-                 </div>
+                <div className="font-mono text-sm text-green-400 whitespace-pre-wrap leading-relaxed">
+                  {/* Typed effect simulation or simple text */}
+                  {t(w.contentNode.content || '')}
+                </div>
               )}
             </div>
           </motion.div>
@@ -167,26 +209,41 @@ export default function DesktopSim() {
 
       {/* Executable Overlay */}
       <AnimatePresence>
-         {isExecuting && (
-           <motion.div 
-             initial={{ opacity: 0 }}
-             animate={{ opacity: 1 }}
-             className="absolute inset-0 z-[9999] bg-black/90 flex flex-col items-center justify-center p-8 backdrop-blur-sm"
-           >
-             <Terminal className="text-red-500 mb-6 drop-shadow-[0_0_15px_rgba(239,68,68,0.8)]" size={64} />
-             <div className="text-center font-mono text-red-400 Space-y-2">
-                <p className="text-2xl font-bold uppercase tracking-[0.2em]">{t('desktopSim.executing')}</p>
-                <div className="w-64 h-2 bg-slate-800 rounded-full mt-4 overflow-hidden relative mx-auto">
-                   <motion.div 
-                     initial={{ width: 0 }} 
-                     animate={{ width: "100%" }} 
-                     transition={{ duration: 2, ease: "easeInOut" }}
-                     className="absolute top-0 left-0 h-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.8)]" 
-                   />
-                </div>
-             </div>
-           </motion.div>
-         )}
+        {isExecuting && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 z-[9999] bg-black/90 flex flex-col items-center justify-center p-8 backdrop-blur-sm"
+          >
+            <Terminal className="text-red-500 mb-6 drop-shadow-[0_0_15px_rgba(239,68,68,0.8)]" size={64} />
+            <div className="text-center font-mono text-red-400 Space-y-2">
+              <p className="text-2xl font-bold uppercase tracking-[0.2em]">{t('desktopSim.executing')}</p>
+              <div className="w-64 h-2 bg-slate-800 rounded-full mt-4 overflow-hidden relative mx-auto">
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: "100%" }}
+                  transition={{ duration: 2, ease: "easeInOut" }}
+                  className="absolute top-0 left-0 h-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.8)]"
+                />
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {pickupToast && (
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            className="absolute left-8 bottom-8 z-[60] rounded-xl border border-emerald-400/40 bg-slate-950/90 px-4 py-3 shadow-[0_0_24px_rgba(16,185,129,0.18)]"
+          >
+            <div className="text-[10px] font-mono uppercase tracking-[0.2em] text-emerald-300">Recovered Item</div>
+            <div className="mt-1 text-sm text-slate-100">{pickupToast}</div>
+          </motion.div>
+        )}
       </AnimatePresence>
 
     </div>

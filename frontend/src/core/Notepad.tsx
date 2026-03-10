@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { X, FileText, Save } from 'lucide-react';
 import { audio } from './AudioEngine';
+import { NOTE_SAVE_DEBOUNCE_MS } from './gameConstants';
+import { useGameSession } from './GameSession';
 
 interface NotepadProps {
     isOpen: boolean;
@@ -11,34 +13,30 @@ interface NotepadProps {
 
 export const Notepad: React.FC<NotepadProps> = ({ isOpen, onClose }) => {
     const { t } = useTranslation();
-    const [notes, setNotes] = useState('');
+    const { session, setNotes } = useGameSession();
+    const [notes, setLocalNotes] = useState(session.notes);
     const [isSaved, setIsSaved] = useState(true);
 
-    // Load from localStorage on mount
     useEffect(() => {
-        const saved = localStorage.getItem('escape_room_notes');
-        if (saved) {
-            setNotes(saved);
-        }
-    }, []);
+        setLocalNotes(session.notes);
+    }, [session.notes]);
 
-    // Save to localStorage when notes change
     useEffect(() => {
         const timer = setTimeout(() => {
-            localStorage.setItem('escape_room_notes', notes);
+            setNotes(notes);
             setIsSaved(true);
-        }, 500); // 500ms debounce
-        
+        }, NOTE_SAVE_DEBOUNCE_MS);
+
         setIsSaved(false);
         return () => clearTimeout(timer);
-    }, [notes]);
+    }, [notes, setNotes]);
 
     return (
         <AnimatePresence>
             {isOpen && (
                 <>
                     {/* Backdrop */}
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
@@ -48,9 +46,9 @@ export const Notepad: React.FC<NotepadProps> = ({ isOpen, onClose }) => {
                         }}
                         className="fixed inset-0 z-[60] bg-black/10 backdrop-blur-[2px]"
                     />
-                    
+
                     {/* Notepad Panel */}
-                    <motion.div 
+                    <motion.div
                         initial={{ x: '100%', opacity: 0 }}
                         animate={{ x: 0, opacity: 1 }}
                         exit={{ x: '100%', opacity: 0 }}
@@ -68,7 +66,7 @@ export const Notepad: React.FC<NotepadProps> = ({ isOpen, onClose }) => {
                             <div className="flex items-center gap-4">
                                 <AnimatePresence>
                                     {isSaved && (
-                                        <motion.div 
+                                        <motion.div
                                             initial={{ opacity: 0, scale: 0.8 }}
                                             animate={{ opacity: 1, scale: 1 }}
                                             exit={{ opacity: 0 }}
@@ -78,7 +76,7 @@ export const Notepad: React.FC<NotepadProps> = ({ isOpen, onClose }) => {
                                         </motion.div>
                                     )}
                                 </AnimatePresence>
-                                <button 
+                                <button
                                     onClick={() => {
                                         audio.playClick();
                                         onClose();
@@ -94,11 +92,11 @@ export const Notepad: React.FC<NotepadProps> = ({ isOpen, onClose }) => {
                         <div className="flex-1 p-6 relative">
                             {/* Terminal scanline effect overlay */}
                             <div className="absolute inset-x-6 inset-y-6 pointer-events-none bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.1)_50%)] bg-[length:100%_4px] opacity-20 z-10" />
-                            
-                            <textarea 
+
+                            <textarea
                                 value={notes}
                                 onChange={(e) => {
-                                   setNotes(e.target.value);
+                                    setLocalNotes(e.target.value);
                                 }}
                                 placeholder={t('notepad.placeholder')}
                                 className="w-full h-full bg-slate-900/50 text-brand-100 font-handwriting p-4 rounded border border-brand-500/20 focus:outline-none focus:border-brand-500/50 resize-none custom-scrollbar shadow-inner relative z-0 placeholder:text-slate-600/50"

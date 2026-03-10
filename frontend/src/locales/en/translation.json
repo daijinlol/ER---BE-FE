@@ -7,9 +7,13 @@
   },
   "inventory": {
     "title": "Inventory",
-    "empty": "Empty"
+    "empty": "Empty",
+    "detailLabel": "Selected Item",
+    "hoverHint": "Hover over an item to inspect it."
   },
   "items": {
+    "module_ram": "RAM Buffer Module",
+    "module_loop": "Loop Control Module",
     "usb_decryptor": "USB Decryptor",
     "cpu": "CPU",
     "ram": "RAM",
@@ -19,6 +23,9 @@
   "level1": {
     "title": "Memory Defragmentation",
     "subtitle": "Manual Bubble Sort Protocol",
+    "story": "The airlock mainframe is still alive, but barely. Its comparison bus is damaged, so it can only inspect neighboring memory blocks one pair at a time. Step through the defragmentation pass manually and keep the restored cache stable long enough to reopen the sector.",
+    "objectiveTitle": "Mission Context",
+    "objective": "This puzzle simulates how a machine can sort data using repeated local comparisons. You are acting as the missing comparison logic: inspect the highlighted pair and decide whether the values stay in place or swap.",
     "hintTitle": "PROTOCOL INSTRUCTIONS",
     "hint": "Compare the two highlighted memory blocks. If the LEFT value is GREATER than the RIGHT value, press SWAP. Otherwise, press KEEP.",
     "swap": "SWAP",
@@ -26,10 +33,18 @@
     "pass": "Pass",
     "comparisons": "Comparisons",
     "sorted": "Sorted",
+    "diagnosticsTitle": "Core Diagnostics",
+    "activePairTitle": "Active Comparison",
+    "actionsTitle": "Comparator Controls",
+    "passStatusTitle": "Unlocked Tail",
+    "noActivePair": "All remaining blocks are aligned. The current pass is complete.",
+    "pairRelationGreater": "{{left}} is greater than {{right}}. This pair must swap before the pass can continue.",
+    "pairRelationOrdered": "{{left}} is already less than or equal to {{right}}. This pair can stay in place.",
     "mistakeSwap": "{{a}} < {{b}} — they are already in order. Press KEEP.",
     "mistakeKeep": "{{a}} > {{b}} — they are out of order! Press SWAP.",
     "awaitingSort": "MEMORY BLOCKS CORRUPTED. AWAITING MANUAL DEFRAGMENTATION...",
     "sortComplete": "DEFRAGMENTATION COMPLETE. MEMORY ALIGNED. DOOR UNLOCKED.",
+    "cartridgeReady": "MAINFRAME CACHE RELEASED. RETURN TO THE AIRLOCK AND COLLECT THE EJECTED MEMORY CARTRIDGE.",
     "tokenGranted": "ACCESS TOKEN GRANTED. PROCEEDING TO NEXT ZONE...",
     "accessGranted": "Access Granted",
     "secureArea": "Secure Area"
@@ -37,12 +52,21 @@
   "level2": {
     "title": "PATROL ROUTE OVERRIDE",
     "subtitle": "Loop Runner Protocol",
+    "story": "The restored airlock leads to a dead patrol corridor. Its security bot will only reopen the blast door if you feed it a short reusable movement routine instead of individual commands. Build the loop, set how many times it repeats, and test the route against the corridor map.",
+    "objectiveTitle": "Mission Context",
+    "objective": "This puzzle models how a computer uses loops to repeat the same short procedure multiple times. Your goal is to write one compact command pattern that the robot can execute again and again until it reaches the exit.",
     "awaitingProgram": "SECURITY BOT OFFLINE. PROGRAM A PATROL LOOP TO REACH THE EXIT...",
     "doorUnlocked": "ROUTE COMPLETE. BLAST DOOR OVERRIDE ACCEPTED.",
     "hintTitle": "Protocol Instructions",
     "hint": "Build a repeating pattern of commands (loop body). The robot executes all commands in order, then repeats. Set the number of repetitions and press RUN. Watch the robot — if it hits a wall or misses the exit, adjust your commands or iteration count.",
     "commands": "Available Commands",
     "loopEditor": "Loop Program",
+    "routeGridTitle": "Corridor Simulation Grid",
+    "commandDeckTitle": "Command Deck",
+    "programStatusTitle": "Loaded Commands",
+    "iterationControlTitle": "Repeat Count",
+    "currentProgramTitle": "Current Program",
+    "executionStatusTitle": "Execution Status",
     "repeat": "REPEAT",
     "emptyBody": "Add commands to the loop body...",
     "cmd_MOVE": "MOVE FORWARD",
@@ -59,6 +83,437 @@
     "success": "Route complete! The robot reached the exit.",
     "doorOpen": "DOOR OPEN",
     "doorLocked": "DOOR LOCKED"
+  },
+  "level3": {
+    "title": "SIGNAL RELAY",
+    "subtitle": "Emergency Beacon Reconstruction",
+    "awaitingSignal": "COMMS ARRAY POWERED. REBUILD THE RELAY PACKET BEFORE THE FACILITY SIGNAL WINDOW CLOSES.",
+    "beaconLocked": "PRIMARY CHANNELS MUST BE STABLE BEFORE THE FINAL BEACON GRID CAN ACCEPT INPUT.",
+    "failedTransmission": "TRANSMISSION REJECTED. THE RELAY CHECKSUM STILL CONFLICTS WITH THE RECOVERED PATTERN.",
+    "signalRecovered": "BEACON ACCEPTED. A REMOTE EMERGENCY NODE IS ANSWERING THE CALL.",
+    "decryptorGranted": "ARCHIVE TOOL RECEIVED: USB DECRYPTOR. SECURE FILES CAN NOW BE OPENED.",
+    "archiveLinkReady": "ARCHIVE TRANSIT HUB LOCATED. PROCEED TO THE RECOVERED LOGS.",
+    "hintTitle": "Relay Notes",
+    "hint": "Three damaged channels describe the same emergency signal in machine form. Replay the recovered pulse on each panel, rebuild the lit cells, and then transmit the full packet. The first two channels power the final beacon grid.\n\nThis is about encoding information for a machine, not guessing a word.",
+    "replayPattern": "Replay Pattern",
+    "resetPanel": "Reset Panel",
+    "transmit": "Transmit Beacon",
+    "transmitting": "Transmitting...",
+    "readyToTransmit": "All three channels are aligned. The relay is ready to send.",
+    "partialSignal": "Keep restoring the panels. Matching patterns mean the machine can read the same information again.",
+    "objectiveTitle": "Mission Context",
+    "objective": "The patrol override restored local movement control, but the outside network is still silent. Rebuild the emergency relay packet so the old response network can tell you where the survivors were redirected.",
+    "storyTitle": "Recovered Operations Note",
+    "story": "The communications bay was built for staff who had to send machine-readable distress bursts during system blackouts.\n\nYour repaired RAM module can hold short packets. The loop controller can replay damaged pulse intervals. If the relay accepts your packet, the facility may finally answer with a route beyond the sealed sector.",
+    "packetPreview": "Current Packet Assembly",
+    "replay": {
+      "buffer": "Replaying RAM buffer sequence...",
+      "pulse": "Replaying loop oscillator sequence...",
+      "beacon": "Replaying final beacon checksum..."
+    },
+    "status": {
+      "buffer": "Buffer channel edited. Compare the lit cells with the recovered pattern.",
+      "pulse": "Pulse channel edited. Keep the timing strip stable.",
+      "beacon": "Beacon checksum edited. Final packet field updated."
+    },
+    "panels": {
+      "buffer": {
+        "title": "RAM BUFFER",
+        "short": "BUF",
+        "description": "A short burst copied from damaged memory sectors. Rebuild the bit strip exactly as the buffer replays it."
+      },
+      "pulse": {
+        "title": "LOOP OSCILLATOR",
+        "short": "OSC",
+        "description": "The patrol loop module recovered the rhythm but not the stored values. Restore the timing strip cell by cell."
+      },
+      "beacon": {
+        "title": "BEACON CHECKSUM",
+        "short": "CHK",
+        "description": "The final relay grid remains locked until the first two channels agree. Then recreate the outgoing checksum field."
+      }
+    },
+    "metrics": {
+      "buffer": "Buffer Sync",
+      "pulse": "Oscillator Sync",
+      "packet": "Checksum State",
+      "synced": "SYNCED",
+      "pending": "PENDING"
+    }
+  },
+  "archiveBridge": {
+    "title": "ARCHIVE LINK ESTABLISHED",
+    "subtitle": "Emergency Response Playback",
+    "channelStatus": "Recovered Threads",
+    "inventoryTitle": "Recovered Hardware",
+    "summary": "The beacon did not summon rescue. It woke an old emergency routing assistant that still has fragments of the evacuation log. Each file reveals why the facility failed and why the next system you face is not a machine problem anymore, but a record problem.",
+    "openHub": "Open Archive Transit Hub",
+    "actions": {
+      "supervisor": "Open Supervisor Fragment",
+      "transit": "Load Transit Schematic"
+    },
+    "nodes": {
+      "response": {
+        "title": "Emergency Node",
+        "tag": "External reply",
+        "heading": "External Response // Relay-17",
+        "body": "Signal origin verified. Internal facility beacon recognized.\n\nPrimary evacuation command failed during archive corruption cascade.\nManual restoration recommended: recover staff transit ledgers before attempting sector release.\n\nAttached: supervisor fragment, transit map shell.",
+        "titleShort": "Node"
+      },
+      "supervisor": {
+        "title": "Supervisor Fragment",
+        "tag": "Encrypted log",
+        "heading": "Supervisor Fragment // Shift Lead M. Varga",
+        "body": "If a trainee reaches this terminal, listen carefully. The core AI didn't only lock doors. It scrambled records. Names were separated from sectors, sectors from shuttles, times from clearances.\n\nYou can still out-think it because you can read context, not just tokens. Rebuild the transit ledger and you'll find where the evacuees were rerouted.",
+        "titleShort": "Log"
+      },
+      "transit": {
+        "title": "Transit Schematic",
+        "tag": "Route shell",
+        "heading": "Transit Hub Overlay // Archive Transit Hub",
+        "body": "Three shuttle routes remain partially intact. The hub still knows that each route needs one person, one departure sector, one launch time, and one shuttle assignment.\n\nOne drawer is sealed, but your decryptor can open it. Recover the final missing record and the route map should illuminate a safe path deeper into the facility.",
+        "titleShort": "Map"
+      }
+    }
+  },
+  "level4": {
+    "title": "ARCHIVE TRANSIT HUB",
+    "subtitle": "Evacuation Ledger Rebuild",
+    "awaitingRebuild": "THE LOGISTICS BOARD IS CORRUPTED. REBUILD THREE CONSISTENT TRANSIT RECORDS TO TRACE THE EVACUATION ROUTE.",
+    "slotMismatch": "That record fragment belongs to a different archive column.",
+    "recordUpdated": "Record slot updated. Keep the board internally consistent.",
+    "drawerUnlocked": "Sealed drawer decrypted. The missing personnel record is back in circulation.",
+    "incomplete": "Some route slots are still empty.",
+    "failedAudit": "Archive audit failed. The routes still contradict the surviving logs.",
+    "archiveRestored": "Transit ledger restored. A survivor route is lighting up beyond the hub.",
+    "storageGranted": "ARCHIVE STORAGE MODULE RECOVERED. ROUTE SNAPSHOTS PRESERVED.",
+    "hintTitle": "Audit Notes",
+    "hint": "The board stores structured records. Each row needs one person, one sector, one time, and one shuttle. Use the audit clues and the decrypted drawer to place every fragment into a consistent ledger.\n\nYou can select a card, then place it into a matching column. Click a filled slot with no card selected to clear it.",
+    "drawerTitle": "Encrypted Drawer",
+    "drawerSubtitle": "One missing record survived under sealed storage.",
+    "unlockDrawer": "Use USB Decryptor",
+    "drawerOpened": "Drawer Opened",
+    "manualDrawerUnlocked": "Manual decrypt succeeded. The sealed drawer is now open.",
+    "cardBank": "Archive Fragments",
+    "auditRules": "Audit Rules",
+    "recordId": "Record",
+    "recordLabel": "Route {{index}}",
+    "routeLane": "Route Lane {{index}}",
+    "emptySlot": "Drop fragment",
+    "completeRows": "Rows Complete",
+    "decryptorStatus": "Decryptor",
+    "online": "ONLINE",
+    "offline": "OFFLINE",
+    "reset": "Reset Board",
+    "validate": "Run Audit",
+    "validating": "Auditing...",
+    "statusHint": "Rebuild the ledger until every route row is complete, then run the archive audit.",
+    "categories": {
+      "person": "Person",
+      "sector": "Sector",
+      "time": "Time",
+      "shuttle": "Shuttle"
+    },
+    "values": {
+      "person": {
+        "hana": "Hana Kral",
+        "ivo": "Ivo Sevcik",
+        "nera": "Nera Solis"
+      },
+      "sector": {
+        "sector_a": "Sector A",
+        "sector_c": "Sector C",
+        "sector_d": "Sector D"
+      },
+      "time": {
+        "19:10": "19:10",
+        "19:20": "19:20",
+        "19:30": "19:30"
+      },
+      "shuttle": {
+        "ventus": "Ventus",
+        "atlas": "Atlas",
+        "kestrel": "Kestrel"
+      }
+    },
+    "rules": {
+      "1": "The earliest shuttle was Ventus.",
+      "2": "Sector A launched at 19:20.",
+      "3": "The decrypted drawer holds the person assigned to the final route.",
+      "4": "The 19:30 route used Kestrel.",
+      "5": "Hana departed from Sector C.",
+      "6": "Atlas was not assigned to Sector D.",
+      "7": "Ivo did not ride Ventus."
+    },
+    "manualDecrypt": {
+      "open": "Attempt Manual Decryption",
+      "title": "Manual Cipher Override",
+      "body": "No decryptor was recovered. The archive still exposes one weak operator shortcut if you can reverse the label cipher by hand.",
+      "cipherLabel": "Recovered Cipher Fragment",
+      "hint": "Shift lead Varga rotated protected names three letters forward in the alphabet before filing them. Reverse the shift to reveal the passenger hidden in this drawer.",
+      "answerLabel": "Decoded Name",
+      "placeholder": "Type the restored name",
+      "prompt": "Recover the original passenger name from QHUD.",
+      "submit": "Unlock Drawer",
+      "cancel": "Cancel",
+      "empty": "Enter a decoded name first.",
+      "failure": "That decode does not match the archive cipher.",
+      "success": "Cipher broken. Drawer seal lifted."
+    }
+  },
+  "branchJunction": {
+    "kicker": "Route Divergence",
+    "title": "The facility opens into two live corridors.",
+    "body": "The restored ledger flashes two viable routes deeper into the complex. The left corridor still has an active relay backbone. The right corridor feeds a dormant logistics sorter. Pick the way you trust and commit to it.",
+    "prompt": "Choose a corridor to continue the sequel.",
+    "left": {
+      "title": "Left Passage",
+      "summary": "Relay Spine",
+      "detail": "Follow the communications trunk and rebuild a packet route through the damaged relay mesh. This path focuses on networks and how data moves across connected nodes."
+    },
+    "right": {
+      "title": "Right Passage",
+      "summary": "Sorter Annex",
+      "detail": "Enter the logistics branch and configure a decision system that routes cargo crates to the correct exits. This path focuses on conditions, branching, and algorithmic decision-making."
+    }
+  },
+  "branchLeftRelay": {
+    "kicker": "Left Route // Network Systems",
+    "title": "Relay Spine",
+    "story": "The left corridor leads into a mesh of surviving relay nodes. The archive route is still there, but the packet keeps choosing degraded branches. Study each relay dossier, then build the only route that satisfies the restored network constraints.",
+    "awaiting": "Trace a packet route that matches every relay clue before you transmit.",
+    "progress": "Route extended. Keep following stable relay links.",
+    "backtracked": "Last relay removed. Try a different branch.",
+    "invalidStep": "That jump is not allowed. Packets can only travel across linked, unused relays.",
+    "ready": "Exit uplink reached. Validate the route to transmit the packet.",
+    "failure": "The packet still hits an unstable branch. Re-check the relay route.",
+    "success": "Relay path accepted. Your clearance packet disappears deeper into the complex.",
+    "routeLength": "Linked Nodes",
+    "boardTitle": "Relay Map",
+    "boardHint": "Hover a relay to inspect its dossier. Click a connected relay to extend the packet route or click the previous hop to backtrack.",
+    "objectiveTitle": "Mission Goal",
+    "objective": "This puzzle mirrors how data travels through a network graph. You need to combine node properties with connectivity constraints and send the packet through the only route that satisfies all conditions.",
+    "currentPath": "Current Route",
+    "rulesTitle": "Relay Rules",
+    "relayDetailsTitle": "Focused Relay",
+    "rules": {
+      "1": "Begin at the ingress port and end at the exit uplink.",
+      "2": "The first hop after ingress must use the cyan service band.",
+      "3": "The route cannot pass through any unstable relay.",
+      "4": "The middle relay must have the lowest latency among the stable relays reachable from the first hop, and the final prep relay must expose an even checksum gate."
+    },
+    "reset": "Reset Route",
+    "validate": "Transmit Route",
+    "validating": "Transmitting...",
+    "statusHint": "Build the route visually, then transmit it once the exit uplink is connected.",
+    "detailLabels": {
+      "band": "Band",
+      "latency": "Latency",
+      "stability": "Stability",
+      "checksum": "Checksum"
+    },
+    "detailValues": {
+      "band": {
+        "amber": "Amber",
+        "cyan": "Cyan",
+        "optical": "Optical"
+      },
+      "stability": {
+        "stable": "Stable",
+        "unstable": "Unstable"
+      },
+      "checksum": {
+        "odd": "Odd",
+        "even": "Even"
+      },
+      "latency": "{{value}} ms"
+    },
+    "nodes": {
+      "ingress": "Ingress",
+      "relay_a": "Relay A",
+      "relay_b": "Relay B",
+      "relay_c": "Relay C",
+      "relay_d": "Relay D",
+      "relay_e": "Relay E",
+      "relay_f": "Relay F",
+      "relay_g": "Relay G",
+      "relay_h": "Relay H",
+      "egress": "Uplink"
+    }
+  },
+  "branchRightDecision": {
+    "kicker": "Right Route // Algorithms",
+    "title": "Sorter Annex",
+    "story": "The right passage opens into a cargo sorter that still tries to route emergency crates. Its switches lost their decision rules, so every crate is drifting toward the wrong chute. Rebuild the conditions at each junction and make the system classify incoming cargo correctly again.",
+    "awaiting": "Set a rule for each junction so every crate reaches its intended bay.",
+    "updated": "Switch condition updated. Watch how the crates reroute in the preview.",
+    "incomplete": "At least one junction is still missing a decision rule.",
+    "failure": "The sorter still misroutes part of the cargo stream.",
+    "success": "Sorter logic restored. The annex accepts your routing profile and opens the deeper sector.",
+    "routed": "Correct Outputs",
+    "previewTitle": "Live Simulation",
+    "objectiveTitle": "Mission Goal",
+    "objective": "This puzzle represents an algorithm with branching decisions. Each junction checks one property of the crate and sends it left or right. Choose the right condition so the whole decision tree works.",
+    "ruleGuideTitle": "Decision Notes",
+    "ruleGuide": {
+      "1": "The first junction should separate the healthy stream from the damaged one.",
+      "2": "The upper branch then needs to separate urgent crates from the rest.",
+      "3": "The lower branch finally separates amber-tagged cargo from cyan-tagged cargo."
+    },
+    "reset": "Reset Rules",
+    "validate": "Run Sorter",
+    "validating": "Simulating...",
+    "statusHint": "Choose three rules, verify the live simulation, then run the sorter.",
+    "currentOutput": "Current Output",
+    "junctions": {
+      "junction_alpha": {
+        "title": "Junction Alpha",
+        "body": "Primary intake gate. It should split the cargo stream into stable and damaged traffic."
+      },
+      "junction_beta": {
+        "title": "Junction Beta",
+        "body": "Upper branch gate. It must separate urgent crates from routine deliveries."
+      },
+      "junction_gamma": {
+        "title": "Junction Gamma",
+        "body": "Lower branch gate. It decides which damaged stream reaches each final repair bay."
+      }
+    },
+    "rules": {
+      "stable": "If checksum is stable, send left.",
+      "high_priority": "If priority is high, send left.",
+      "amber_tag": "If crate tag is amber, send left.",
+      "archive_tag": "If archive tag is present, send left.",
+      "low_priority": "If priority is low, send left.",
+      "cyan_tag": "If crate tag is cyan, send left."
+    },
+    "outputs": {
+      "bay_a": "Bay A",
+      "bay_b": "Bay B",
+      "bay_c": "Bay C",
+      "bay_d": "Bay D"
+    },
+    "meta": {
+      "checksum": {
+        "stable": "stable checksum",
+        "warning": "warning checksum"
+      },
+      "priority": {
+        "high": "high priority",
+        "low": "low priority"
+      },
+      "tag": {
+        "amber": "amber tag",
+        "cyan": "cyan tag"
+      }
+    },
+    "packets": {
+      "iris": "IRIS crate",
+      "quill": "QUILL crate",
+      "mako": "MAKO crate",
+      "lyra": "LYRA crate"
+    }
+  },
+  "branchLeftBuffer": {
+    "kicker": "Left Route // RAM Buffer",
+    "title": "Packet Splice Bay",
+    "story": "The relay spine carries your signal into a splice chamber with half a packet still scattered across emergency memory. Your RAM buffer module can stabilize five slots at once, but one fragment is just degraded echo noise. Rebuild the final frame in the only order the relay will accept.",
+    "awaiting": "Load the restored fragments into the RAM buffer in the correct order.",
+    "updated": "Fragment buffered. Keep assembling the relay frame.",
+    "removed": "Fragment removed from the buffer. Re-check the sequence.",
+    "ready": "All five RAM slots are loaded. Validate the splice order.",
+    "incomplete": "The relay frame is still missing one or more fragments.",
+    "failure": "That fragment order still breaks the outgoing packet.",
+    "success": "Frame accepted. The relay backbone compresses into a single stable stream.",
+    "bufferSlots": "Buffer Slots",
+    "itemTitle": "Active Hardware",
+    "itemReady": "Inserted",
+    "itemMissing": "Missing",
+    "itemBlocked": "The splice bay needs the RAM Buffer Module before it can hold a full relay frame.",
+    "objectiveTitle": "Mission Goal",
+    "objective": "This puzzle mirrors how computers store and order packet fragments inside memory before transmission. Use the RAM buffer to keep only the correct fragments and assemble them in the sequence that satisfies all constraints.",
+    "rulesTitle": "Splice Rules",
+    "rules": {
+      "1": "The relay frame begins with the boot handshake and ends with the checksum seal.",
+      "2": "The authentication fragment must sit immediately before the checksum seal.",
+      "3": "The parity fragment has to sit between the route fragment and the authentication fragment.",
+      "4": "The RAM module opens exactly five stable slots, and all five final slots must be used.",
+      "5": "The echo fragment is degraded noise and must stay outside the final transmission buffer."
+    },
+    "fragmentFocusTitle": "Focused Fragment",
+    "bufferTitle": "Transmission Buffer",
+    "slotLabel": "Slot {{value}}",
+    "emptySlot": "Empty slot",
+    "reset": "Reset Buffer",
+    "validate": "Transmit Frame",
+    "validating": "Transmitting...",
+    "statusHint": "Stage five fragments in the buffer and transmit only when every slot is filled.",
+    "fragments": {
+      "boot": "Boot Handshake",
+      "route": "Route Header",
+      "parity": "Parity Strip",
+      "auth": "Auth Stamp",
+      "checksum": "Checksum Seal",
+      "echo": "Echo Copy"
+    },
+    "fragmentClues": {
+      "boot": "This frame initializes the relay packet. Nothing else can lead the transmission.",
+      "route": "The routing header must appear before the parity strip so downstream relays know which branch to verify.",
+      "parity": "The parity strip stabilizes the gap between routing and authentication.",
+      "auth": "Authentication cannot close the packet by itself; the checksum seal must come immediately after it.",
+      "checksum": "This fragment always ends the transmission. It seals every previous field into one verified frame.",
+      "echo": "This duplicate fragment is just degraded residue from the damaged relay. It should never enter the final buffer."
+    }
+  },
+  "branchRightDecryptor": {
+    "kicker": "Right Route // USB Decryptor",
+    "title": "Manifest Cipher Locker",
+    "story": "Past the sorter annex, a sealed archive locker still stores emergency manifests in an old shifted alphabet. Your USB decryptor can tune a different backward shift for each file. Find the correct mode for every header so the records become readable again.",
+    "awaiting": "Set a decryptor mode for each manifest until every header resolves into a valid archive tag.",
+    "updated": "Decryptor mode updated. Watch the preview field for a readable header.",
+    "incomplete": "At least one manifest still has no decryptor mode selected.",
+    "failure": "One or more headers are still scrambled. Re-tune the decryptor modes.",
+    "success": "Cipher lock cleared. The decrypted manifests release the final archive latch.",
+    "decodedCount": "Decoded Files",
+    "itemTitle": "Active Hardware",
+    "itemReady": "Connected",
+    "itemMissing": "Missing",
+    "itemBlocked": "The manifest locker requires the USB Decryptor before any legacy header can be read.",
+    "objectiveTitle": "Mission Goal",
+    "objective": "This puzzle focuses on information encoding and transformation. The same word can be represented in different forms, and a machine needs the right decoding rule to recover the original message.",
+    "rulesTitle": "Decryptor Notes",
+    "rules": {
+      "1": "Each manifest uses one backward shift of 1, 2, or 3 letters.",
+      "2": "A correct shift produces a readable archive tag in the preview field.",
+      "3": "Every file must have a decryptor mode before you can release the locker."
+    },
+    "previewTitle": "Preview",
+    "shiftLabel": "Shift -{{value}}",
+    "decodedLabel": "Expected Archive Tag",
+    "focusTitle": "Focused Manifest",
+    "reset": "Reset Modes",
+    "validate": "Release Locker",
+    "validating": "Decrypting...",
+    "statusHint": "Tune each manifest until the preview resolves into a meaningful archive tag, then release the locker.",
+    "decoded": {
+      "route": "ROUTE table",
+      "crew": "CREW log",
+      "maint": "MAINT file",
+      "quarantine": "QUAR note"
+    },
+    "details": {
+      "route": "The route table records where evacuation traffic was redirected once the blast doors sealed.",
+      "crew": "The crew log tracks who was still inside the sector when the emergency sorter switched to fallback rules.",
+      "maint": "The maintenance file contains the hardware fixes staff used when corridor systems failed one after another.",
+      "quarantine": "The quarantine note marks which sectors had to be isolated after the first corrupted cargo stream spread through the annex."
+    }
+  },
+  "branchConvergence": {
+    "kicker": "Route Convergence",
+    "title": "The separate corridors bend back into the same spine.",
+    "body": "For a while the facility made it seem as if the relay path and the sorter path were truly different. Then the walls curve, the floor markings overlap, and both routes collapse into the same central maintenance artery again.",
+    "detail": "Whatever system built this place wanted the traveler to learn from both kinds of logic: how information moves across connected networks, and how decisions reshape what happens next. Ahead, the complex feels singular again.",
+    "continue": "Continue Into The Merged Sector"
   },
   "gameContainer": {
     "puzzleNotFound": "Puzzle logic not found for level {{level}}",
@@ -123,53 +578,76 @@
       "desc": "Move a character using blocks."
     },
     "2": {
-       "title": "The Repetitive Lock",
-       "desc": "Implementing basic loops to bypass security."
+      "title": "The Repetitive Lock",
+      "desc": "Implementing basic loops to bypass security."
     },
     "3": {
-       "title": "Binary Torch",
-       "desc": "Toggle lights to match patterns."
+      "title": "Binary Torch",
+      "desc": "Toggle lights to match patterns."
     },
     "4": {
-       "title": "The Archives",
-       "desc": "Organizing physical objects into arrays."
+      "title": "The Archives",
+      "desc": "Organizing physical objects into arrays."
     },
     "5": {
-       "title": "Wire the Gate",
-       "desc": "Use AND/OR gates to power locks."
+      "title": "Wire the Gate",
+      "desc": "Use AND/OR gates to power locks."
     },
     "6": {
-       "title": "Phishing the Guard",
-       "desc": "Identifying safe digital messages."
+      "title": "Phishing the Guard",
+      "desc": "Identifying safe digital messages."
     },
     "7": {
-       "title": "Brute Force Generator",
-       "desc": "Optimizing a processing path to crack a PIN."
+      "title": "Brute Force Generator",
+      "desc": "Optimizing a processing path to crack a PIN."
     },
     "8": {
-       "title": "SQL Infiltration",
-       "desc": "Terminal interface crafting queries."
+      "title": "SQL Infiltration",
+      "desc": "Terminal interface crafting queries."
     }
   },
   "desktopSim": {
     "emptyFolder": "This folder is empty.",
     "executing": "EXECUTING OVERRIDE PROTOCOL...",
+    "pickups": {
+      "usb_decryptor": "USB Decryptor recovered from legacy admin tools.",
+      "module_loop": "Loop Control Module recovered from the override dump.",
+      "module_loop_ready": "Loop Control Module dropped to desktop. Recover it to proceed."
+    },
     "lore": {
+      "decryptor": "LEGACY PATCH CONTAINER // OPENED\n\nInside the old admin patch bundle you find a compact USB decryptor once used to open sealed archive drawers during emergency audits.\n\nThe label says the cipher routines are outdated, but still accepted by the transit hub.",
+      "loopModule": "OVERRIDE DUMP // LOOP CONTROL MODULE\n\nThe override executable flushed a hardware shim onto the maintenance desktop. Its registry tag identifies it as a loop control module used to repeat short command routines inside patrol firmware.\n\nIt looks portable enough to carry deeper into the facility.",
       "sys": "SYSTEM CONFIGURATION [RESTRICTED]\n\nMemory allocation module bypassed.\nNext zone requires a patrol bot to navigate a corridor grid.\nThe bot can only MOVE FORWARD, TURN LEFT, or TURN RIGHT.\nFind a repeating pattern and use a loop.",
       "warn": "INCIDENT REPORT #04\n\nThe security bot has been deactivated. To reopen the blast door, someone must program a new patrol route.\n\nThe corridors form a zigzag pattern — the bot needs to navigate around walls.\nHINT: Look for a short sequence of moves that repeats to cover the whole path.",
       "readme": "WELCOME TO THE STAFF PORTAL.\n\nReminder: The blast door override requires a correctly looping patrol route. A loop is a sequence of commands that repeats multiple times. Think about which commands move the bot through one section of the corridor, then how many times that pattern must repeat."
     }
   },
   "room": {
+    "scanRecovered": "Environmental Scan",
+    "interactHint": "Recovered objects now project field markers. Notes appear as tagged evidence cards, while active machinery opens a transit route deeper into the facility.",
+    "loreRecovered": "Recovered Record",
+    "recoveredState": "Reviewed",
+    "newState": "New",
     "mysteriousNoteTitle": "Mysterious Note",
     "mysteriousNote": "Where am I? The last thing I remember... the facility AI went rogue and scrambled all the memory blocks. The mainframe's data bus is damaged — it can only compare two ADJACENT blocks at a time.\n\nIf you're reading this, we need to manually sort the memory to restore the system. The shift supervisor's log should explain the defragmentation procedure.",
     "employeeLogTitle": "Employee Log",
     "employeeLog": "SHIFT SUPERVISOR LOG\n\nEmergency Defragmentation Protocol:\n1. Look at two neighboring memory blocks\n2. If the left one has a BIGGER value than the right one, SWAP them\n3. If they are already in order, leave them and move on\n4. Keep going until everything is sorted\n\nThis is called 'Bubble Sort' — the biggest values slowly bubble to the end, like air bubbles rising in water.",
-    "mainframeTitle": "Inspect Mainframe"
+    "mainframeTitle": "Inspect Mainframe",
+    "memoryCartridgeTitle": "Ejected Memory Cartridge",
+    "memoryCartridge": "The repaired mainframe has pushed a maintenance cartridge out through the airlock access slot. The casing marks it as a RAM buffer module, probably used to hold short bursts of restored data while damaged systems reboot.\n\nYou pocket it before the slot locks again.",
+    "transitConsoleTitle": "Maintenance Transit Console"
   },
   "notepad": {
     "title": "Personal Logs",
     "placeholder": "Record protocol observations and sequences here...",
     "saved": "SAVED"
+  },
+  "campaigns": {
+    "elem_6": {
+      "grade": "Grade 6",
+      "grade_short": "Elem",
+      "title": "Facility Recovery Protocol",
+      "desc": "Restore scrambled systems, recover staff records, and reach the next sealed sector."
+    }
   }
 }

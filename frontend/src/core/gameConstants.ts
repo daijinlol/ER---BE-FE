@@ -1,0 +1,9 @@
+export const DEFAULT_CAMPAIGN_TIME_MINUTES = 45;
+export const DEFAULT_TIME_PENALTY_SECONDS = 120;
+export const PUZZLE_MISTAKE_PENALTY_SECONDS = 30;
+export const TIMER_WARNING_SECONDS = 5 * 60;
+export const TIMER_CRITICAL_SECONDS = 60;
+export const NOTE_SAVE_DEBOUNCE_MS = 500;
+export const PUZZLE_FORWARD_TRANSITION_MS = 1500;
+export const PUZZLE_BACKWARD_TRANSITION_MS = 800;
+export const GAME_SESSION_STORAGE_KEY = 'escape_room_campaign_sessions_v1';

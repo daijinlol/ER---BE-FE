@@ -1,0 +1,239 @@
+{
+    "elem_6": {
+        "1": {
+            "type": "sorted_sequence",
+            "expectedSorted": [
+                5,
+                17,
+                29,
+                42,
+                61,
+                83
+            ],
+            "messages": {
+                "failure": "Memory blocks are not correctly sorted."
+            }
+        },
+        "2": {
+            "type": "grid_path",
+            "grid": [
+                [
+                    2,
+                    0,
+                    0,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                ],
+                [
+                    1,
+                    1,
+                    0,
+                    0,
+                    0,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                ],
+                [
+                    1,
+                    1,
+                    1,
+                    1,
+                    0,
+                    0,
+                    0,
+                    1,
+                    1,
+                    1
+                ],
+                [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    0,
+                    0,
+                    3,
+                    1
+                ],
+                [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                ]
+            ],
+            "start": [
+                0,
+                0
+            ],
+            "exit": [
+                3,
+                8
+            ],
+            "startDirection": "RIGHT",
+            "validCommands": [
+                "MOVE",
+                "TURN_LEFT",
+                "TURN_RIGHT"
+            ],
+            "iterations": {
+                "min": 1,
+                "max": 20
+            },
+            "messages": {
+                "invalidCommands": "Invalid command sequence.",
+                "invalidIterations": "Iteration count must be between 1 and 20.",
+                "wall": "Robot hit a wall.",
+                "failure": "Robot did not reach the exit."
+            }
+        },
+        "3": {
+            "type": "signal_panels",
+            "targets": {
+                "buffer": [
+                    1,
+                    0,
+                    1,
+                    1,
+                    0,
+                    0,
+                    1,
+                    0
+                ],
+                "pulse": [
+                    0,
+                    1,
+                    1,
+                    0,
+                    1,
+                    1,
+                    0,
+                    1
+                ],
+                "beacon": [
+                    1,
+                    1,
+                    0,
+                    1,
+                    1,
+                    0,
+                    0,
+                    1
+                ]
+            },
+            "messages": {
+                "invalid": "Relay packet malformed.",
+                "failure": "Beacon packet mismatch. Realign the panels."
+            }
+        },
+        "4": {
+            "type": "archive_records",
+            "requiredFields": [
+                "person",
+                "sector",
+                "time",
+                "shuttle"
+            ],
+            "expectedRows": [
+                {
+                    "person": "hana",
+                    "sector": "sector_c",
+                    "time": "19:10",
+                    "shuttle": "ventus"
+                },
+                {
+                    "person": "ivo",
+                    "sector": "sector_a",
+                    "time": "19:20",
+                    "shuttle": "atlas"
+                },
+                {
+                    "person": "nera",
+                    "sector": "sector_d",
+                    "time": "19:30",
+                    "shuttle": "kestrel"
+                }
+            ],
+            "unlocks": [
+                "storage"
+            ],
+            "messages": {
+                "invalid": "Archive record set is incomplete.",
+                "incomplete": "Some route slots are still empty.",
+                "failure": "Transit records still conflict. Re-check the board."
+            }
+        },
+        "5_left": {
+            "type": "network_path",
+            "expectedRoute": [
+                "ingress",
+                "relay_b",
+                "relay_e",
+                "relay_h",
+                "egress"
+            ],
+            "messages": {
+                "invalid": "Relay path data is malformed.",
+                "failure": "The packet still enters an unstable relay branch."
+            }
+        },
+        "5_right": {
+            "type": "decision_rules",
+            "expectedRules": {
+                "junction_alpha": "stable",
+                "junction_beta": "high_priority",
+                "junction_gamma": "amber_tag"
+            },
+            "messages": {
+                "invalid": "Decision matrix is malformed.",
+                "incomplete": "Some switch conditions are still unset.",
+                "failure": "The sorter logic still routes cargo into the wrong bays."
+            }
+        },
+        "6_left": {
+            "type": "ordered_sequence",
+            "expectedSequence": [
+                "boot",
+                "route",
+                "parity",
+                "auth",
+                "checksum"
+            ],
+            "messages": {
+                "invalid": "RAM buffer data is malformed.",
+                "incomplete": "The relay frame still has empty buffer slots.",
+                "failure": "The buffer order still breaks the relay packet."
+            }
+        },
+        "6_right": {
+            "type": "value_map",
+            "expectedValues": {
+                "manifest_route": 1,
+                "manifest_crew": 2,
+                "manifest_maint": 3,
+                "manifest_quarantine": 1
+            },
+            "messages": {
+                "invalid": "Decryptor state is malformed.",
+                "incomplete": "At least one manifest still lacks a decryptor mode.",
+                "failure": "One or more manifest headers are still garbled."
+            }
+        }
+    }
+}

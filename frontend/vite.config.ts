@@ -5,4 +5,27 @@ import tailwindcss from '@tailwindcss/vite'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (!id.includes('node_modules')) {
+            return
+          }
+
+          if (id.includes('framer-motion')) {
+            return 'vendor-motion'
+          }
+
+          if (id.includes('i18next')) {
+            return 'vendor-i18n'
+          }
+
+          if (id.includes('tone')) {
+            return 'vendor-audio'
+          }
+        },
+      },
+    },
+  },
 })

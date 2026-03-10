@@ -8,14 +8,66 @@
           "componentPath": "RoomEngine",
           "backgroundUrl": "/assets/rooms/corridor.png",
           "hotspots": [
-             { "id": "mysterious_note", "x": 40, "y": 70, "action": "LORE", "label": "room.mysteriousNoteTitle", "content": "room.mysteriousNote" },
-             { "id": "employee_log", "x": 20, "y": 80, "action": "LORE", "label": "room.employeeLogTitle", "content": "room.employeeLog", "requires": ["mysterious_note"] },
-             { "id": "mainframe", "x": 60, "y": 55, "action": "NEXT_LEVEL", "label": "room.mainframeTitle", "requires": ["employee_log"] }
+            {
+              "id": "mysterious_note",
+              "x": 40,
+              "y": 70,
+              "action": "LORE",
+              "label": "room.mysteriousNoteTitle",
+              "content": "room.mysteriousNote"
+            },
+            {
+              "id": "employee_log",
+              "x": 20,
+              "y": 80,
+              "action": "LORE",
+              "label": "room.employeeLogTitle",
+              "content": "room.employeeLog",
+              "requires": [
+                "mysterious_note"
+              ]
+            },
+            {
+              "id": "mainframe",
+              "x": 60,
+              "y": 55,
+              "action": "NEXT_LEVEL",
+              "label": "room.mainframeTitle",
+              "requires": [
+                "employee_log"
+              ]
+            }
           ]
         },
         {
           "id": "1",
           "componentPath": "Level1_Sorting"
+        },
+        {
+          "id": "room_airlock_return",
+          "componentPath": "RoomEngine",
+          "backgroundUrl": "/assets/rooms/corridor.png",
+          "hotspots": [
+            {
+              "id": "memory_cartridge",
+              "x": 47,
+              "y": 63,
+              "action": "LORE",
+              "label": "room.memoryCartridgeTitle",
+              "content": "room.memoryCartridge",
+              "rewardItem": "module_ram"
+            },
+            {
+              "id": "transit_console",
+              "x": 67,
+              "y": 53,
+              "action": "NEXT_LEVEL",
+              "label": "room.transitConsoleTitle",
+              "requires": [
+                "module_ram"
+              ]
+            }
+          ]
         },
         {
           "id": "desktop",
@@ -24,15 +76,66 @@
         {
           "id": "2",
           "componentPath": "Level2_Loops"
+        },
+        {
+          "id": "3",
+          "componentPath": "Level3_SignalRelay"
+        },
+        {
+          "id": "archive_bridge",
+          "componentPath": "ArchiveBridge"
+        },
+        {
+          "id": "4",
+          "componentPath": "Level4_TransitHub"
+        },
+        {
+          "id": "junction_choice",
+          "componentPath": "BranchJunction",
+          "backgroundUrl": "/assets/rooms/corridor_forward.png"
+        },
+        {
+          "id": "5_left",
+          "componentPath": "BranchLeft_NetworkRelay"
+        },
+        {
+          "id": "5_right",
+          "componentPath": "BranchRight_DecisionArray"
+        },
+        {
+          "id": "6_left",
+          "componentPath": "BranchLeft_RamBuffer"
+        },
+        {
+          "id": "6_right",
+          "componentPath": "BranchRight_Decryptor"
+        },
+        {
+          "id": "merge_convergence",
+          "componentPath": "BranchConvergence"
         }
       ]
     },
-    "elem_7": { "levels": [] },
-    "elem_8": { "levels": [] },
-    "elem_9": { "levels": [] },
-    "hs_1":   { "levels": [] },
-    "hs_2":   { "levels": [] },
-    "hs_3":   { "levels": [] },
-    "hs_4":   { "levels": [] }
+    "elem_7": {
+      "levels": []
+    },
+    "elem_8": {
+      "levels": []
+    },
+    "elem_9": {
+      "levels": []
+    },
+    "hs_1": {
+      "levels": []
+    },
+    "hs_2": {
+      "levels": []
+    },
+    "hs_3": {
+      "levels": []
+    },
+    "hs_4": {
+      "levels": []
+    }
   }
 }
