@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect, Suspense, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { gameEvents } from './EventBus';
@@ -6,7 +6,7 @@ import registry from '../features/puzzles/registry.json';
 import { InventorySystem } from './InventorySystem';
 import { CampaignTimer } from './CampaignTimer';
 import { Notepad } from './Notepad';
-import { FileText } from 'lucide-react';
+import { FileText, ShieldAlert, Box } from 'lucide-react';
 import { audio } from './AudioEngine';
 
 interface GameContainerProps {
@@ -19,6 +19,8 @@ export const GameContainer: React.FC<GameContainerProps> = ({ campaignId }) => {
   const [isTransitioning, setIsTransitioning] = useState<boolean>(false);
   const [transitionType, setTransitionType] = useState<'FORWARD' | 'BACKWARD'>('FORWARD');
   const [isNotepadOpen, setIsNotepadOpen] = useState<boolean>(false);
+  const [isInventoryOpen, setIsInventoryOpen] = useState<boolean>(false);
+  const [isGameOver, setIsGameOver] = useState<boolean>(false);
 
   useEffect(() => {
     const handlePuzzleSolved = () => {
@@ -39,12 +41,19 @@ export const GameContainer: React.FC<GameContainerProps> = ({ campaignId }) => {
       }, 800);
     };
 
+    const handleGameOver = () => {
+      setIsGameOver(true);
+      audio.playDeny();
+    };
+
     const unsubscribeSolved = gameEvents.subscribe('PUZZLE_SOLVED', handlePuzzleSolved);
     const unsubscribeClosed = gameEvents.subscribe('PUZZLE_CLOSED', handlePuzzleClosed);
+    const unsubscribeFail = gameEvents.subscribe('CAMPAIGN_FAILED', handleGameOver);
     
     return () => {
       unsubscribeSolved();
       unsubscribeClosed();
+      unsubscribeFail();
     };
   }, []);
 
@@ -53,20 +62,22 @@ export const GameContainer: React.FC<GameContainerProps> = ({ campaignId }) => {
   const puzzleConfig = campaign?.levels[currentLevelIndex];
 
   // Dynamic import with React.lazy
-  const ActivePuzzle = puzzleConfig
-    ? React.lazy(() => import(`../features/puzzles/${puzzleConfig.componentPath}/index.tsx`))
-    : () => <div className="text-brand-400 text-2xl animate-pulse font-mono tracking-widest">{t('gameContainer.campaignComplete', { defaultValue: 'CAMPAIGN COMPLETE. AWAITING NEW DIRECTIVE...' })}</div>;
+  const ActivePuzzle = useMemo(() => {
+    return puzzleConfig
+      ? React.lazy(() => import(`../features/puzzles/${puzzleConfig.componentPath}/index.tsx`))
+      : () => <div className="text-brand-400 text-2xl animate-pulse font-mono tracking-widest">{t('gameContainer.campaignComplete', { defaultValue: 'CAMPAIGN COMPLETE. AWAITING NEW DIRECTIVE...' })}</div>;
+  }, [puzzleConfig?.componentPath, t]);
 
   return (
-    <div className="w-full h-full min-h-screen bg-bg-dark flex flex-col items-center justify-center p-8 overflow-hidden relative font-sans text-slate-200">
+    <div className="w-full h-full min-h-screen bg-bg-dark flex flex-col items-center justify-center p-4 overflow-hidden relative font-sans text-slate-200">
 
       {/* Header UI */}
-      <header className="absolute top-0 w-full p-6 flex justify-between items-center z-10">
+      <header className="absolute top-0 w-full px-6 py-2 flex justify-between items-center z-10">
         <div>
-          <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-brand-400 to-indigo-400">
+          <h1 className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-brand-400 to-indigo-400">
             {t('system.title')} {t('system.os')}
           </h1>
-          <p className="text-slate-500 text-sm font-mono mt-1">{t('system.version')}</p>
+          <p className="text-slate-500 text-xs font-mono">{t('system.version')}</p>
         </div>
 
         <div className="flex items-center gap-6">
@@ -78,10 +89,22 @@ export const GameContainer: React.FC<GameContainerProps> = ({ campaignId }) => {
               <div className="text-sm font-medium text-slate-300">{t(`campaigns.${campaignId}.grade`, { defaultValue: `Grade ${campaignId.split('_')[1]}` })} - {t('gameContainer.level', { defaultValue: 'Level' })} {currentLevelIndex + 1}</div>
               <div className="text-xs text-slate-500 mt-1">{t(`campaigns.${campaignId}.title`, { defaultValue: `Campaign ${campaignId}` })}</div>
             </div>
-            <div className="w-12 h-12 rounded-full border-2 border-brand-500 flex items-center justify-center bg-surface-dark shadow-[0_0_15px_rgba(59,130,246,0.3)]">
+            <div className="w-10 h-10 rounded-full border-2 border-brand-500 flex items-center justify-center bg-surface-dark shadow-[0_0_15px_rgba(59,130,246,0.3)]">
               <span className="font-mono font-bold text-brand-400">{currentLevelIndex + 1}</span>
             </div>
             
+            {/* Inventory Toggle Button */}
+            <button 
+              onClick={() => {
+                audio.playClick();
+                setIsInventoryOpen(true);
+              }}
+              className="ml-4 w-10 h-10 flex items-center justify-center rounded border border-brand-500/40 bg-brand-500/10 text-brand-400 hover:bg-brand-500/30 hover:text-brand-300 transition-colors shadow-[0_0_10px_rgba(59,130,246,0.2)]"
+              title={t('inventory.title', { defaultValue: 'INVENTORY' })}
+            >
+              <Box size={18} />
+            </button>
+
             {/* Notepad Toggle Button */}
             <button 
               onClick={() => {
@@ -106,7 +129,7 @@ export const GameContainer: React.FC<GameContainerProps> = ({ campaignId }) => {
       </header>
 
       {/* Main Game Area */}
-      <main className="w-full max-w-5xl flex-1 mt-20 mb-24 relative border border-slate-700/50 rounded-2xl bg-surface-dark shadow-2xl overflow-hidden backdrop-blur-sm">
+      <main className="w-full max-w-7xl flex-1 mt-12 mb-3 relative border border-slate-700/50 rounded-2xl bg-surface-dark shadow-2xl overflow-hidden backdrop-blur-sm">
         <AnimatePresence mode="wait">
           {!isTransitioning && puzzleConfig ? (
             <motion.div
@@ -117,12 +140,7 @@ export const GameContainer: React.FC<GameContainerProps> = ({ campaignId }) => {
               transition={{ duration: 0.4 }}
               className="w-full h-full absolute inset-0 overflow-y-auto"
             >
-              <Suspense fallback={
-                <div className="w-full h-full flex items-center justify-center text-brand-500 animate-pulse font-mono flex-col gap-4">
-                  <div className="w-8 h-8 border-t-2 border-brand-500 rounded-full animate-spin"></div>
-                  {t('gameContainer.loadingModule', { module: puzzleConfig.componentPath })}
-                </div>
-              }>
+              <Suspense fallback={null}>
                 <ActivePuzzle config={puzzleConfig} />
               </Suspense>
             </motion.div>
@@ -141,10 +159,41 @@ export const GameContainer: React.FC<GameContainerProps> = ({ campaignId }) => {
       </main>
 
       {/* Inventory UI */}
-      <InventorySystem />
+      <InventorySystem isOpen={isInventoryOpen} onClose={() => setIsInventoryOpen(false)} />
 
       {/* Global Notepad Overlay */}
       <Notepad isOpen={isNotepadOpen} onClose={() => setIsNotepadOpen(false)} />
+
+      {/* Game Over Screen */}
+      <AnimatePresence>
+        {isGameOver && (
+          <motion.div 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-red-950/90 backdrop-blur-md flex flex-col items-center justify-center text-red-500 overflow-hidden"
+          >
+            <div className="absolute inset-x-0 inset-y-0 crt-effect opacity-50 pointer-events-none" />
+            <motion.div 
+              initial={{ scale: 0.8 }} 
+              animate={{ scale: 1 }} 
+              transition={{ type: "spring", stiffness: 200, damping: 10 }}
+              className="flex flex-col items-center justify-center p-12 bg-black/60 border-2 border-red-500/50 rounded-2xl shadow-[0_0_100px_rgba(239,68,68,0.4)] relative z-10 text-center max-w-lg w-full"
+            >
+               <ShieldAlert size={80} className="mb-6 animate-pulse" />
+               <h1 className="text-5xl font-mono font-bold tracking-widest mb-2 uppercase">System Locked</h1>
+               <p className="text-red-400 font-mono tracking-wider mb-8 uppercase text-sm">Security breach detected. All logical sectors have been frozen.</p>
+               
+               <button 
+                  onClick={() => window.location.reload()}
+                  className="px-8 py-4 bg-red-600 hover:bg-red-500 text-white font-mono font-bold tracking-widest rounded transition-all shadow-[0_0_20px_rgba(239,68,68,0.5)] border border-red-400"
+               >
+                  INITIALIZE REBOOT SEQUENCE
+               </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
     </div>
   );

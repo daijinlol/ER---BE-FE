@@ -17,14 +17,48 @@
     "storage": "Storage"
   },
   "level1": {
-    "title": "Mainframe Logic Gate",
-    "awaitingAlignment": "AWAITING HARDWARE SEQUENCE ALIGNMENT...",
-    "sequenceAccepted": "SEQUENCE ACCEPTED. DOOR UNLOCKED. DISPENSING ACCESS TOKEN...",
-    "tokenGranted": "TOKEN GRANTED. PROCEEDING TO NEXT ZONE...",
-    "hardwareArray": "Hardware Rack Array",
-    "module": "Module",
+    "title": "Memory Defragmentation",
+    "subtitle": "Manual Bubble Sort Protocol",
+    "hintTitle": "PROTOCOL INSTRUCTIONS",
+    "hint": "Compare the two highlighted memory blocks. If the LEFT value is GREATER than the RIGHT value, press SWAP. Otherwise, press KEEP.",
+    "swap": "SWAP",
+    "keep": "KEEP",
+    "pass": "Pass",
+    "comparisons": "Comparisons",
+    "sorted": "Sorted",
+    "mistakeSwap": "{{a}} < {{b}} — they are already in order. Press KEEP.",
+    "mistakeKeep": "{{a}} > {{b}} — they are out of order! Press SWAP.",
+    "awaitingSort": "MEMORY BLOCKS CORRUPTED. AWAITING MANUAL DEFRAGMENTATION...",
+    "sortComplete": "DEFRAGMENTATION COMPLETE. MEMORY ALIGNED. DOOR UNLOCKED.",
+    "tokenGranted": "ACCESS TOKEN GRANTED. PROCEEDING TO NEXT ZONE...",
     "accessGranted": "Access Granted",
     "secureArea": "Secure Area"
+  },
+  "level2": {
+    "title": "PATROL ROUTE OVERRIDE",
+    "subtitle": "Loop Runner Protocol",
+    "awaitingProgram": "SECURITY BOT OFFLINE. PROGRAM A PATROL LOOP TO REACH THE EXIT...",
+    "doorUnlocked": "ROUTE COMPLETE. BLAST DOOR OVERRIDE ACCEPTED.",
+    "hintTitle": "Protocol Instructions",
+    "hint": "Build a repeating pattern of commands (loop body). The robot executes all commands in order, then repeats. Set the number of repetitions and press RUN. Watch the robot — if it hits a wall or misses the exit, adjust your commands or iteration count.",
+    "commands": "Available Commands",
+    "loopEditor": "Loop Program",
+    "repeat": "REPEAT",
+    "emptyBody": "Add commands to the loop body...",
+    "cmd_MOVE": "MOVE FORWARD",
+    "cmd_TURN_LEFT": "TURN LEFT",
+    "cmd_TURN_RIGHT": "TURN RIGHT",
+    "run": "RUN",
+    "stop": "STOP",
+    "reset": "RESET",
+    "iteration": "Iteration",
+    "step": "Step",
+    "mistakes": "Errors",
+    "hitWall": "Robot crashed into a wall! Adjust your commands.",
+    "missedExit": "Robot didn't reach the exit. Try changing the iteration count or commands.",
+    "success": "Route complete! The robot reached the exit.",
+    "doorOpen": "DOOR OPEN",
+    "doorLocked": "DOOR LOCKED"
   },
   "gameContainer": {
     "puzzleNotFound": "Puzzle logic not found for level {{level}}",
@@ -121,16 +155,16 @@
     "emptyFolder": "This folder is empty.",
     "executing": "EXECUTING OVERRIDE PROTOCOL...",
     "lore": {
-      "sys": "SYSTEM CONFIGURATION [RESTRICTED]\n\nMemory allocation module bypassed.\nNext zone requires cyclic repetition.\nBe aware of the admin tools access level.",
-      "warn": "INCIDENT REPORT #04\n\nThe guard algorithm is repeating its patrol loop indefinitely. If you find the override tool, it can break the loop mechanism. Do not share the loop_override.exe payload.",
-      "readme": "WELCOME TO THE STAFF PORTAL.\n\nReminder: Unauthorized execution of the 'loop_override' tool is strictly prohibited. If you are stuck reading this, you are in the wrong place."
+      "sys": "SYSTEM CONFIGURATION [RESTRICTED]\n\nMemory allocation module bypassed.\nNext zone requires a patrol bot to navigate a corridor grid.\nThe bot can only MOVE FORWARD, TURN LEFT, or TURN RIGHT.\nFind a repeating pattern and use a loop.",
+      "warn": "INCIDENT REPORT #04\n\nThe security bot has been deactivated. To reopen the blast door, someone must program a new patrol route.\n\nThe corridors form a zigzag pattern — the bot needs to navigate around walls.\nHINT: Look for a short sequence of moves that repeats to cover the whole path.",
+      "readme": "WELCOME TO THE STAFF PORTAL.\n\nReminder: The blast door override requires a correctly looping patrol route. A loop is a sequence of commands that repeats multiple times. Think about which commands move the bot through one section of the corridor, then how many times that pattern must repeat."
     }
   },
   "room": {
     "mysteriousNoteTitle": "Mysterious Note",
-    "mysteriousNote": "Where am I? The last thing I remember... the facility AI went rogue and locked the blast doors. It keeps infinitely looping its security protocols.\n\nIf you're reading this, we need to bypass the mainframe to get out. Sadly, I don't know the hardware sequence needed to unlock it, but the shift supervisor's log might have it.",
+    "mysteriousNote": "Where am I? The last thing I remember... the facility AI went rogue and scrambled all the memory blocks. The mainframe's data bus is damaged — it can only compare two ADJACENT blocks at a time.\n\nIf you're reading this, we need to manually sort the memory to restore the system. The shift supervisor's log should explain the defragmentation procedure.",
     "employeeLogTitle": "Employee Log",
-    "employeeLog": "SHIFT SUPERVISOR LOG\n\nDaily Reminder: The AI is very particular about the Mainframe array order. Always sequence it as: Central Processing Unit first, then Volatile Memory, then the Graphics Processor, and finally Persistent Storage.",
+    "employeeLog": "SHIFT SUPERVISOR LOG\n\nEmergency Defragmentation Protocol:\n1. Look at two neighboring memory blocks\n2. If the left one has a BIGGER value than the right one, SWAP them\n3. If they are already in order, leave them and move on\n4. Keep going until everything is sorted\n\nThis is called 'Bubble Sort' — the biggest values slowly bubble to the end, like air bubbles rising in water.",
     "mainframeTitle": "Inspect Mainframe"
   },
   "notepad": {

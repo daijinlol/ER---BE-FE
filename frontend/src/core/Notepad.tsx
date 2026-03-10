@@ -46,7 +46,7 @@ export const Notepad: React.FC<NotepadProps> = ({ isOpen, onClose }) => {
                             audio.playClick();
                             onClose();
                         }}
-                        className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm"
+                        className="fixed inset-0 z-[60] bg-black/10 backdrop-blur-[2px]"
                     />
                     
                     {/* Notepad Panel */}
@@ -55,7 +55,7 @@ export const Notepad: React.FC<NotepadProps> = ({ isOpen, onClose }) => {
                         animate={{ x: 0, opacity: 1 }}
                         exit={{ x: '100%', opacity: 0 }}
                         transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                        className="fixed right-0 top-0 bottom-0 w-full max-w-md z-[70] bg-surface-dark border-l border-brand-500/50 shadow-[-10px_0_30px_rgba(59,130,246,0.1)] flex flex-col"
+                        className="fixed right-8 top-24 w-80 h-[500px] z-[70] bg-surface-dark border-2 border-brand-500/50 shadow-[0_0_30px_rgba(59,130,246,0.3)] flex flex-col rounded-xl overflow-hidden"
                     >
                         {/* Header */}
                         <div className="flex items-center justify-between p-4 border-b border-brand-500/30 bg-bg-dark/50">
@@ -101,7 +101,7 @@ export const Notepad: React.FC<NotepadProps> = ({ isOpen, onClose }) => {
                                    setNotes(e.target.value);
                                 }}
                                 placeholder={t('notepad.placeholder')}
-                                className="w-full h-full bg-slate-900/50 text-brand-100 font-mono text-sm leading-relaxed p-4 rounded border border-brand-500/20 focus:outline-none focus:border-brand-500/50 resize-none custom-scrollbar shadow-inner relative z-0 placeholder:text-slate-600"
+                                className="w-full h-full bg-slate-900/50 text-brand-100 font-handwriting p-4 rounded border border-brand-500/20 focus:outline-none focus:border-brand-500/50 resize-none custom-scrollbar shadow-inner relative z-0 placeholder:text-slate-600/50"
                                 spellCheck={false}
                             />
                         </div>

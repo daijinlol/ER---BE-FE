@@ -22,14 +22,26 @@ interface RoomConfig {
 
 export default function RoomEngine({ config }: { config: RoomConfig }) {
   const { t } = useTranslation();
+  const storageKey = `room_interactions_${config.id}`;
   const [activeLore, setActiveLore] = useState<string | null>(null);
-  const [interactionHistory, setInteractionHistory] = useState<Set<string>>(new Set());
+  const [interactionHistory, setInteractionHistory] = useState<Set<string>>(() => {
+    try {
+      const saved = sessionStorage.getItem(storageKey);
+      return saved ? new Set(JSON.parse(saved)) : new Set();
+    } catch {
+      return new Set();
+    }
+  });
 
   const handleHotspotClick = (hotspot: any) => {
     audio.playClick();
     
     // Track that we interacted with this element
-    setInteractionHistory(prev => new Set(prev).add(hotspot.id));
+    setInteractionHistory(prev => {
+      const next = new Set(prev).add(hotspot.id);
+      sessionStorage.setItem(storageKey, JSON.stringify(Array.from(next)));
+      return next;
+    });
     
     if (hotspot.action === 'LORE') {
         setActiveLore(hotspot.content);

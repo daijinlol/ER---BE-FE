@@ -17,14 +17,48 @@
     "storage": "Úložiště"
   },
   "level1": {
-    "title": "Logické Hradlo Mainframu",
-    "awaitingAlignment": "ČEKÁ NA ZAROVNÁNÍ HARDWAROVÉ SEKVENCE...",
-    "sequenceAccepted": "SEKVENCE PŘIJATA. DVEŘE ODEMČENY. VYDÁVÁNÍ PŘÍSTUPOVÉHO TOKENU...",
-    "tokenGranted": "TOKEN UDĚLEN. POKRAČOVÁNÍ DO DALŠÍ ZÓNY...",
-    "hardwareArray": "Pole Hardwarových Racků",
-    "module": "Modul",
-    "accessGranted": "Přístup Zaručen",
+    "title": "Defragmentace Paměti",
+    "subtitle": "Manuální Protokol Bubble Sort",
+    "hintTitle": "INSTRUKCE PROTOKOLU",
+    "hint": "Porovnejte dva zvýrazněné paměťové bloky. Pokud je LEVÁ hodnota VĚTŠÍ než PRAVÁ, stiskněte PROHODIT. Jinak stiskněte PONECHAT.",
+    "swap": "PROHODIT",
+    "keep": "PONECHAT",
+    "pass": "Průchod",
+    "comparisons": "Porovnání",
+    "sorted": "Seřazeno",
+    "mistakeSwap": "{{a}} < {{b}} — jsou již ve správném pořadí. Stiskněte PONECHAT.",
+    "mistakeKeep": "{{a}} > {{b}} — jsou ve špatném pořadí! Stiskněte PROHODIT.",
+    "awaitingSort": "PAMĚŤOVÉ BLOKY POŠKOZENY. ČEKÁ SE NA MANUÁLNÍ DEFRAGMENTACI...",
+    "sortComplete": "DEFRAGMENTACE DOKONČENA. PAMĚŤ ZAROVNÁNA. DVEŘE ODEMČENY.",
+    "tokenGranted": "PŘÍSTUPOVÝ TOKEN UDĚLEN. POKRAČOVÁNÍ DO DALŠÍ ZÓNY...",
+    "accessGranted": "Přístup Udělen",
     "secureArea": "Zabezpečená Oblast"
+  },
+  "level2": {
+    "title": "PŘEPSÁNÍ HLÍDKOVÉ TRASY",
+    "subtitle": "Protokol Smyčkového Běžce",
+    "awaitingProgram": "BEZPEČNOSTNÍ BOT OFFLINE. NAPROGRAMUJ HLÍDKOVOU SMYČKU K DOSAŽENÍ VÝCHODU...",
+    "doorUnlocked": "TRASA DOKONČENA. PŘEPSÁNÍ PANCÉŘOVÝCH DVEŘÍ PŘIJATO.",
+    "hintTitle": "Instrukce Protokolu",
+    "hint": "Sestav opakující se vzor příkazů (tělo smyčky). Robot provede všechny příkazy popořadě a potom je zopakuje. Nastav počet opakování a stiskni SPUSTIT. Sleduj robota — pokud narazí do zdi nebo mine východ, uprav příkazy nebo počet opakování.",
+    "commands": "Dostupné Příkazy",
+    "loopEditor": "Program Smyčky",
+    "repeat": "OPAKUJ",
+    "emptyBody": "Přidej příkazy do těla smyčky...",
+    "cmd_MOVE": "POHYB VPŘED",
+    "cmd_TURN_LEFT": "OTOČIT VLEVO",
+    "cmd_TURN_RIGHT": "OTOČIT VPRAVO",
+    "run": "SPUSTIT",
+    "stop": "ZASTAVIT",
+    "reset": "RESET",
+    "iteration": "Opakování",
+    "step": "Krok",
+    "mistakes": "Chyby",
+    "hitWall": "Robot narazil do zdi! Uprav své příkazy.",
+    "missedExit": "Robot nedosáhl východu. Zkus změnit počet opakování nebo příkazy.",
+    "success": "Trasa dokončena! Robot dosáhl východu.",
+    "doorOpen": "DVEŘE OTEVŘENY",
+    "doorLocked": "DVEŘE ZAMČENY"
   },
   "gameContainer": {
     "puzzleNotFound": "Logika hádanky nenalezena pro úroveň {{level}}",
@@ -121,16 +155,16 @@
     "emptyFolder": "Tato složka je prázdná.",
     "executing": "SPOUŠTĚNÍ PROTOKOLU PŘEPSÁNÍ...",
     "lore": {
-      "sys": "KONFIGURACE SYSTÉMU [UTAJENO]\n\nModul alokace paměti obejit.\nDalší zóna vyžaduje cyklické opakování.\nDávejte pozor na úroveň přístupu administrátorských nástrojů.",
-      "warn": "ZPRÁVA O INCIDENTU #04\n\nAlgoritmus stráže opakuje svou hlídkovací smyčku donekonečna. Pokud najdete nástroj pro přepsání, může přerušit mechanismus smyčky. Nesdílejte payload loop_override.exe.",
-      "readme": "VÍTEJTE NA PORTÁLU PRO ZAMĚSTNANCE.\n\nPřipomenutí: Neoprávněné spuštění nástroje 'loop_override' je přísně zakázáno. Pokud trčíte u čtení tohoto dokumentu, jste na špatném místě."
+      "sys": "KONFIGURACE SYSTÉMU [UTAJENO]\n\nModul alokace paměti obejit.\nDalší zóna vyžaduje navigaci hlídkového bota skrz koridor.\nBot umí pouze JÍT VPŘED, OTOČIT SE VLEVO nebo OTOČIT SE VPRAVO.\nNajdi opakující se vzor a použij smyčku.",
+      "warn": "ZPRÁVA O INCIDENTU #04\n\nBezpečnostní bot byl deaktivován. Pro znovuotevření pancéřových dveří musí někdo naprogramovat novou hlídkovou trasu.\n\nKoridory tvoří zubatý vzor — bot musí navigovat kolem zdí.\nNÁPOVĚDA: Hledej krátkou sekvenci pohybů, která se opakuje a pokryje celou cestu.",
+      "readme": "VÍTEJTE NA PORTÁLU PRO ZAMĚSTNANCE.\n\nPřipomenutí: Přepsání pancéřových dveří vyžaduje správně zacyklenou hlídkovou trasu. Smyčka je sekvence příkazů, která se opakuje vícekrát. Přemýšlej, které příkazy provedou bota jednou částí koridoru, a kolikrát se musí tento vzor opakovat."
     }
   },
   "room": {
     "mysteriousNoteTitle": "Záhadný Vzkaz",
-    "mysteriousNote": "Kde to jsem? Poslední co si pamatuji... umělá inteligence zařízení se zbláznila a zamkla protitlaké dveře. Neustále opakuje své bezpečnostní protokoly.\n\nPokud to čtete, musíme obejít hlavní počítač, abychom se dostali ven. Bohužel neznám hardwarovou sekvenci potřebnou k odemčení, ale možná to bude v logu vedoucího směny.",
+    "mysteriousNote": "Kde to jsem? Poslední co si pamatuji... umělá inteligence zařízení se zbláznila a zamíchala všechny paměťové bloky. Datová sběrnice mainframu je poškozená — dokáže porovnat pouze dva SOUSEDNÍ bloky najednou.\n\nPokud to čtete, musíme ručně seřadit paměť, aby se systém obnovil. V logu vedoucího směny by měl být popsán postup defragmentace.",
     "employeeLogTitle": "Log Zaměstnance",
-    "employeeLog": "LOG VEDOUCÍHO SMĚNY\n\nDenní připomenutí: Umělá inteligence je velmi vybíravá ohledně pořadí v poli hlavního počítače. Hardware vždy seřaďte jako: Centrální procesorovou jednotku jako první, pak dočasnou paměť (Volatile Memory), následuje grafický procesor a nakonec trvalé úložiště.",
+    "employeeLog": "LOG VEDOUCÍHO SMĚNY\n\nNouzový Defragmentační Protokol:\n1. Podívejte se na dva sousední paměťové bloky\n2. Pokud má levý VĚTŠÍ hodnotu než pravý, PROHOĎTE je\n3. Pokud jsou již ve správném pořadí, nechte je a pokračujte dál\n4. Opakujte, dokud nebude vše seřazeno\n\nTomuto se říká 'Bubble Sort' — největší hodnoty postupně probublávají na konec, jako vzduchové bubliny stoupající ve vodě.",
     "mainframeTitle": "Zkontrolovat Mainframe"
   },
   "notepad": {

@@ -37,6 +37,11 @@ body {
   font-family: 'Comic Sans MS', 'OpenDyslexic', sans-serif !important;
 }
 
+.font-handwriting {
+  font-family: 'Caveat', cursive !important;
+  font-size: 1.25rem;
+}
+
 .crt-effect::after {
   content: " ";
   display: block;

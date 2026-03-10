@@ -14,10 +14,15 @@ export const CampaignTimer: React.FC<CampaignTimerProps> = ({ initialMinutes }) 
     // Listen for campaign success or failure to stop timer
     const unsubscribeSuccess = gameEvents.subscribe('CAMPAIGN_COMPLETED', () => setIsRunning(false));
     const unsubscribeFail = gameEvents.subscribe('CAMPAIGN_FAILED', () => setIsRunning(false));
+    const unsubscribePenalty = gameEvents.subscribe('TIME_PENALTY', (payload: any) => {
+      const penaltySeconds = payload?.seconds || 120; // Default 2 minutes
+      setTimeLeft((prev) => Math.max(0, prev - penaltySeconds));
+    });
 
     return () => {
       unsubscribeSuccess();
       unsubscribeFail();
+      unsubscribePenalty();
     };
   }, []);
 
