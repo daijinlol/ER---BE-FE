@@ -90,8 +90,8 @@ export default function BranchRightDecisionArray({ campaignId, levelId }: Puzzle
     };
 
     return (
-        <div className="h-full w-full overflow-y-auto bg-slate-950 p-4 text-slate-100">
-            <div className="mx-auto flex h-full max-w-7xl flex-col gap-4">
+        <div className="h-full w-full overflow-y-auto bg-slate-950 p-3 text-slate-100 xl:overflow-hidden xl:p-4">
+            <div className="mx-auto flex h-full min-h-0 max-w-7xl flex-col gap-4">
                 <div className="rounded-2xl border border-amber-400/20 bg-black/45 p-4 shadow-2xl backdrop-blur-md">
                     <div className="flex items-start justify-between gap-4">
                         <div>
@@ -110,7 +110,7 @@ export default function BranchRightDecisionArray({ campaignId, levelId }: Puzzle
                     <p className="mt-4 border-l-2 border-amber-400 pl-3 text-sm leading-relaxed text-amber-100">{t(feedbackKey)}</p>
                 </div>
 
-                <div className="grid flex-1 gap-5 xl:grid-cols-[1.08fr_0.92fr]">
+                <div className="grid min-h-0 flex-1 gap-5 xl:grid-cols-[1.08fr_0.92fr]">
                     <div className="rounded-[1.75rem] border border-slate-700 bg-[radial-gradient(circle_at_top,rgba(245,158,11,0.1),rgba(2,6,23,1)_58%)] p-5 shadow-xl">
                         <div className="grid gap-4 lg:grid-cols-3">
                             {JUNCTION_ORDER.map((junctionId) => (
@@ -147,7 +147,7 @@ export default function BranchRightDecisionArray({ campaignId, levelId }: Puzzle
                         </div>
                     </div>
 
-                    <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-4 xl:min-h-0 xl:overflow-y-auto xl:pr-1 custom-scrollbar">
                         <div className="rounded-2xl border border-slate-700 bg-black/35 p-4 shadow-xl">
                             <div className="flex items-center gap-2 text-amber-300">
                                 <Cpu size={16} />
@@ -186,7 +186,7 @@ export default function BranchRightDecisionArray({ campaignId, levelId }: Puzzle
                             <p className="mt-3 text-sm leading-relaxed text-slate-300">{t('branchRightDecision.objective')}</p>
                         </div>
 
-                        <div className="mt-auto grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
+                        <div className="grid gap-3 pt-1 sm:grid-cols-2 xl:grid-cols-1">
                             <button
                                 onClick={() => {
                                     if (isSolved || isChecking) {

@@ -133,17 +133,17 @@ export default function BranchLeftNetworkRelay({ campaignId, levelId }: PuzzleCo
     };
 
     return (
-        <div className="h-full w-full overflow-y-auto bg-slate-950 p-4 text-slate-100">
-            <div className="mx-auto flex h-full w-full max-w-7xl flex-col gap-4">
-                <div className="rounded-2xl border border-cyan-400/20 bg-black/40 p-4 shadow-2xl backdrop-blur-md">
+        <div className="h-full w-full overflow-y-auto bg-slate-950 p-3 text-slate-100 xl:overflow-hidden xl:p-4">
+            <div className="mx-auto flex h-full min-h-0 w-full max-w-7xl flex-col gap-4">
+                <div className="rounded-2xl border border-cyan-400/20 bg-black/40 p-3 shadow-2xl backdrop-blur-md">
                     <div className="flex items-start justify-between gap-4">
                         <div>
                             <div className="flex items-center gap-3 text-cyan-300">
                                 <Network size={18} />
                                 <div className="text-xs font-mono uppercase tracking-[0.24em]">{t('branchLeftRelay.kicker')}</div>
                             </div>
-                            <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white">{t('branchLeftRelay.title')}</h2>
-                            <p className="mt-3 max-w-3xl text-sm leading-relaxed text-slate-300">{t('branchLeftRelay.story')}</p>
+                            <h2 className="mt-2 text-2xl font-semibold tracking-tight text-white xl:text-[1.65rem]">{t('branchLeftRelay.title')}</h2>
+                            <p className="mt-2 max-w-3xl text-sm leading-relaxed text-slate-300 xl:text-[13px]">{t('branchLeftRelay.story')}</p>
                         </div>
                         <div className="rounded-2xl border border-cyan-400/20 bg-cyan-500/10 px-4 py-3 text-right">
                             <div className="text-[11px] font-mono uppercase tracking-[0.2em] text-cyan-300">{t('branchLeftRelay.routeLength')}</div>
@@ -153,16 +153,17 @@ export default function BranchLeftNetworkRelay({ campaignId, levelId }: PuzzleCo
                     <p className="mt-4 border-l-2 border-cyan-400 pl-3 text-sm leading-relaxed text-cyan-100">{t(feedbackKey)}</p>
                 </div>
 
-                <div className="grid flex-1 gap-5 xl:grid-cols-[1.4fr_0.8fr]">
-                    <div className="relative min-h-[560px] overflow-hidden rounded-[1.75rem] border border-slate-700 bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.16),rgba(2,6,23,1)_60%)] p-5 shadow-xl">
-                        <div className="absolute inset-x-5 top-5 z-10 rounded-2xl border border-cyan-400/15 bg-slate-950/55 px-4 py-3 backdrop-blur-sm">
+                <div className="grid min-h-0 flex-1 gap-5 xl:grid-cols-[1.4fr_0.8fr]">
+                    <div className="relative min-h-[560px] overflow-hidden rounded-[1.75rem] border border-slate-700 bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.16),rgba(2,6,23,1)_60%)] p-5 shadow-xl xl:min-h-[520px] xl:p-4">
+                        <div className="absolute inset-x-4 top-4 z-10 rounded-2xl border border-cyan-400/15 bg-slate-950/55 px-4 py-2.5 backdrop-blur-sm">
                             <div className="flex items-center gap-2 text-cyan-300">
                                 <ScanSearch size={15} />
                                 <span className="text-[11px] font-mono uppercase tracking-[0.22em]">{t('branchLeftRelay.boardTitle')}</span>
                             </div>
-                            <p className="mt-2 text-sm leading-relaxed text-slate-300">{t('branchLeftRelay.boardHint')}</p>
+                            <p className="mt-1.5 text-sm leading-relaxed text-slate-300 xl:text-[13px]">{t('branchLeftRelay.boardHint')}</p>
                         </div>
 
+                        <div className="absolute inset-x-0 bottom-0 top-24 xl:top-22">
                         <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full">
                             {LINKS.map(([leftId, rightId]) => {
                                 const leftNode = NODES.find((node) => node.id === leftId);
@@ -199,7 +200,7 @@ export default function BranchLeftNetworkRelay({ campaignId, levelId }: PuzzleCo
                                     key={node.id}
                                     onClick={() => handleNodeClick(node.id)}
                                     onMouseEnter={() => setFocusedNodeId(node.id)}
-                                    className={`absolute z-10 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full border text-center transition-all ${isCurrent
+                                    className={`absolute z-10 flex h-[4.35rem] w-[4.35rem] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full border text-center transition-all xl:h-[4rem] xl:w-[4rem] ${isCurrent
                                         ? 'border-cyan-200 bg-cyan-400/22 shadow-[0_0_28px_rgba(34,211,238,0.36)]'
                                         : isVisited
                                             ? 'border-emerald-300/60 bg-emerald-500/16'
@@ -211,13 +212,14 @@ export default function BranchLeftNetworkRelay({ campaignId, levelId }: PuzzleCo
                                     <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-slate-400">
                                         {node.id === 'ingress' || node.id === 'egress' ? node.id.slice(0, 3) : node.id.replace('relay_', 'R-')}
                                     </span>
-                                    <span className="mt-1 px-2 text-[11px] leading-tight text-slate-100">{t(node.labelKey)}</span>
+                                    <span className="mt-1 px-2 text-[10px] leading-tight text-slate-100 xl:text-[9px]">{t(node.labelKey)}</span>
                                 </button>
                             );
                         })}
+                        </div>
                     </div>
 
-                    <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-4 xl:min-h-0 xl:overflow-y-auto xl:pr-1 custom-scrollbar">
                         <div className="rounded-2xl border border-slate-700 bg-black/35 p-4 shadow-xl">
                             <div className="text-xs font-mono uppercase tracking-[0.2em] text-cyan-300">{t('branchLeftRelay.objectiveTitle')}</div>
                             <p className="mt-3 text-sm leading-relaxed text-slate-300">{t('branchLeftRelay.objective')}</p>
@@ -258,7 +260,7 @@ export default function BranchLeftNetworkRelay({ campaignId, levelId }: PuzzleCo
                             </div>
                         </div>
 
-                        <div className="mt-auto grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
+                        <div className="grid gap-3 pt-1 sm:grid-cols-2 xl:grid-cols-1">
                             <button
                                 onClick={handleReset}
                                 className="rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 font-mono text-xs uppercase tracking-[0.22em] text-slate-200 transition-colors hover:border-slate-500"

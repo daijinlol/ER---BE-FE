@@ -134,10 +134,10 @@ export default function Level3SignalRelay({ campaignId, levelId }: PuzzleCompone
     };
 
     return (
-        <div className="w-full h-full flex flex-col items-center p-4 bg-slate-950 overflow-y-auto relative">
+        <div className="relative flex h-full w-full flex-col items-center overflow-y-auto bg-slate-950 p-3 xl:overflow-hidden xl:p-4">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.12)_0%,rgba(2,6,23,1)_55%)] pointer-events-none" />
 
-            <div className="w-full z-10 flex flex-col gap-3 cursor-default flex-1">
+            <div className="z-10 flex w-full min-h-0 flex-1 cursor-default flex-col gap-3">
                 <div className="bg-black/50 border border-cyan-500/20 rounded-xl p-4 backdrop-blur-md shadow-2xl relative overflow-hidden">
                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-emerald-400" />
                     <div className="flex items-center justify-between gap-4 mb-2">
@@ -198,7 +198,7 @@ export default function Level3SignalRelay({ campaignId, levelId }: PuzzleCompone
                     )}
                 </AnimatePresence>
 
-                <div className="grid xl:grid-cols-[1.6fr_0.9fr] gap-5 flex-1">
+                <div className="grid min-h-0 flex-1 gap-5 xl:grid-cols-[1.6fr_0.9fr]">
                     <div className="bg-slate-900/90 border border-slate-700 rounded-xl p-5 shadow-xl flex flex-col gap-4">
                         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                             {PANEL_ORDER.map((panelId) => (
@@ -280,7 +280,7 @@ export default function Level3SignalRelay({ campaignId, levelId }: PuzzleCompone
                         </div>
                     </div>
 
-                    <div className="bg-black/40 border border-slate-700 rounded-xl p-5 shadow-xl flex flex-col gap-4">
+                    <div className="flex min-h-0 flex-col gap-4 rounded-xl border border-slate-700 bg-black/40 p-5 shadow-xl xl:overflow-y-auto xl:pr-1 custom-scrollbar">
                         <div>
                             <div className="text-xs font-mono uppercase tracking-[0.22em] text-cyan-300">{t('level3.objectiveTitle')}</div>
                             <p className="mt-2 text-sm text-slate-300 leading-relaxed">{t('level3.objective')}</p>

@@ -162,21 +162,21 @@ export default function Level1Sorting({ campaignId, levelId }: PuzzleComponentPr
   }, [isSolved, items, mistakeMsg, passLimit, pointer, sortedCount, swappedInPass, t, totalComparisons, mistakes]);
 
   return (
-    <div className="relative h-full w-full overflow-y-auto bg-slate-950 p-4 text-slate-100">
+    <div className="relative h-full w-full overflow-y-auto bg-slate-950 p-3 text-slate-100 xl:overflow-hidden xl:p-3">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(56,189,248,0.12),rgba(2,6,23,1)_56%)]" />
       <div className="pointer-events-none absolute right-0 top-0 h-72 w-72 rounded-full bg-cyan-400/10 blur-3xl" />
       <div className="pointer-events-none absolute bottom-0 left-0 h-80 w-80 rounded-full bg-indigo-500/10 blur-3xl" />
 
-      <div className="relative mx-auto flex h-full w-full max-w-7xl flex-col gap-4">
-        <div className="rounded-2xl border border-cyan-400/20 bg-black/40 p-4 shadow-2xl backdrop-blur-md">
+      <div className="relative mx-auto flex h-full min-h-0 w-full max-w-7xl flex-col gap-3">
+        <div className="rounded-2xl border border-cyan-400/20 bg-black/40 p-3 shadow-2xl backdrop-blur-md">
           <div className="flex items-start justify-between gap-4">
             <div>
               <div className="flex items-center gap-3 text-cyan-300">
                 <Terminal size={18} />
                 <div className="text-xs font-mono uppercase tracking-[0.24em]">{t('level1.subtitle')}</div>
               </div>
-              <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white">{t('level1.title')}</h2>
-              <p className="mt-3 max-w-3xl text-sm leading-relaxed text-slate-300">{t('level1.story')}</p>
+              <h2 className="mt-2 text-2xl font-semibold tracking-tight text-white xl:text-[1.65rem]">{t('level1.title')}</h2>
+              <p className="mt-2 max-w-3xl text-sm leading-relaxed text-slate-300 xl:text-[13px]">{t('level1.story')}</p>
             </div>
             <button
               onClick={() => {
@@ -189,30 +189,30 @@ export default function Level1Sorting({ campaignId, levelId }: PuzzleComponentPr
               <X size={20} />
             </button>
           </div>
-          <p className="mt-4 border-l-2 border-cyan-400 pl-3 text-sm leading-relaxed text-cyan-100">{t(terminalKey)}</p>
+          <p className="mt-3 border-l-2 border-cyan-400 pl-3 text-sm leading-relaxed text-cyan-100 xl:text-[13px]">{t(terminalKey)}</p>
         </div>
 
-        <div className="grid flex-1 gap-5 xl:grid-cols-[1.35fr_0.65fr]">
-          <div className="rounded-[1.75rem] border border-slate-700 bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.14),rgba(2,6,23,1)_62%)] p-5 shadow-xl">
-            <div className="grid gap-3 sm:grid-cols-3">
+        <div className="grid min-h-0 flex-1 gap-4 xl:grid-cols-[1.35fr_0.65fr]">
+          <div className="rounded-[1.75rem] border border-slate-700 bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.14),rgba(2,6,23,1)_62%)] p-4 shadow-xl">
+            <div className="grid gap-2 sm:grid-cols-3">
               <StatCard label={t('level1.pass')} value={String(pass)} accent="cyan" />
               <StatCard label={t('level1.comparisons')} value={String(totalComparisons)} accent="sky" />
               <StatCard label={t('level1.sorted')} value={`${sortedCount}/${items.length}`} accent="emerald" />
             </div>
 
-            <div className="mt-5 rounded-3xl border border-slate-800 bg-slate-950/70 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]">
+            <div className="mt-4 rounded-3xl border border-slate-800 bg-slate-950/70 p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]">
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <div className="text-[11px] font-mono uppercase tracking-[0.22em] text-cyan-300">{t('level1.activePairTitle')}</div>
-                  <div className="mt-2 text-sm text-slate-300">{comparisonSummary}</div>
+                  <div className="mt-1.5 text-sm text-slate-300 xl:text-[13px]">{comparisonSummary}</div>
                 </div>
-                <div className="rounded-2xl border border-cyan-400/20 bg-cyan-500/10 px-4 py-3 text-right">
+                <div className="rounded-2xl border border-cyan-400/20 bg-cyan-500/10 px-3 py-2.5 text-right">
                   <div className="text-[11px] font-mono uppercase tracking-[0.18em] text-cyan-200">{t('level1.passStatusTitle')}</div>
                   <div className="mt-2 font-mono text-lg text-white">{Math.max(passLimit, 0)}</div>
                 </div>
               </div>
 
-              <div className="mt-5 flex flex-col gap-3">
+              <div className="mt-4 flex flex-col gap-2">
                 {items.map((value, index) => {
                   const isLeft = index === pointer && !isSolved;
                   const isActive = (index === pointer || index === pointer + 1) && !isSolved;
@@ -225,7 +225,7 @@ export default function Level1Sorting({ campaignId, levelId }: PuzzleComponentPr
                       key={`bar-${index}`}
                       layout
                       transition={{ type: 'spring', stiffness: 500, damping: 35 }}
-                      className={`relative overflow-hidden rounded-2xl border px-4 py-4 transition-all ${isActive
+                      className={`relative overflow-hidden rounded-2xl border px-3 py-2.5 transition-all ${isActive
                         ? 'border-cyan-300/60 bg-cyan-500/10 shadow-[0_0_22px_rgba(34,211,238,0.14)]'
                         : isLocked
                           ? 'border-emerald-400/30 bg-emerald-500/8'
@@ -233,7 +233,7 @@ export default function Level1Sorting({ campaignId, levelId }: PuzzleComponentPr
                     >
                       <div className="flex items-center gap-4">
                         <div className="w-8 text-center text-xs font-mono uppercase tracking-[0.22em] text-slate-500">{index}</div>
-                        <div className="relative h-10 flex-1 overflow-hidden rounded-full border border-slate-800 bg-slate-950">
+                        <div className="relative h-8 flex-1 overflow-hidden rounded-full border border-slate-800 bg-slate-950">
                           <motion.div
                             className={`h-full rounded-full bg-gradient-to-r ${isLocked ? 'from-emerald-600 to-emerald-400' : colorClass}`}
                             initial={false}
@@ -242,7 +242,7 @@ export default function Level1Sorting({ campaignId, levelId }: PuzzleComponentPr
                           />
                           <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.14),transparent)] opacity-50" />
                         </div>
-                        <div className={`w-10 text-right font-mono text-base font-bold ${isLocked ? 'text-emerald-300' : 'text-slate-100'}`}>{value}</div>
+                        <div className={`w-10 text-right font-mono text-sm font-bold ${isLocked ? 'text-emerald-300' : 'text-slate-100'}`}>{value}</div>
                         {isLocked && <Lock size={14} className="text-emerald-300/70" />}
                       </div>
 
@@ -263,7 +263,7 @@ export default function Level1Sorting({ campaignId, levelId }: PuzzleComponentPr
                   initial={{ opacity: 0, y: -6 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -6 }}
-                  className="mt-4 rounded-2xl border border-red-500/40 bg-red-950/45 px-4 py-3 text-sm text-red-200"
+                  className="mt-3 rounded-2xl border border-red-500/40 bg-red-950/45 px-4 py-3 text-sm text-red-200 xl:text-[13px]"
                 >
                   {mistakeMsg}
                 </motion.div>
@@ -271,16 +271,16 @@ export default function Level1Sorting({ campaignId, levelId }: PuzzleComponentPr
             </AnimatePresence>
           </div>
 
-          <div className="flex flex-col gap-4">
-            <div className="rounded-2xl border border-slate-700 bg-black/35 p-4 shadow-xl">
+          <div className="flex flex-col gap-3 xl:min-h-0 xl:overflow-y-auto xl:pr-1 custom-scrollbar">
+            <div className="rounded-2xl border border-slate-700 bg-black/35 p-3 shadow-xl">
               <div className="flex items-center gap-2 text-cyan-300">
                 <ShieldCheck size={16} />
                 <span className="text-xs font-mono uppercase tracking-[0.2em]">{t('level1.objectiveTitle')}</span>
               </div>
-              <p className="mt-3 text-sm leading-relaxed text-slate-300">{t('level1.objective')}</p>
+              <p className="mt-2 text-sm leading-relaxed text-slate-300 xl:text-[13px]">{t('level1.objective')}</p>
             </div>
 
-            <div className="rounded-2xl border border-slate-700 bg-black/35 p-4 shadow-xl">
+            <div className="rounded-2xl border border-slate-700 bg-black/35 p-3 shadow-xl">
               <button
                 onClick={() => setHintOpen((prev) => !prev)}
                 className="flex w-full items-center gap-2 text-left text-indigo-200 transition-colors hover:text-indigo-100"
@@ -297,7 +297,7 @@ export default function Level1Sorting({ campaignId, levelId }: PuzzleComponentPr
                     exit={{ height: 0, opacity: 0 }}
                     className="overflow-hidden"
                   >
-                    <div className="mt-3 rounded-2xl border border-indigo-400/20 bg-indigo-950/30 px-4 py-3 text-sm leading-relaxed text-indigo-100">
+                    <div className="mt-3 rounded-2xl border border-indigo-400/20 bg-indigo-950/30 px-4 py-3 text-sm leading-relaxed text-indigo-100 xl:text-[13px]">
                       {t('level1.hint')}
                     </div>
                   </motion.div>
@@ -305,12 +305,12 @@ export default function Level1Sorting({ campaignId, levelId }: PuzzleComponentPr
               </AnimatePresence>
             </div>
 
-            <div className="rounded-2xl border border-slate-700 bg-black/35 p-4 shadow-xl">
+            <div className="rounded-2xl border border-slate-700 bg-black/35 p-3 shadow-xl">
               <div className="flex items-center gap-2 text-slate-300">
                 <Gauge size={16} />
                 <span className="text-xs font-mono uppercase tracking-[0.2em] text-slate-500">{t('level1.diagnosticsTitle')}</span>
               </div>
-              <div className="mt-4 space-y-3">
+              <div className="mt-3 space-y-2">
                 <MetricRow label={t('level1.pass')} value={String(pass)} accent="text-cyan-300" />
                 <MetricRow label={t('level1.comparisons')} value={String(totalComparisons)} accent="text-sky-300" />
                 <MetricRow label={t('level1.sorted')} value={`${sortedCount}/${items.length}`} accent="text-emerald-300" />
@@ -318,10 +318,10 @@ export default function Level1Sorting({ campaignId, levelId }: PuzzleComponentPr
               </div>
             </div>
 
-            <div className="rounded-2xl border border-slate-700 bg-black/35 p-4 shadow-xl">
+            <div className="rounded-2xl border border-slate-700 bg-black/35 p-3 shadow-xl">
               <div className="text-xs font-mono uppercase tracking-[0.2em] text-slate-500">{t('level1.actionsTitle')}</div>
               {!isSolved ? (
-                <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
+                <div className="mt-3 grid gap-2.5 sm:grid-cols-2 xl:grid-cols-1">
                   <button
                     onClick={() => handleAction('SWAP')}
                     disabled={!!mistakeMsg}
@@ -344,7 +344,7 @@ export default function Level1Sorting({ campaignId, levelId }: PuzzleComponentPr
                   </button>
                 </div>
               ) : (
-                <div className="mt-4 rounded-2xl border border-emerald-400/30 bg-emerald-500/10 p-4 text-center">
+                <div className="mt-3 rounded-2xl border border-emerald-400/30 bg-emerald-500/10 p-3 text-center">
                   <div className="flex items-center justify-center gap-2 text-emerald-200">
                     <Unlock size={16} />
                     <span className="text-xs font-mono uppercase tracking-[0.22em]">{t('level1.accessGranted')}</span>
@@ -353,10 +353,10 @@ export default function Level1Sorting({ campaignId, levelId }: PuzzleComponentPr
               )}
             </div>
 
-            <div className="rounded-[1.75rem] border border-slate-700 bg-slate-950/80 px-4 py-5 text-center shadow-xl">
-              <div className="mx-auto flex h-28 w-28 items-center justify-center rounded-full border border-slate-700 bg-slate-900/80">
+            <div className="rounded-[1.75rem] border border-slate-700 bg-slate-950/80 px-4 py-4 text-center shadow-xl">
+              <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full border border-slate-700 bg-slate-900/80">
                 <div className="relative">
-                  <svg width="96" height="96" viewBox="0 0 96 96" className="-rotate-90">
+                  <svg width="84" height="84" viewBox="0 0 96 96" className="-rotate-90">
                     <circle cx="48" cy="48" r="38" fill="none" stroke="rgb(51,65,85)" strokeWidth="6" />
                     <motion.circle
                       cx="48"
@@ -373,13 +373,13 @@ export default function Level1Sorting({ campaignId, levelId }: PuzzleComponentPr
                   </svg>
                   <div className="absolute inset-0 flex items-center justify-center">
                     {isSolved
-                      ? <Unlock size={30} className="text-emerald-300" />
-                      : <Lock size={30} className="text-cyan-300" />}
+                      ? <Unlock size={26} className="text-emerald-300" />
+                      : <Lock size={26} className="text-cyan-300" />}
                   </div>
                 </div>
               </div>
-              <div className="mt-4 text-xs font-mono uppercase tracking-[0.22em] text-slate-500">{t('level1.passStatusTitle')}</div>
-              <div className={`mt-2 text-sm font-medium ${isSolved ? 'text-emerald-300' : 'text-slate-300'}`}>
+              <div className="mt-3 text-xs font-mono uppercase tracking-[0.22em] text-slate-500">{t('level1.passStatusTitle')}</div>
+              <div className={`mt-1.5 text-sm font-medium xl:text-[13px] ${isSolved ? 'text-emerald-300' : 'text-slate-300'}`}>
                 {isSolved ? t('level1.accessGranted') : t('level1.secureArea')}
               </div>
             </div>
@@ -398,9 +398,9 @@ function StatCard({ label, value, accent }: { label: string; value: string; acce
   };
 
   return (
-    <div className={`rounded-2xl border px-4 py-3 ${accentClasses[accent]}`}>
+    <div className={`rounded-2xl border px-4 py-2.5 ${accentClasses[accent]}`}>
       <div className="text-[11px] font-mono uppercase tracking-[0.2em] text-slate-500">{label}</div>
-      <div className="mt-2 text-2xl font-semibold text-white">{value}</div>
+      <div className="mt-1.5 text-xl font-semibold text-white">{value}</div>
     </div>
   );
 }

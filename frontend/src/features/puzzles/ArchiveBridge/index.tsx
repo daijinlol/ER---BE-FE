@@ -70,9 +70,9 @@ export default function ArchiveBridge(_props: PuzzleComponentProps) {
     const nextNode = STORY_ORDER[currentIndex + 1];
 
     return (
-        <div className="w-full h-full p-4 bg-slate-950 overflow-y-auto relative">
+        <div className="relative h-full w-full overflow-y-auto bg-slate-950 p-3 xl:overflow-hidden xl:p-4">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.1)_0%,rgba(2,6,23,1)_60%)] pointer-events-none" />
-            <div className="relative z-10 h-full flex flex-col gap-4">
+            <div className="relative z-10 flex h-full min-h-0 flex-col gap-4">
                 <div className="bg-black/45 border border-emerald-500/20 rounded-xl p-4 backdrop-blur-md shadow-2xl">
                     <div className="flex items-center justify-between gap-4">
                         <div>
@@ -92,7 +92,7 @@ export default function ArchiveBridge(_props: PuzzleComponentProps) {
                     </div>
                 </div>
 
-                <div className="grid xl:grid-cols-[0.9fr_1.4fr] gap-5 flex-1">
+                <div className="grid min-h-0 flex-1 gap-5 xl:grid-cols-[0.9fr_1.4fr]">
                     <div className="bg-slate-900/90 border border-slate-700 rounded-xl p-5 shadow-xl flex flex-col gap-4">
                         <div>
                             <div className="text-xs font-mono uppercase tracking-[0.2em] text-emerald-300">{t('archiveBridge.channelStatus')}</div>
@@ -138,7 +138,7 @@ export default function ArchiveBridge(_props: PuzzleComponentProps) {
                         </div>
                     </div>
 
-                    <div className="bg-black/45 border border-slate-700 rounded-xl p-5 shadow-xl flex flex-col gap-4">
+                    <div className="flex flex-col gap-4 rounded-xl border border-slate-700 bg-black/45 p-5 shadow-xl xl:min-h-0 xl:overflow-y-auto xl:pr-1 custom-scrollbar">
                         <motion.div
                             key={activeNode}
                             initial={{ opacity: 0, y: 12 }}

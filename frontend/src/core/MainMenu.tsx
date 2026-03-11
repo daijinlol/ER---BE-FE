@@ -18,6 +18,8 @@ interface MainMenuProps {
 export const MainMenu: React.FC<MainMenuProps> = ({ onStart, resumeSessions, options, onOptionsChange }) => {
    const { t, i18n } = useTranslation();
    const [currentView, setCurrentView] = useState<MenuView>('MAIN');
+   const availableCampaigns = Object.keys(registry.campaigns).filter((campaignId) => registry.campaigns[campaignId].levels.length > 0);
+   const resumableCampaigns = Object.values(resumeSessions).filter((session) => session.status === 'active').length;
 
    const handleStart = async (campaignId: string, mode: 'fresh' | 'resume' = 'fresh') => {
       await audio.init();
@@ -52,7 +54,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStart, resumeSessions, opt
          initial="hidden"
          animate="visible"
          exit="exit"
-         className="flex flex-col gap-4 w-full max-w-md z-10"
+         className="flex w-full max-w-xl flex-col gap-3 z-10"
       >
          <MenuButton
             icon={<Terminal size={20} />}
@@ -90,14 +92,14 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStart, resumeSessions, opt
          initial={{ opacity: 0, x: 20 }}
          animate={{ opacity: 1, x: 0 }}
          exit={{ opacity: 0, x: -20 }}
-         className="w-full max-w-2xl bg-surface-dark/80 backdrop-blur-md border border-slate-700/50 rounded-2xl p-8 z-10 shadow-2xl relative"
+         className="relative w-full rounded-[1.75rem] border border-slate-700 bg-slate-950/88 p-6 shadow-2xl"
       >
          <button onClick={() => changeView('MAIN')} className="absolute top-4 right-4 text-slate-400 hover:text-brand-400 transition-colors">
             <X size={24} />
          </button>
-         <h2 className="text-2xl font-mono font-bold text-brand-400 mb-6 border-b border-brand-500/30 pb-4">{t('menu.difficultyView.title')}</h2>
+         <h2 className="mb-6 border-b border-brand-500/20 pb-4 text-2xl font-mono font-bold text-brand-300">{t('menu.difficultyView.title')}</h2>
 
-         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[60vh] overflow-y-auto overflow-x-hidden p-2 pb-6 custom-scrollbar">
+         <div className="grid max-h-[65vh] grid-cols-1 gap-4 overflow-x-hidden overflow-y-auto p-1 pr-2 custom-scrollbar md:grid-cols-2">
             {Object.entries(registry.campaigns).map(([campaignId]) => {
                const resumeSession = resumeSessions[campaignId];
                const canResume = resumeSession?.status === 'active';
@@ -108,9 +110,9 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStart, resumeSessions, opt
                      whileHover={{ scale: 1.02 }}
                      whileTap={{ scale: 0.98 }}
                      onMouseEnter={() => { audio.init(); audio.playHover(); }}
-                     className="text-left bg-slate-800/50 hover:bg-brand-500/20 border border-slate-700 border-l-4 border-l-brand-500 p-4 rounded hover:border-brand-500 transition-colors group relative overflow-hidden"
+                     className="group relative overflow-hidden rounded-2xl border border-slate-700 bg-slate-950/88 p-4 text-left transition-colors hover:border-brand-500/50 hover:bg-brand-500/10"
                   >
-                     <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-30 transition-opacity">
+                     <div className="absolute top-0 right-0 p-2 opacity-10 transition-opacity group-hover:opacity-30">
                         <ShieldAlert size={48} />
                      </div>
                      <div className="flex justify-between items-start mb-2 relative z-10">
@@ -118,7 +120,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStart, resumeSessions, opt
                         <span className="text-slate-500 text-xs tracking-wider">{t(`campaigns.${campaignId}.grade_short`, { defaultValue: campaignId.startsWith('elem') ? 'Elem' : 'HS' })}</span>
                      </div>
                      <h3 className="font-bold text-slate-200 text-lg mb-1 relative z-10">{t(`campaigns.${campaignId}.title`, { defaultValue: `Campaign ${campaignId}` })}</h3>
-                     <p className="text-slate-400 text-sm relative z-10">{t(`campaigns.${campaignId}.desc`, { defaultValue: 'Select this protocol to begin.' })}</p>
+                     <p className="text-sm text-slate-400 relative z-10">{t(`campaigns.${campaignId}.desc`, { defaultValue: 'Select this protocol to begin.' })}</p>
                      {canResume && (
                         <p className="mt-3 text-xs font-mono uppercase tracking-wider text-emerald-300 relative z-10">
                            Resume available: Level {resumeSession.levelIndex + 1}
@@ -128,14 +130,14 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStart, resumeSessions, opt
                         {canResume && (
                            <button
                               onClick={() => handleStart(campaignId, 'resume')}
-                              className="flex-1 rounded-lg border border-emerald-400/40 bg-emerald-500/10 px-3 py-2 text-xs font-mono font-bold uppercase tracking-wider text-emerald-200 transition-colors hover:bg-emerald-500/20"
+                              className="flex-1 rounded-xl border border-emerald-400/40 bg-emerald-500/10 px-3 py-2 text-xs font-mono font-bold uppercase tracking-wider text-emerald-200 transition-colors hover:bg-emerald-500/20"
                            >
                               Resume Run
                            </button>
                         )}
                         <button
                            onClick={() => handleStart(campaignId, 'fresh')}
-                           className="flex-1 rounded-lg border border-brand-500/50 bg-brand-500/10 px-3 py-2 text-xs font-mono font-bold uppercase tracking-wider text-brand-100 transition-colors hover:bg-brand-500/20"
+                           className="flex-1 rounded-xl border border-brand-500/50 bg-brand-500/10 px-3 py-2 text-xs font-mono font-bold uppercase tracking-wider text-brand-100 transition-colors hover:bg-brand-500/20"
                         >
                            {canResume ? 'Start Fresh' : 'Start Run'}
                         </button>
@@ -152,15 +154,15 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStart, resumeSessions, opt
          initial={{ opacity: 0, y: 20 }}
          animate={{ opacity: 1, y: 0 }}
          exit={{ opacity: 0, y: -20 }}
-         className="w-full max-w-2xl bg-surface-dark/80 backdrop-blur-md border border-slate-700/50 rounded-2xl p-8 z-10 shadow-2xl relative"
+         className="relative w-full rounded-[1.75rem] border border-slate-700 bg-slate-950/88 p-6 shadow-2xl"
       >
          <button onClick={() => changeView('MAIN')} className="absolute top-4 right-4 text-slate-400 hover:text-brand-400 transition-colors">
             <X size={24} />
          </button>
-         <h2 className="text-2xl font-mono font-bold text-brand-400 mb-6 border-b border-brand-500/30 pb-4">{t('menu.optionsView.title')}</h2>
+         <h2 className="mb-6 border-b border-brand-500/20 pb-4 text-2xl font-mono font-bold text-brand-300">{t('menu.optionsView.title')}</h2>
 
          <div className="space-y-6">
-            <div className="flex justify-between items-center bg-slate-800/50 p-4 rounded-lg border border-slate-700">
+            <div className="flex items-center justify-between rounded-2xl border border-slate-700 bg-slate-950/82 p-4">
                <div>
                   <h3 className="font-bold text-slate-200">{t('menu.optionsView.crt.title')}</h3>
                   <p className="text-sm text-slate-400">{t('menu.optionsView.crt.desc')}</p>
@@ -173,7 +175,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStart, resumeSessions, opt
                </div>
             </div>
 
-            <div className="flex justify-between items-center bg-slate-800/50 p-4 rounded-lg border border-slate-700">
+            <div className="flex items-center justify-between rounded-2xl border border-slate-700 bg-slate-950/82 p-4">
                <div>
                   <h3 className="font-bold text-slate-200 text-left">{t('menu.optionsView.audio.title')}</h3>
                   <p className="text-sm text-slate-400 text-left">{t('menu.optionsView.audio.desc', { volume: options.volume })}</p>
@@ -192,7 +194,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStart, resumeSessions, opt
                />
             </div>
 
-            <div className="flex justify-between items-center bg-slate-800/50 p-4 rounded-lg border border-slate-700">
+            <div className="flex items-center justify-between rounded-2xl border border-slate-700 bg-slate-950/82 p-4">
                <div>
                   <h3 className="font-bold text-slate-200 text-left">{t('menu.optionsView.dyslexia.title')}</h3>
                   <p className="text-sm text-slate-400 text-left">{t('menu.optionsView.dyslexia.desc')}</p>
@@ -205,7 +207,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStart, resumeSessions, opt
                </div>
             </div>
 
-            <div className="flex justify-between items-center bg-slate-800/50 p-4 rounded-lg border border-slate-700">
+            <div className="flex items-center justify-between rounded-2xl border border-slate-700 bg-slate-950/82 p-4">
                <div>
                   <h3 className="font-bold text-slate-200 text-left">{t('menu.optionsView.language.title')}</h3>
                   <p className="text-sm text-slate-400 text-left">{t('menu.optionsView.language.desc')}</p>
@@ -224,12 +226,12 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStart, resumeSessions, opt
          initial={{ opacity: 0, scale: 0.95 }}
          animate={{ opacity: 1, scale: 1 }}
          exit={{ opacity: 0, scale: 1.05 }}
-         className="w-full max-w-2xl bg-surface-dark/80 backdrop-blur-md border border-slate-700/50 rounded-2xl p-8 z-10 shadow-2xl relative text-center"
+         className="relative w-full rounded-[1.75rem] border border-slate-700 bg-slate-950/88 p-6 text-center shadow-2xl"
       >
          <button onClick={() => changeView('MAIN')} className="absolute top-4 right-4 text-slate-400 hover:text-brand-400 transition-colors">
             <X size={24} />
          </button>
-         <h2 className="text-2xl font-mono font-bold text-brand-400 mb-8 border-b border-brand-500/30 pb-4">{t('menu.creditsView.title')}</h2>
+         <h2 className="mb-8 border-b border-brand-500/20 pb-4 text-2xl font-mono font-bold text-brand-300">{t('menu.creditsView.title')}</h2>
 
          <div className="space-y-6">
             <div>
@@ -248,47 +250,52 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStart, resumeSessions, opt
    );
 
    return (
-      <div className="relative w-full h-screen overflow-hidden bg-bg-dark flex items-center justify-center">
-
-         {/* Background Effects */}
+      <div className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-slate-950 px-4 py-6 sm:px-6 sm:py-8">
          <div className="absolute inset-0 z-0">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.15)_0%,rgba(15,23,42,1)_100%)]" />
-            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-600/20 rounded-full blur-[128px] animate-pulse" />
-            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-indigo-600/20 rounded-full blur-[128px] animate-pulse" style={{ animationDelay: '2s' }} />
-
-            {/* Tech Grid */}
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)] opacity-30" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.18)_0%,rgba(2,6,23,1)_68%)]" />
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(30,41,59,0.45)_1px,transparent_1px),linear-gradient(to_bottom,rgba(30,41,59,0.35)_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-25" />
+            <div className="absolute top-16 left-[12%] h-56 w-56 rounded-full bg-brand-600/15 blur-[120px]" />
+            <div className="absolute bottom-10 right-[10%] h-64 w-64 rounded-full bg-cyan-400/10 blur-[140px]" />
          </div>
 
-         {/* Main Content Area */}
-         <div className="z-10 w-full h-full flex flex-col md:flex-row items-center justify-center max-w-7xl mx-auto p-8 gap-16 md:gap-32">
-
-            {/* Left Side: Branding/Title */}
+         <div className="relative z-10 mx-auto grid w-full max-w-7xl gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-stretch">
             <motion.div
-               initial={{ opacity: 0, x: -50 }}
+               initial={{ opacity: 0, x: -30 }}
                animate={{ opacity: 1, x: 0 }}
-               transition={{ duration: 0.8, ease: "easeOut" }}
-               className="flex-1 text-center md:text-left"
+               transition={{ duration: 0.7, ease: 'easeOut' }}
+               className="flex flex-col justify-between rounded-[2rem] border border-slate-700/70 bg-black/35 p-6 shadow-2xl backdrop-blur-sm sm:p-8"
             >
-               <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.2, duration: 0.5 }}
-                  className="inline-block bg-brand-500/10 border border-brand-500/30 text-brand-400 px-3 py-1 rounded-full text-xs font-mono uppercase tracking-widest mb-6"
-               >
-                  {t('system.version')}
-               </motion.div>
-               <h1 className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-slate-200 to-slate-500 tracking-tight leading-tight mb-4 drop-shadow-2xl">
-                  {t('system.title')}<br />
-                  <span className="text-brand-500">{t('system.os')}</span>
-               </h1>
-               <p className="text-slate-400 text-lg md:text-xl max-w-lg mx-auto md:mx-0 font-medium">
-                  {t('system.subtitle')}
-               </p>
+               <div>
+                  <div className="inline-flex rounded-full border border-brand-500/30 bg-brand-500/10 px-3 py-1 text-xs font-mono uppercase tracking-[0.26em] text-brand-300">
+                     {t('system.version')}
+                  </div>
+                  <h1 className="mt-6 text-5xl font-black tracking-tight text-white sm:text-6xl xl:text-7xl">
+                     {t('system.title')}
+                     <span className="mt-2 block text-brand-300">{t('system.os')}</span>
+                  </h1>
+                  <p className="mt-5 max-w-xl text-base leading-relaxed text-slate-400 sm:text-lg">
+                     {t('system.subtitle')}
+                  </p>
+               </div>
+
+               <div className="mt-8 grid gap-3 sm:grid-cols-3">
+                  <StatusTile label="Active Campaigns" value={`${availableCampaigns.length}`} accent="brand" />
+                  <StatusTile label="Resume Slots" value={`${resumableCampaigns}`} accent="emerald" />
+                  <StatusTile label="Interface" value={options.enableCrt ? 'CRT' : 'Clean'} accent="slate" />
+               </div>
             </motion.div>
 
-            {/* Right Side: Interactive Menu */}
-            <div className="flex-1 flex justify-center md:justify-end w-full">
+            <div className="rounded-[2rem] border border-slate-700/70 bg-slate-950/80 p-4 shadow-2xl backdrop-blur-md sm:p-6">
+               <div className="mb-5 flex items-center justify-between rounded-2xl border border-brand-500/20 bg-brand-500/8 px-4 py-3">
+                  <div>
+                     <div className="text-[11px] font-mono uppercase tracking-[0.24em] text-brand-300">Command Surface</div>
+                     <div className="mt-1 text-sm text-slate-400">Select a protocol, tune the interface, or resume a suspended run.</div>
+                  </div>
+                  <div className="hidden rounded-full border border-slate-700 bg-slate-900/85 px-3 py-2 text-[10px] font-mono uppercase tracking-[0.18em] text-slate-500 sm:block">
+                     {currentView}
+                  </div>
+               </div>
+
                <AnimatePresence mode="wait">
                   {currentView === 'MAIN' && renderMainMenu()}
                   {currentView === 'DIFFICULTY' && renderDifficulty()}
@@ -296,24 +303,17 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStart, resumeSessions, opt
                   {currentView === 'CREDITS' && renderCredits()}
                </AnimatePresence>
             </div>
-
          </div>
-
-         {/* Decorative corners */}
-         <div className="absolute top-0 left-0 w-16 h-16 border-t-2 border-l-2 border-brand-500/50 m-8 z-0" />
-         <div className="absolute top-0 right-0 w-16 h-16 border-t-2 border-r-2 border-brand-500/50 m-8 z-0" />
-         <div className="absolute bottom-0 left-0 w-16 h-16 border-b-2 border-l-2 border-brand-500/50 m-8 z-0" />
-         <div className="absolute bottom-0 right-0 w-16 h-16 border-b-2 border-r-2 border-brand-500/50 m-8 z-0" />
       </div>
    );
 };
 
 // Reusable menu button component
 const MenuButton = ({ icon, title, subtitle, onClick, primary = false }: any) => {
-   const baseClass = "group relative w-full flex items-center p-4 rounded-xl border transition-all duration-300 overflow-hidden cursor-pointer text-left";
+   const baseClass = "group relative flex w-full cursor-pointer items-center overflow-hidden rounded-2xl border p-4 text-left transition-all duration-300";
    const colorClass = primary
-      ? "bg-brand-500/10 border-brand-500/50 hover:bg-brand-500/20 hover:border-brand-400 hover:shadow-[0_0_20px_rgba(59,130,246,0.3)]"
-      : "bg-surface-dark/50 border-slate-700/50 hover:bg-slate-800 hover:border-slate-500";
+      ? "border-brand-500/40 bg-brand-500/10 hover:border-brand-300 hover:bg-brand-500/16 hover:shadow-[0_0_20px_rgba(59,130,246,0.18)]"
+      : "border-slate-700 bg-slate-950/82 hover:border-slate-500 hover:bg-slate-900";
 
    return (
       <motion.button
@@ -332,16 +332,31 @@ const MenuButton = ({ icon, title, subtitle, onClick, primary = false }: any) =>
       >
          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
 
-         <div className={`mr-4 p-3 rounded-lg ${primary ? 'bg-brand-500/20 text-brand-400' : 'bg-slate-800 text-slate-400 group-hover:text-slate-200'}`}>
+         <div className={`mr-4 rounded-xl p-3 ${primary ? 'bg-brand-500/20 text-brand-300' : 'bg-slate-900 text-slate-400 group-hover:text-slate-200'}`}>
             {icon}
          </div>
 
          <div className="flex-1">
-            <h3 className={`font-bold text-lg ${primary ? 'text-brand-300' : 'text-slate-200'}`}>{title}</h3>
+            <h3 className={`text-lg font-bold ${primary ? 'text-brand-200' : 'text-slate-100'}`}>{title}</h3>
             <p className="text-sm text-slate-500">{subtitle}</p>
          </div>
 
          <ChevronRight className={`transition-transform duration-300 transform group-hover:translate-x-2 ${primary ? 'text-brand-400' : 'text-slate-600'}`} />
       </motion.button>
+   );
+};
+
+const StatusTile = ({ label, value, accent }: { label: string; value: string; accent: 'brand' | 'emerald' | 'slate' }) => {
+   const accentClass = accent === 'brand'
+      ? 'border-brand-500/20 bg-brand-500/10 text-brand-200'
+      : accent === 'emerald'
+         ? 'border-emerald-500/20 bg-emerald-500/10 text-emerald-200'
+         : 'border-slate-700 bg-slate-950/80 text-slate-200';
+
+   return (
+      <div className={`rounded-2xl border px-4 py-4 ${accentClass}`}>
+         <div className="text-[10px] font-mono uppercase tracking-[0.24em] text-slate-500">{label}</div>
+         <div className="mt-2 text-2xl font-semibold">{value}</div>
+      </div>
    );
 };

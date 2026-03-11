@@ -248,21 +248,21 @@ export default function Level2_Loops({ campaignId, levelId }: PuzzleComponentPro
   }, []);
 
   return (
-    <div className="relative h-full w-full overflow-y-auto bg-slate-950 p-4 text-slate-100">
+    <div className="relative h-full w-full overflow-y-auto bg-slate-950 p-3 text-slate-100 xl:overflow-hidden xl:p-3">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(16,185,129,0.12),rgba(2,6,23,1)_58%)]" />
       <div className="pointer-events-none absolute left-0 top-0 h-72 w-72 rounded-full bg-emerald-500/10 blur-3xl" />
       <div className="pointer-events-none absolute bottom-0 right-0 h-80 w-80 rounded-full bg-sky-500/10 blur-3xl" />
 
-      <div className="relative mx-auto flex h-full w-full max-w-7xl flex-col gap-4">
-        <div className="rounded-2xl border border-emerald-400/20 bg-black/40 p-4 shadow-2xl backdrop-blur-md">
+      <div className="relative mx-auto flex h-full min-h-0 w-full max-w-7xl flex-col gap-3">
+        <div className="rounded-2xl border border-emerald-400/20 bg-black/40 p-3 shadow-2xl backdrop-blur-md">
           <div className="flex items-start justify-between gap-4">
             <div>
               <div className="flex items-center gap-3 text-emerald-300">
                 <Cpu size={18} />
                 <div className="text-xs font-mono uppercase tracking-[0.24em]">{t('level2.subtitle')}</div>
               </div>
-              <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white">{t('level2.title')}</h2>
-              <p className="mt-3 max-w-3xl text-sm leading-relaxed text-slate-300">{t('level2.story')}</p>
+              <h2 className="mt-2 text-2xl font-semibold tracking-tight text-white xl:text-[1.65rem]">{t('level2.title')}</h2>
+              <p className="mt-2 max-w-3xl text-sm leading-relaxed text-slate-300 xl:text-[13px]">{t('level2.story')}</p>
             </div>
             <button
               onClick={() => {
@@ -275,33 +275,33 @@ export default function Level2_Loops({ campaignId, levelId }: PuzzleComponentPro
               <X size={20} />
             </button>
           </div>
-          <p className="mt-4 border-l-2 border-emerald-400 pl-3 text-sm leading-relaxed text-emerald-100">
+          <p className="mt-3 border-l-2 border-emerald-400 pl-3 text-sm leading-relaxed text-emerald-100 xl:text-[13px]">
             {t(feedback ? (feedback.type === 'success' ? 'level2.doorUnlocked' : feedback.key) : 'level2.awaitingProgram')}
           </p>
         </div>
 
         <div className="grid min-h-0 flex-1 gap-4 xl:grid-cols-[1.33fr_0.67fr]">
-          <div className="rounded-[1.75rem] border border-slate-700 bg-[radial-gradient(circle_at_top,rgba(16,185,129,0.14),rgba(2,6,23,1)_62%)] p-5 shadow-xl">
-            <div className="grid gap-3 sm:grid-cols-3">
+          <div className="rounded-[1.75rem] border border-slate-700 bg-[radial-gradient(circle_at_top,rgba(16,185,129,0.14),rgba(2,6,23,1)_62%)] p-4 shadow-xl">
+            <div className="grid gap-2 sm:grid-cols-3">
               <StatCard label={t('level2.iteration')} value={String(currentIteration)} accent="emerald" />
               <StatCard label={t('level2.step')} value={`${currentStep}/${totalSteps}`} accent="sky" />
               <StatCard label={t('level2.mistakes')} value={String(mistakes)} accent="amber" />
             </div>
 
-            <div className="mt-5 rounded-3xl border border-slate-800 bg-slate-950/70 p-4">
+            <div className="mt-4 rounded-3xl border border-slate-800 bg-slate-950/70 p-3">
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <div className="text-[11px] font-mono uppercase tracking-[0.22em] text-emerald-300">{t('level2.routeGridTitle')}</div>
-                  <div className="mt-2 text-sm text-slate-300">{t('level2.objective')}</div>
+                  <div className="mt-1.5 text-sm text-slate-300 xl:text-[13px]">{t('level2.objective')}</div>
                 </div>
-                <div className="rounded-2xl border border-emerald-400/20 bg-emerald-500/10 px-4 py-3 text-right">
+                <div className="rounded-2xl border border-emerald-400/20 bg-emerald-500/10 px-3 py-2.5 text-right">
                   <div className="text-[11px] font-mono uppercase tracking-[0.18em] text-emerald-200">{t('level2.programStatusTitle')}</div>
                   <div className="mt-2 text-lg font-semibold text-white">{commands.length}/{MAX_COMMANDS}</div>
                 </div>
               </div>
 
               <div
-                className="mt-5 grid overflow-hidden rounded-[1.5rem] border border-slate-800 bg-slate-950/80 shadow-inner"
+                className="mt-4 grid overflow-hidden rounded-[1.5rem] border border-slate-800 bg-slate-950/80 shadow-inner"
                 style={{
                   gridTemplateColumns: `repeat(${COLS}, minmax(0, 1fr))`,
                   gridTemplateRows: `repeat(${ROWS}, minmax(0, 1fr))`,
@@ -360,7 +360,7 @@ export default function Level2_Loops({ campaignId, levelId }: PuzzleComponentPro
                   initial={{ opacity: 0, y: -6 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -6 }}
-                  className={`mt-4 rounded-2xl border px-4 py-3 text-sm ${feedback.type === 'error'
+                  className={`mt-3 rounded-2xl border px-4 py-3 text-sm xl:text-[13px] ${feedback.type === 'error'
                     ? 'border-red-500/40 bg-red-950/45 text-red-200'
                     : 'border-emerald-500/40 bg-emerald-950/40 text-emerald-200'}`}
                 >
@@ -370,8 +370,8 @@ export default function Level2_Loops({ campaignId, levelId }: PuzzleComponentPro
             </AnimatePresence>
           </div>
 
-          <div className="flex min-h-0 flex-col gap-3">
-            <div className="rounded-2xl border border-slate-700 bg-black/35 p-4 shadow-xl">
+          <div className="flex min-h-0 flex-col gap-3 xl:overflow-y-auto xl:pr-1 custom-scrollbar">
+            <div className="rounded-2xl border border-slate-700 bg-black/35 p-3 shadow-xl">
               <button
                 onClick={() => setHintOpen((prev) => !prev)}
                 className="flex w-full items-center gap-2 text-left text-indigo-200 transition-colors hover:text-indigo-100"
@@ -388,7 +388,7 @@ export default function Level2_Loops({ campaignId, levelId }: PuzzleComponentPro
                     exit={{ height: 0, opacity: 0 }}
                     className="overflow-hidden"
                   >
-                    <div className="mt-3 rounded-2xl border border-indigo-400/20 bg-indigo-950/30 px-4 py-3 text-sm leading-relaxed text-indigo-100">
+                    <div className="mt-3 rounded-2xl border border-indigo-400/20 bg-indigo-950/30 px-4 py-3 text-sm leading-relaxed text-indigo-100 xl:text-[13px]">
                       {t('level2.hint')}
                     </div>
                   </motion.div>
@@ -396,7 +396,7 @@ export default function Level2_Loops({ campaignId, levelId }: PuzzleComponentPro
               </AnimatePresence>
             </div>
 
-            <div className="rounded-2xl border border-slate-700 bg-black/35 p-4 shadow-xl">
+            <div className="rounded-2xl border border-slate-700 bg-black/35 p-3 shadow-xl">
               <div className="text-xs font-mono uppercase tracking-[0.2em] text-slate-500">{t('level2.commandDeckTitle')}</div>
               <div className="mt-3 grid gap-2">
                 {(['MOVE', 'TURN_LEFT', 'TURN_RIGHT'] as Command[]).map((cmd) => {
@@ -406,7 +406,7 @@ export default function Level2_Loops({ campaignId, levelId }: PuzzleComponentPro
                       key={cmd}
                       disabled={commands.length >= MAX_COMMANDS || isRunning || isSolved}
                       onClick={() => addCommand(cmd)}
-                      className={`rounded-2xl border px-4 py-3 text-left transition-colors disabled:cursor-not-allowed disabled:opacity-40 ${COMMAND_COLORS[cmd]}`}
+                      className={`rounded-2xl border px-4 py-2.5 text-left transition-colors disabled:cursor-not-allowed disabled:opacity-40 ${COMMAND_COLORS[cmd]}`}
                     >
                       <div className="flex items-center gap-3">
                         <Icon size={15} />
@@ -418,7 +418,7 @@ export default function Level2_Loops({ campaignId, levelId }: PuzzleComponentPro
               </div>
             </div>
 
-            <div className="rounded-2xl border border-slate-700 bg-black/35 p-4 shadow-xl">
+            <div className="rounded-2xl border border-slate-700 bg-black/35 p-3 shadow-xl">
               <div className="flex items-center justify-between gap-3">
                 <div className="text-xs font-mono uppercase tracking-[0.2em] text-slate-500">{t('level2.loopEditor')}</div>
                 <button
@@ -489,7 +489,7 @@ export default function Level2_Loops({ campaignId, levelId }: PuzzleComponentPro
               </div>
             </div>
 
-            <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
+            <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-1">
               {!isRunning && !isSolved && (
                 <button
                   onClick={handleRun}
@@ -557,9 +557,9 @@ function StatCard({ label, value, accent }: { label: string; value: string; acce
   };
 
   return (
-    <div className={`rounded-2xl border px-4 py-3 ${accentClasses[accent]}`}>
+    <div className={`rounded-2xl border px-4 py-2 ${accentClasses[accent]}`}>
       <div className="text-[11px] font-mono uppercase tracking-[0.2em] text-slate-500">{label}</div>
-      <div className="mt-2 text-2xl font-semibold text-white">{value}</div>
+      <div className="mt-1.5 text-xl font-semibold text-white">{value}</div>
     </div>
   );
 }

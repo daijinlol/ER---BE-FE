@@ -230,7 +230,7 @@ const GameContainerShell: React.FC<GameContainerShellProps> = ({ campaignId, onE
     <div className="w-full h-full min-h-screen bg-bg-dark flex flex-col items-center justify-center p-4 overflow-hidden relative font-sans text-slate-200">
 
       {/* Header UI */}
-      <header className="absolute top-0 w-full px-6 py-2 flex justify-between items-center z-10">
+      <header className="absolute top-0 z-10 flex w-full items-center justify-between px-6 py-1.5">
         <div>
           <h1 className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-brand-400 to-indigo-400">
             {t('system.title')} {t('system.os')}
@@ -301,7 +301,7 @@ const GameContainerShell: React.FC<GameContainerShellProps> = ({ campaignId, onE
       </header>
 
       {isDebugToolsEnabled && isDebugMenuOpen && campaign && (
-        <div className="absolute right-6 top-16 z-40 w-full max-w-sm rounded-2xl border border-amber-400/40 bg-slate-950/95 p-4 shadow-[0_0_40px_rgba(245,158,11,0.18)] backdrop-blur-md">
+        <div className="absolute right-6 top-16 z-40 w-full max-w-sm max-h-[calc(100vh-5.5rem)] overflow-hidden rounded-2xl border border-amber-400/40 bg-slate-950/95 p-4 shadow-[0_0_40px_rgba(245,158,11,0.18)] backdrop-blur-md">
           <div className="flex items-start justify-between gap-4">
             <div>
               <div className="text-[11px] font-mono uppercase tracking-[0.24em] text-amber-300">Development Jump Menu</div>
@@ -330,27 +330,29 @@ const GameContainerShell: React.FC<GameContainerShellProps> = ({ campaignId, onE
             </span>
           </label>
 
-          <div className="mt-4 space-y-2">
-            {campaign.levels.map((level, index) => {
-              const isActive = index === session.levelIndex;
-              return (
-                <button
-                  key={`${level.id}-${index}`}
-                  onClick={() => handleDebugJump(index)}
-                  className={`w-full rounded-xl border px-4 py-3 text-left transition-colors ${isActive
-                    ? 'border-amber-300/70 bg-amber-500/12 text-amber-100'
-                    : 'border-slate-800 bg-slate-900/70 text-slate-300 hover:border-amber-400/40 hover:bg-slate-900'
-                    }`}
-                >
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="font-mono text-xs uppercase tracking-[0.22em] text-slate-500">Screen {index + 1}</span>
-                    {isActive && <span className="rounded border border-amber-300/40 px-2 py-1 text-[10px] font-mono uppercase tracking-[0.18em] text-amber-200">Active</span>}
-                  </div>
-                  <div className="mt-2 font-mono text-sm text-slate-100">{level.id}</div>
-                  <div className="mt-1 text-xs text-slate-500">{level.componentPath}</div>
-                </button>
-              );
-            })}
+          <div className="mt-4 max-h-[calc(100vh-15rem)] overflow-y-auto pr-1 custom-scrollbar">
+            <div className="space-y-2">
+              {campaign.levels.map((level, index) => {
+                const isActive = index === session.levelIndex;
+                return (
+                  <button
+                    key={`${level.id}-${index}`}
+                    onClick={() => handleDebugJump(index)}
+                    className={`w-full rounded-xl border px-4 py-3 text-left transition-colors ${isActive
+                      ? 'border-amber-300/70 bg-amber-500/12 text-amber-100'
+                      : 'border-slate-800 bg-slate-900/70 text-slate-300 hover:border-amber-400/40 hover:bg-slate-900'
+                      }`}
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="font-mono text-xs uppercase tracking-[0.22em] text-slate-500">Screen {index + 1}</span>
+                      {isActive && <span className="rounded border border-amber-300/40 px-2 py-1 text-[10px] font-mono uppercase tracking-[0.18em] text-amber-200">Active</span>}
+                    </div>
+                    <div className="mt-2 font-mono text-sm text-slate-100">{level.id}</div>
+                    <div className="mt-1 text-xs text-slate-500">{level.componentPath}</div>
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           <div className="mt-3 text-[11px] font-mono uppercase tracking-[0.16em] text-slate-500">
@@ -360,7 +362,7 @@ const GameContainerShell: React.FC<GameContainerShellProps> = ({ campaignId, onE
       )}
 
       {/* Main Game Area */}
-      <main className="w-full max-w-7xl flex-1 mt-12 mb-3 relative border border-slate-700/50 rounded-2xl bg-surface-dark shadow-2xl overflow-hidden backdrop-blur-sm">
+      <main className="relative mb-3 mt-10 min-h-0 w-full max-w-7xl flex-1 overflow-hidden rounded-2xl border border-slate-700/50 bg-surface-dark shadow-2xl backdrop-blur-sm">
         <AnimatePresence mode="wait">
           {!isTransitioning && puzzleConfig && ActivePuzzle ? (
             <motion.div
@@ -369,7 +371,7 @@ const GameContainerShell: React.FC<GameContainerShellProps> = ({ campaignId, onE
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.4 }}
-              className="w-full h-full absolute inset-0 overflow-y-auto"
+              className="w-full h-full absolute inset-0 overflow-hidden"
             >
               <Suspense fallback={<PuzzleLoadingFallback moduleName={puzzleConfig.componentPath} />}>
                 <ActivePuzzle
@@ -406,9 +408,25 @@ const GameContainerShell: React.FC<GameContainerShellProps> = ({ campaignId, onE
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="w-full h-full flex items-center justify-center absolute inset-0 bg-bg-dark/80 backdrop-blur-md z-50 text-indigo-300 font-mono text-xl tracking-widest"
+              className="w-full h-full absolute inset-0 z-50 overflow-hidden bg-slate-950/92 backdrop-blur-md"
             >
-              {transitionType === 'FORWARD' ? t('gameContainer.purging') : t('gameContainer.returning', { defaultValue: 'RETURNING TO HUB...' })}
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.16),rgba(2,6,23,1)_64%)]" />
+              <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(30,41,59,0.5)_1px,transparent_1px),linear-gradient(to_bottom,rgba(30,41,59,0.45)_1px,transparent_1px)] bg-[size:3.5rem_3.5rem] opacity-20" />
+              <div className="relative flex h-full items-center justify-center px-6">
+                <div className="w-full max-w-xl rounded-[1.75rem] border border-brand-500/30 bg-slate-950/84 p-8 text-center shadow-[0_0_44px_rgba(59,130,246,0.16)]">
+                  <div className="text-[11px] font-mono uppercase tracking-[0.34em] text-brand-300">Protocol Transition</div>
+                  <div className="mt-4 text-2xl font-mono uppercase tracking-[0.2em] text-slate-100">
+                    {transitionType === 'FORWARD' ? t('gameContainer.purging') : t('gameContainer.returning', { defaultValue: 'RETURNING TO HUB...' })}
+                  </div>
+                  <div className="relative mt-6 h-2 overflow-hidden rounded-full bg-slate-900">
+                    <motion.div
+                      className="absolute inset-y-0 w-1/2 rounded-full bg-gradient-to-r from-brand-500 via-cyan-300 to-brand-600 shadow-[0_0_18px_rgba(59,130,246,0.35)]"
+                      animate={{ x: ['-110%', '220%'] }}
+                      transition={{ duration: 1.25, ease: 'easeInOut', repeat: Infinity }}
+                    />
+                  </div>
+                </div>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -518,10 +536,21 @@ export const GameContainer: React.FC<GameContainerProps> = ({ campaignId, onExit
 
 function PuzzleLoadingFallback({ moduleName }: { moduleName: string }) {
   return (
-    <div className="w-full h-full flex items-center justify-center bg-slate-950/95">
-      <div className="rounded-2xl border border-brand-500/30 bg-slate-900/80 px-8 py-6 text-center shadow-[0_0_30px_rgba(59,130,246,0.18)]">
-        <div className="text-xs font-mono uppercase tracking-[0.28em] text-slate-500">Loading Module</div>
-        <div className="mt-3 text-lg font-mono text-brand-300 tracking-[0.2em]">{moduleName}</div>
+    <div className="relative w-full h-full overflow-hidden bg-slate-950">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.18),rgba(2,6,23,1)_65%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(30,41,59,0.5)_1px,transparent_1px),linear-gradient(to_bottom,rgba(30,41,59,0.45)_1px,transparent_1px)] bg-[size:3.25rem_3.25rem] opacity-20" />
+      <div className="relative flex h-full items-center justify-center p-6">
+        <div className="w-full max-w-lg rounded-[1.75rem] border border-brand-500/30 bg-slate-950/84 px-8 py-7 text-center shadow-[0_0_38px_rgba(59,130,246,0.16)]">
+          <div className="text-[11px] font-mono uppercase tracking-[0.34em] text-slate-500">Loading Module</div>
+          <div className="mt-3 text-lg font-mono uppercase tracking-[0.22em] text-brand-300">{moduleName}</div>
+          <div className="relative mt-6 h-2 overflow-hidden rounded-full bg-slate-900">
+            <motion.div
+              className="absolute inset-y-0 w-1/2 rounded-full bg-gradient-to-r from-brand-500 via-cyan-300 to-brand-600 shadow-[0_0_18px_rgba(59,130,246,0.35)]"
+              animate={{ x: ['-110%', '220%'] }}
+              transition={{ duration: 1.25, ease: 'easeInOut', repeat: Infinity }}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

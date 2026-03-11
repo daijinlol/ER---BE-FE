@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { Folder, FileText, Terminal, X, Minimize2, FileCode } from 'lucide-react';
+import { Folder, FileText, Terminal, X, Minimize2, FileCode, HardDrive, ShieldCheck } from 'lucide-react';
 import { audio } from '../../../core/AudioEngine';
 import { gameEvents } from '../../../core/EventBus';
 import { useGameSession } from '../../../core/GameSession';
@@ -66,6 +66,7 @@ export default function DesktopSim(_props: PuzzleComponentProps) {
   const [isExecuting, setIsExecuting] = useState(false);
   const [pickupToast, setPickupToast] = useState<string | null>(null);
   const [isLoopOverrideComplete, setIsLoopOverrideComplete] = useState(false);
+  const recoveredItems = session.inventoryItems.filter((item) => ['module_ram', 'module_loop', 'usb_decryptor'].includes(item));
 
   const desktopNodes = [
     ...fileSystem,
@@ -140,72 +141,138 @@ export default function DesktopSim(_props: PuzzleComponentProps) {
   const renderDesktopIcon = (node: FileSystemNode) => (
     <div
       key={node.id}
-      className="flex flex-col items-center justify-center w-24 p-2 cursor-pointer hover:bg-white/10 rounded group transition-colors"
+      className="group flex w-24 cursor-pointer flex-col items-center justify-center rounded-2xl border border-slate-800/70 bg-slate-950/35 p-3 text-center transition-colors hover:border-brand-400/40 hover:bg-brand-500/10"
       onDoubleClick={() => openWindow(node)}
       onTouchEnd={() => openWindow(node)} // simple mobile support
     >
-      {node.type === 'folder' && <Folder size={40} className="text-brand-400 drop-shadow-[0_0_8px_rgba(59,130,246,0.6)]" />}
-      {node.type === 'text' && <FileText size={40} className="text-slate-300 drop-shadow-md" />}
-      {node.type === 'executable' && <FileCode size={40} className="text-red-500 drop-shadow-[0_0_8px_rgba(239,68,68,0.6)]" />}
-      <span className="mt-2 text-xs text-center text-slate-200 font-mono break-all line-clamp-2 px-1 rounded group-hover:bg-brand-500">{node.name}</span>
+      {node.type === 'folder' && <Folder size={38} className="text-brand-300 drop-shadow-[0_0_10px_rgba(59,130,246,0.3)]" />}
+      {node.type === 'text' && <FileText size={38} className="text-slate-200 drop-shadow-md" />}
+      {node.type === 'executable' && <FileCode size={38} className="text-red-400 drop-shadow-[0_0_10px_rgba(248,113,113,0.3)]" />}
+      <span className="mt-3 rounded-md px-1 text-[11px] font-mono text-slate-200 break-all line-clamp-2 group-hover:text-brand-100">{node.name}</span>
     </div>
   );
 
   return (
-    <div className="w-full h-full bg-[#0a192f] overflow-hidden relative select-none">
-      {/* OS Desktop Background */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.1)_0%,rgba(2,6,23,1)_100%)] pointer-events-none" />
-      <div className="absolute inset-0 opacity-10 bg-[url('/assets/grid.svg')] bg-repeat" />
+    <div className="relative h-full w-full overflow-hidden bg-slate-950 text-slate-100 select-none">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.16),rgba(2,6,23,1)_62%)] pointer-events-none" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(30,41,59,0.55)_1px,transparent_1px),linear-gradient(to_bottom,rgba(30,41,59,0.45)_1px,transparent_1px)] bg-[size:3.2rem_3.2rem] opacity-20 pointer-events-none" />
 
-      {/* Desktop Grid */}
-      <div className="absolute inset-0 p-8 flex flex-col flex-wrap items-start content-start gap-4">
-        {desktopNodes.map(renderDesktopIcon)}
-      </div>
+      <div className="relative z-10 flex h-full flex-col gap-4 p-4">
+        <div className="rounded-2xl border border-brand-500/20 bg-black/45 p-4 shadow-2xl backdrop-blur-md">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+            <div>
+              <div className="flex items-center gap-3 text-brand-300">
+                <Terminal size={18} />
+                <div className="text-xs font-mono uppercase tracking-[0.24em]">Remote Desktop Link</div>
+              </div>
+              <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white">{t('desktopSim.title', { defaultValue: 'Desktop Recovery Console' })}</h2>
+              <p className="mt-3 max-w-3xl text-sm leading-relaxed text-slate-300">{t('desktopSim.instructions', { defaultValue: 'Open folders, inspect archived files, and execute the legacy override to restore the missing loop control module.' })}</p>
+            </div>
 
-      {/* Windows Layer */}
-      <AnimatePresence>
-        {windows.map((w) => (
-          <motion.div
-            key={w.id}
-            initial={{ opacity: 0, scale: 0.95, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.15 }}
-            onMouseDown={() => focusWindow(w.id)}
-            style={{ zIndex: w.zIndex }}
-            className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[350px] bg-slate-900 border ${w.type === 'explorer' ? 'border-brand-500/50' : 'border-slate-500/50'} shadow-2xl rounded overflow-hidden flex flex-col`}
-          >
-            {/* Window Header */}
-            <div className={`h-8 flex items-center justify-between px-3 select-none ${w.type === 'explorer' ? 'bg-brand-900/50' : 'bg-slate-800'}`}>
-              <span className="text-xs font-mono font-bold text-slate-200 truncate flex items-center gap-2">
-                {w.type === 'explorer' ? <Folder size={14} className="text-brand-400" /> : <FileText size={14} className="text-slate-400" />}
-                {w.title}
-              </span>
-              <div className="flex items-center gap-2">
-                <button className="text-slate-400 hover:text-white transition-colors"><Minimize2 size={14} /></button>
-                <button onClick={(e) => closeWindow(w.id, e)} className="text-slate-400 hover:text-red-400 transition-colors"><X size={16} /></button>
+            <div className="grid gap-3 sm:grid-cols-2 lg:min-w-[20rem]">
+              <div className="rounded-2xl border border-brand-500/20 bg-brand-500/10 px-4 py-3 text-right">
+                <div className="text-[11px] font-mono uppercase tracking-[0.2em] text-brand-300">Recovered Artifacts</div>
+                <div className="mt-2 text-2xl text-white">{recoveredItems.length}/3</div>
+              </div>
+              <div className="rounded-2xl border border-slate-700 bg-slate-950/75 px-4 py-3">
+                <div className="flex items-center gap-2 text-[11px] font-mono uppercase tracking-[0.2em] text-slate-500">
+                  <HardDrive size={14} />
+                  Workstation State
+                </div>
+                <div className="mt-2 text-sm text-slate-200">{isLoopOverrideComplete ? 'Loop override executed.' : 'Legacy override pending.'}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid min-h-0 flex-1 gap-4 xl:grid-cols-[17rem_1fr]">
+          <aside className="flex min-h-0 flex-col gap-4 rounded-[1.75rem] border border-slate-700 bg-black/35 p-4 shadow-xl">
+            <div className="rounded-2xl border border-slate-700 bg-slate-950/80 p-4">
+              <div className="text-xs font-mono uppercase tracking-[0.22em] text-brand-300">Operator Notes</div>
+              <p className="mt-3 text-sm leading-relaxed text-slate-300">Double-click any node to inspect it. Executables run immediately. Collected rewards are added to the run inventory the first time they are opened.</p>
+            </div>
+
+            <div className="flex min-h-0 flex-col rounded-2xl border border-slate-700 bg-slate-950/80 p-4">
+              <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-[0.2em] text-slate-500">
+                <ShieldCheck size={15} className="text-emerald-300" />
+                Recovered Items
+              </div>
+              <div className="mt-3 flex min-h-0 flex-col gap-2 overflow-y-auto pr-1 custom-scrollbar">
+                {['module_ram', 'module_loop', 'usb_decryptor'].map((itemId) => {
+                  const ready = session.inventoryItems.includes(itemId);
+                  return (
+                    <div key={itemId} className={`rounded-xl border px-3 py-3 text-sm ${ready ? 'border-emerald-400/35 bg-emerald-500/10 text-emerald-100' : 'border-slate-800 bg-slate-900/80 text-slate-500'}`}>
+                      <div className="text-[10px] font-mono uppercase tracking-[0.18em]">{ready ? 'Recovered' : 'Missing'}</div>
+                      <div className="mt-1">{t(`items.${itemId}`, { defaultValue: itemId })}</div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </aside>
+
+          <section className="relative min-h-0 overflow-hidden rounded-[1.75rem] border border-slate-700 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.14),rgba(2,6,23,1)_64%)] shadow-xl">
+            <div className="absolute inset-x-4 top-4 z-10 rounded-2xl border border-brand-500/20 bg-slate-950/65 px-4 py-3 backdrop-blur-sm">
+              <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                <div>
+                  <div className="text-[11px] font-mono uppercase tracking-[0.22em] text-brand-300">Recovery Workspace</div>
+                  <p className="mt-1 text-sm text-slate-300">Archived logs, admin tools, and dropped modules appear on this desktop surface.</p>
+                </div>
+                <div className="rounded-full border border-slate-700 bg-slate-900/80 px-3 py-2 text-[10px] font-mono uppercase tracking-[0.2em] text-slate-400">
+                  {desktopNodes.length} nodes available
+                </div>
               </div>
             </div>
 
-            {/* Window Content */}
-            <div className="flex-1 bg-[#0f172a] p-4 overflow-y-auto">
-              {w.type === 'explorer' && w.contentNode.children && (
-                <div className="flex flex-wrap gap-6 items-start">
-                  {w.contentNode.children.map(renderDesktopIcon)}
-                  {w.contentNode.children.length === 0 && <span className="text-slate-500 font-mono text-sm">{t('desktopSim.emptyFolder', 'This folder is empty.')}</span>}
-                </div>
-              )}
-
-              {w.type === 'editor' && (
-                <div className="font-mono text-sm text-green-400 whitespace-pre-wrap leading-relaxed">
-                  {/* Typed effect simulation or simple text */}
-                  {t(w.contentNode.content || '')}
-                </div>
-              )}
+            <div className="absolute inset-0 p-4 pt-28">
+              <div className="grid h-full auto-rows-min grid-cols-[repeat(auto-fit,minmax(6rem,6rem))] content-start gap-4 overflow-y-auto rounded-[1.5rem] border border-slate-800/70 bg-slate-950/22 p-5 pr-4 custom-scrollbar">
+                {desktopNodes.map(renderDesktopIcon)}
+              </div>
             </div>
-          </motion.div>
-        ))}
-      </AnimatePresence>
+      
+            <AnimatePresence>
+              {windows.map((w) => (
+                <motion.div
+                  key={w.id}
+                  initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.15 }}
+                  onMouseDown={() => focusWindow(w.id)}
+                  style={{ zIndex: w.zIndex }}
+                  className={`absolute left-1/2 top-1/2 flex h-[22rem] w-[min(92%,38rem)] -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-[1.4rem] border shadow-2xl ${w.type === 'explorer' ? 'border-brand-500/35 bg-slate-950/96' : 'border-slate-600/60 bg-slate-950/96'}`}
+                >
+                  <div className={`flex h-11 items-center justify-between border-b px-4 ${w.type === 'explorer' ? 'border-brand-500/20 bg-brand-500/8' : 'border-slate-700 bg-slate-900/95'}`}>
+                    <span className="flex items-center gap-2 truncate text-xs font-mono font-bold uppercase tracking-[0.18em] text-slate-200">
+                      {w.type === 'explorer' ? <Folder size={14} className="text-brand-300" /> : <FileText size={14} className="text-slate-400" />}
+                      {w.title}
+                    </span>
+                    <div className="flex items-center gap-2">
+                      <button className="rounded border border-transparent p-1 text-slate-500 transition-colors hover:border-slate-700 hover:text-white"><Minimize2 size={14} /></button>
+                      <button onClick={(e) => closeWindow(w.id, e)} className="rounded border border-transparent p-1 text-slate-500 transition-colors hover:border-red-500/50 hover:text-red-300"><X size={16} /></button>
+                    </div>
+                  </div>
+
+                  <div className="flex-1 overflow-y-auto bg-slate-950/90 p-4 custom-scrollbar">
+                    {w.type === 'explorer' && w.contentNode.children && (
+                      <div className="flex flex-wrap gap-5 items-start">
+                        {w.contentNode.children.map(renderDesktopIcon)}
+                        {w.contentNode.children.length === 0 && <span className="text-sm font-mono text-slate-500">{t('desktopSim.emptyFolder', 'This folder is empty.')}</span>}
+                      </div>
+                    )}
+
+                    {w.type === 'editor' && (
+                      <div className="rounded-2xl border border-slate-800 bg-black/35 p-4 font-mono text-sm leading-relaxed text-emerald-300 whitespace-pre-wrap">
+                        {t(w.contentNode.content || '')}
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </section>
+        </div>
+      </div>
 
       {/* Executable Overlay */}
       <AnimatePresence>
@@ -214,12 +281,15 @@ export default function DesktopSim(_props: PuzzleComponentProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 z-[9999] bg-black/90 flex flex-col items-center justify-center p-8 backdrop-blur-sm"
+            className="absolute inset-0 z-[9999] flex flex-col items-center justify-center bg-black/88 p-8 backdrop-blur-sm"
           >
-            <Terminal className="text-red-500 mb-6 drop-shadow-[0_0_15px_rgba(239,68,68,0.8)]" size={64} />
-            <div className="text-center font-mono text-red-400 Space-y-2">
-              <p className="text-2xl font-bold uppercase tracking-[0.2em]">{t('desktopSim.executing')}</p>
-              <div className="w-64 h-2 bg-slate-800 rounded-full mt-4 overflow-hidden relative mx-auto">
+            <div className="w-full max-w-md rounded-[1.75rem] border border-red-500/30 bg-slate-950/92 p-8 text-center shadow-[0_0_40px_rgba(239,68,68,0.2)]">
+              <Terminal className="mx-auto mb-6 text-red-400 drop-shadow-[0_0_15px_rgba(239,68,68,0.6)]" size={64} />
+              <div className="text-center font-mono text-red-300">
+                <p className="text-2xl font-bold uppercase tracking-[0.2em]">{t('desktopSim.executing')}</p>
+                <div className="mt-2 text-xs uppercase tracking-[0.24em] text-red-200/70">Legacy override sequence in progress</div>
+              </div>
+              <div className="relative mx-auto mt-6 h-2 w-64 overflow-hidden rounded-full bg-slate-800">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: "100%" }}
@@ -238,14 +308,13 @@ export default function DesktopSim(_props: PuzzleComponentProps) {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
-            className="absolute left-8 bottom-8 z-[60] rounded-xl border border-emerald-400/40 bg-slate-950/90 px-4 py-3 shadow-[0_0_24px_rgba(16,185,129,0.18)]"
+            className="absolute bottom-8 left-8 z-[60] rounded-xl border border-emerald-400/40 bg-slate-950/92 px-4 py-3 shadow-[0_0_24px_rgba(16,185,129,0.18)]"
           >
             <div className="text-[10px] font-mono uppercase tracking-[0.2em] text-emerald-300">Recovered Item</div>
             <div className="mt-1 text-sm text-slate-100">{pickupToast}</div>
           </motion.div>
         )}
       </AnimatePresence>
-
     </div>
   );
 }

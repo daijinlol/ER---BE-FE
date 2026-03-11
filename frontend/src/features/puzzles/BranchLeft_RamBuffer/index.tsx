@@ -92,8 +92,8 @@ export default function BranchLeftRamBuffer({ campaignId, levelId }: PuzzleCompo
     };
 
     return (
-        <div className="h-full w-full overflow-y-auto bg-slate-950 p-4 text-slate-100">
-            <div className="mx-auto flex h-full w-full max-w-7xl flex-col gap-4">
+        <div className="h-full w-full overflow-y-auto bg-slate-950 p-3 text-slate-100 xl:overflow-hidden xl:p-4">
+            <div className="mx-auto flex h-full min-h-0 w-full max-w-7xl flex-col gap-3 xl:gap-4">
                 <div className="rounded-2xl border border-cyan-400/20 bg-black/45 p-4 shadow-2xl backdrop-blur-md">
                     <div className="flex items-start justify-between gap-4">
                         <div>
@@ -112,8 +112,8 @@ export default function BranchLeftRamBuffer({ campaignId, levelId }: PuzzleCompo
                     <p className="mt-4 border-l-2 border-cyan-400 pl-3 text-sm leading-relaxed text-cyan-100">{t(feedbackKey)}</p>
                 </div>
 
-                <div className="grid flex-1 gap-5 xl:grid-cols-[1.15fr_0.85fr]">
-                    <div className="rounded-[1.75rem] border border-slate-700 bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.14),rgba(2,6,23,1)_62%)] p-5 shadow-xl">
+                <div className="grid flex-1 min-h-0 gap-5 xl:grid-cols-[1.15fr_0.85fr]">
+                    <div className="rounded-[1.75rem] border border-slate-700 bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.14),rgba(2,6,23,1)_62%)] p-5 shadow-xl xl:min-h-0 xl:overflow-y-auto xl:pr-3 custom-scrollbar">
                         <div className="rounded-2xl border border-cyan-400/20 bg-slate-950/65 px-4 py-3">
                             <div className="text-[11px] font-mono uppercase tracking-[0.22em] text-cyan-300">{t('branchLeftBuffer.itemTitle')}</div>
                             <div className="mt-2 flex items-center justify-between gap-3">
@@ -169,7 +169,7 @@ export default function BranchLeftRamBuffer({ campaignId, levelId }: PuzzleCompo
                         </div>
                     </div>
 
-                    <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-4 xl:min-h-0 xl:overflow-y-auto xl:pr-1 custom-scrollbar">
                         <div className="rounded-2xl border border-slate-700 bg-black/35 p-4 shadow-xl">
                             <div className="flex items-center gap-2 text-cyan-300">
                                 <ShieldCheck size={16} />
@@ -198,7 +198,7 @@ export default function BranchLeftRamBuffer({ campaignId, levelId }: PuzzleCompo
                             </div>
                         </div>
 
-                        <div className="mt-auto grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
+                        <div className="grid gap-3 pt-1 sm:grid-cols-2 xl:grid-cols-1">
                             <button
                                 onClick={handleReset}
                                 className="rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 font-mono text-xs uppercase tracking-[0.22em] text-slate-200 transition-colors hover:border-slate-500"
