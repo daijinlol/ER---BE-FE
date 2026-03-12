@@ -18,7 +18,9 @@
     "cpu": "CPU",
     "ram": "RAM",
     "gpu": "GPU",
-    "storage": "Storage"
+    "storage": "Storage",
+    "sector_map": "Digital Twin Core",
+    "flight_chip": "Autopilot Flight Chip"
   },
   "level1": {
     "title": "Memory Defragmentation",
@@ -511,9 +513,224 @@
   "branchConvergence": {
     "kicker": "Route Convergence",
     "title": "The separate corridors bend back into the same spine.",
-    "body": "For a while the facility made it seem as if the relay path and the sorter path were truly different. Then the walls curve, the floor markings overlap, and both routes collapse into the same central maintenance artery again.",
-    "detail": "Whatever system built this place wanted the traveler to learn from both kinds of logic: how information moves across connected networks, and how decisions reshape what happens next. Ahead, the complex feels singular again.",
-    "continue": "Continue Into The Merged Sector"
+    "body": "The relay branch and the sorting annex both spill back into the same maintenance artery. The central sector is running on emergency guesses now: the facility still sees the world, but it no longer understands what its own readings mean.",
+    "detail": "The network taught you to track moving information. The sorter showed how rules reshape outcomes. The final sector needs both at once: rebuild the model of the wing, then launch an automated repair routine that can stabilize the last corridor.",
+    "continue": "Open The Central Control Sector"
+  },
+  "level7": {
+    "title": "SECTOR DIGITAL TWIN",
+    "subtitle": "Rebuilding The Evacuation Wing Model",
+    "awaiting": "The digital twin is still receiving data, but it keeps translating it into the wrong system states. Reconnect the raw inputs to the correct subsystems and set the right operating modes so the model finally reports a safe sector.",
+    "invalidLink": "That connection does not make sense. Sensors should feed subsystems, and subsystems should feed the final state nodes.",
+    "linked": "Data line rerouted. Watch which parts of the model start stabilizing.",
+    "unlinked": "Connection removed. The model is recalculating the sector state.",
+    "modeUpdated": "Subsystem mode updated. Check whether the new interpretation of the data produces a safe result.",
+    "incomplete": "The digital twin is still incomplete. Some sensor links or subsystem modes are missing.",
+    "failure": "The model still predicts an unsafe sector. Some relationships between the data and the system are wrong.",
+    "success": "The digital twin is reading the sector correctly again. The central model is switching from emergency estimates to verified state.",
+    "unlock": "The digital twin core has been restored. The precise sector model can now guide the final automated repair.",
+    "objectiveTitle": "Mission Context",
+    "objective": "This puzzle shows the difference between data and information. Sensors provide raw values. Only when you connect those values to the correct parts of the system and choose the right interpretation mode do they become a model that can tell whether the sector is truly safe.",
+    "hintTitle": "Operations Notes",
+    "hint": "Containment uses pressure + seal integrity. Life support uses thermal + scrubber data. Transit uses battery + rail status. SAFE STATE needs containment and life support. EVAC READY needs transit.",
+    "metrics": {
+      "sensorLinks": "Sensor Links",
+      "hubs": "Active Subsystems",
+      "outputs": "State Nodes",
+      "model": "Sector Model",
+      "stable": "STABLE",
+      "pending": "PENDING"
+    },
+    "modesTitle": "Control Modes",
+    "modeLabels": {
+      "hub_life_support": "Life Support",
+      "hub_transit": "Transit",
+      "hub_containment": "Containment"
+    },
+    "modes": {
+      "balance_o2": "Balance O2 mix",
+      "purge_fast": "Emergency fast purge",
+      "stagger_launch": "Stagger route launch",
+      "manual_dispatch": "Manual route dispatch",
+      "seal_delta": "Delta seal hold",
+      "vent_open": "Permanent venting"
+    },
+    "reset": "Reset Model",
+    "validating": "Evaluating...",
+    "validate": "Stabilize Model",
+    "statusHint": "Click a line to disconnect it. The goal is not to connect everything everywhere, but to turn raw data into one correct view of the sector.",
+    "nodes": {
+      "sensor_pressure": {
+        "title": "Pressure Grid",
+        "body": "Raw corridor pressure. Without context, it is only a number."
+      },
+      "sensor_seal": {
+        "title": "Seal Monitor",
+        "body": "Reports how well the transition bulkheads are still holding."
+      },
+      "sensor_thermal": {
+        "title": "Thermal Array",
+        "body": "Heat readings from the occupied wing. Alone, they do not say whether the air is livable."
+      },
+      "sensor_scrubber": {
+        "title": "Scrubber Filter",
+        "body": "Filter loop quality. It only becomes meaningful inside life support."
+      },
+      "sensor_battery": {
+        "title": "Battery Bus",
+        "body": "Power reserve for movement systems and route scheduling."
+      },
+      "sensor_rail": {
+        "title": "Evac Rail",
+        "body": "Status of the transport line for capsules and maintenance movement."
+      },
+      "hub_containment": {
+        "title": "Containment Core",
+        "body": "Decides whether the wing is physically holding together and keeping pressure inside safe corridors."
+      },
+      "hub_life_support": {
+        "title": "Life Support Matrix",
+        "body": "Turns raw readings into information about whether the environment is actually survivable."
+      },
+      "hub_transit": {
+        "title": "Transit Scheduler",
+        "body": "Determines whether automated movement and evacuation routines can be deployed safely."
+      },
+      "status_safe_state": {
+        "title": "SAFE STATE",
+        "body": "Final model output confirming the wing is sealed and habitable."
+      },
+      "status_evac_ready": {
+        "title": "EVAC READY",
+        "body": "Allows automated repair and movement routines to go live."
+      }
+    }
+  },
+  "level8": {
+    "title": "MAINTENANCE DRONE AUTOPILOT",
+    "subtitle": "Debugging The Repair Loop",
+    "awaiting": "The central model is finally accurate, but the last corridor is still sealed. Build a short routine for the maintenance drone so it repairs panels when needed, turns only when blocked, and reaches the exit gate.",
+    "programUpdated": "Autopilot routine updated. Test whether the drone behaves correctly across the whole loop.",
+    "incomplete": "The program is still missing commands. Every loop slot must be filled.",
+    "executing": "The drone is entering the corridor. Watch the run and find where the routine breaks.",
+    "wall": "The drone hit a sealed bulkhead. The routine reacts incorrectly to a blocked path.",
+    "panels": "The drone moved forward, but at least one repair panel is still offline. Shift the repair step to the right point in the loop.",
+    "failure": "The autopilot still does not fully stabilize the corridor.",
+    "success": "The autopilot is clean. The drone repaired both panels and reached the final gate.",
+    "unlock": "The autopilot flight chip has been verified. The merged corridor is stable and the campaign can close.",
+    "objectiveTitle": "Mission Context",
+    "objective": "This puzzle shows that an algorithm does not need to be long to be smart. You are building a tiny loop with a condition: the drone should repeatedly decide when to repair, when to turn, and when to simply move forward. The key is testing and debugging, not guessing.",
+    "hintTitle": "Drone Technical Sheet",
+    "hint": "The drone repeats the same short routine. It needs three behaviors: repair a panel, react to a blocked path, and otherwise keep moving. If the loop is correct, the same pattern carries it through both turns and both repairs.",
+    "commandDeckTitle": "Command Deck",
+    "iterationsTitle": "Loop Count",
+    "programTitle": "Autopilot Routine",
+    "slotLabel": "Slot {{index}}",
+    "emptySlot": "Insert command",
+    "gridTitle": "Service Corridor",
+    "runLogTitle": "Run Telemetry",
+    "reset": "Reset Routine",
+    "validating": "Validating...",
+    "run": "Launch Drone",
+    "executingShort": "Running...",
+    "statusHint": "Click a command in the deck and then a slot. Clicking a slot without a selected command clears it.",
+    "idle": "Idle",
+    "metrics": {
+      "loop": "Loop",
+      "repaired": "Panels Repaired",
+      "direction": "Direction",
+      "position": "Position",
+      "activeCommand": "Active Command"
+    },
+    "directions": {
+      "up": "UP",
+      "right": "RIGHT",
+      "down": "DOWN",
+      "left": "LEFT"
+    },
+    "commands": {
+      "REPAIR_IF_PANEL": "REPAIR IF PANEL",
+      "IF_BLOCKED_TURN_LEFT": "IF BLOCKED, TURN LEFT",
+      "IF_BLOCKED_TURN_RIGHT": "IF BLOCKED, TURN RIGHT",
+      "MOVE": "MOVE FORWARD",
+      "TURN_LEFT": "TURN LEFT",
+      "TURN_RIGHT": "TURN RIGHT"
+    }
+  },
+  "campaignDebrief": {
+    "kicker": "Campaign Complete",
+    "title": "The facility control spine responds again.",
+    "body": "You did not clear a test. You repaired a system. You restored ordering, loops, signalling, archives, decisions, sector modelling, and the final automated repair. The complex is no longer trapped inside corrupted guesses.",
+    "metrics": {
+      "time": "Time Remaining",
+      "modules": "Recovered Modules",
+      "path": "Chosen Branch"
+    },
+    "routeTitle": "Recovered Mission Route",
+    "tabs": {
+      "path": "Route Memory",
+      "systems": "Recovered Systems",
+      "learning": "What You Restored"
+    },
+    "paths": {
+      "left": {
+        "title": "Left Relay Branch",
+        "body": "Inside the weakened network spine, you had to read node properties and find the single path that satisfied every constraint. That branch reinforced that information never travels randomly: it always obeys the structure of the network carrying it."
+      },
+      "right": {
+        "title": "Right Decision Sorter",
+        "body": "Inside the logistics wing, you built rules that split cargo into different outputs. That route showed how one change in a condition can flip the outcome of an algorithm."
+      }
+    },
+    "route": {
+      "airlock": {
+        "tag": "Start",
+        "title": "Airlock"
+      },
+      "loops": {
+        "tag": "Algorithms",
+        "title": "Patrol Corridor"
+      },
+      "archive": {
+        "tag": "Data",
+        "title": "Archive Hub"
+      },
+      "left": {
+        "tag": "Branch",
+        "title": "Relay Spine"
+      },
+      "right": {
+        "tag": "Branch",
+        "title": "Decision Array"
+      },
+      "twin": {
+        "tag": "Model",
+        "title": "Digital Twin"
+      },
+      "autopilot": {
+        "tag": "Finale",
+        "title": "Drone Autopilot"
+      }
+    },
+    "systemsTitle": "Recovered From The Run",
+    "systemsBody": "Each restored module represents a tool or idea you used during the campaign. It is not only inventory. It is a map of how you moved from simple step-by-step control toward understanding and stabilizing a whole system.",
+    "learning": {
+      "1": {
+        "title": "Data is not the same as information",
+        "body": "Raw readings solve nothing on their own. Meaning appears only when data is attached to the right model or rule."
+      },
+      "2": {
+        "title": "A short algorithm can do serious work",
+        "body": "Sequence, repetition, and simple conditions are enough to make a machine handle a more complex task. What matters is predicting, testing, and fixing mistakes."
+      },
+      "3": {
+        "title": "Systems depend on relationships",
+        "body": "The network, archive, model, and drone only work when you understand how their parts affect one another. Informatics is not just clicking controls. It is finding those links."
+      }
+    },
+    "nextDirectiveTitle": "Next Directive",
+    "nextDirectiveBody": "The central sector is stable. Survivor records and the service route are readable again. You can return to the menu, replay the campaign through the other branch, or continue into the next protocol once it is ready.",
+    "exit": "Return To Main Menu"
   },
   "gameContainer": {
     "puzzleNotFound": "Puzzle logic not found for level {{level}}",

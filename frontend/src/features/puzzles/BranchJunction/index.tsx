@@ -4,13 +4,16 @@ import { ArrowLeft, ArrowRight, GitBranch, ScanSearch } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { audio } from '../../../core/AudioEngine';
 import { gameEvents } from '../../../core/EventBus';
+import { useGameSession } from '../../../core/GameSession';
 import type { PuzzleComponentProps } from '../types';
 
 type PathChoice = 'left' | 'right' | null;
 
-export default function BranchJunction({ config }: PuzzleComponentProps) {
+export default function BranchJunction({ config, campaignSessionKey }: PuzzleComponentProps) {
     const { t } = useTranslation();
+    const { recordRoomInteraction } = useGameSession();
     const [selectedPath, setSelectedPath] = useState<PathChoice>(null);
+    const junctionSessionKey = `${campaignSessionKey}:${config.id}`;
 
     const handleChoose = (path: Exclude<PathChoice, null>) => {
         if (selectedPath) {
@@ -19,6 +22,7 @@ export default function BranchJunction({ config }: PuzzleComponentProps) {
 
         audio.playSuccess();
         setSelectedPath(path);
+        recordRoomInteraction(junctionSessionKey, path);
         window.setTimeout(() => {
             gameEvents.publish('PUZZLE_SOLVED', { nextLevel: path === 'left' ? '5_left' : '5_right' });
         }, 850);

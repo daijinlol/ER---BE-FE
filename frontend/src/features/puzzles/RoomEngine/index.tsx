@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Terminal, X, FileText, ScanSearch, ArrowRightCircle } from 'lucide-react';
@@ -12,13 +12,10 @@ export default function RoomEngine({ config, campaignSessionKey }: PuzzleCompone
     const { session, recordRoomInteraction } = useGameSession();
     const roomSessionKey = `${campaignSessionKey}:${config.id}`;
     const [activeHotspot, setActiveHotspot] = useState<PuzzleHotspot | null>(null);
-    const [interactionHistory, setInteractionHistory] = useState<Set<string>>(
-        () => new Set(session.roomInteractions[roomSessionKey] ?? [])
+    const interactionHistory = useMemo(
+        () => new Set(session.roomInteractions[roomSessionKey] ?? []),
+        [roomSessionKey, session.roomInteractions],
     );
-
-    useEffect(() => {
-        setInteractionHistory(new Set(session.roomInteractions[roomSessionKey] ?? []));
-    }, [roomSessionKey, session.roomInteractions]);
 
     const visibleHotspots = config.hotspots?.filter((hotspot) => !hotspot.requires || hotspot.requires.every((requirement) => (
         interactionHistory.has(requirement) || session.inventoryItems.includes(requirement)
@@ -26,12 +23,7 @@ export default function RoomEngine({ config, campaignSessionKey }: PuzzleCompone
 
     const handleHotspotClick = (hotspot: PuzzleHotspot) => {
         audio.playClick();
-
-        setInteractionHistory((prev) => {
-            const next = new Set(prev).add(hotspot.id);
-            recordRoomInteraction(roomSessionKey, hotspot.id);
-            return next;
-        });
+        recordRoomInteraction(roomSessionKey, hotspot.id);
 
         if (hotspot.rewardItem && !session.inventoryItems.includes(hotspot.rewardItem)) {
             gameEvents.publish('ITEM_FOUND', hotspot.rewardItem);

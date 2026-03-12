@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import {
@@ -16,18 +16,25 @@ import { audio } from '../../../core/AudioEngine';
 import { gameEvents } from '../../../core/EventBus';
 import { useGameSession } from '../../../core/GameSession';
 import { PUZZLE_MISTAKE_PENALTY_SECONDS } from '../../../core/gameConstants';
-import { usePuzzleValidation } from '../../../hooks/usePuzzleValidation';
+import { requestPuzzleClue, requestPuzzleProgress, usePuzzleValidation } from '../../../hooks/usePuzzleValidation';
 import type { PuzzleComponentProps } from '../types';
 
 type PanelId = 'buffer' | 'pulse' | 'beacon';
 
 type PanelState = Record<PanelId, number[]>;
 
-const TARGETS: PanelState = {
-    buffer: [1, 0, 1, 1, 0, 0, 1, 0],
-    pulse: [0, 1, 1, 0, 1, 1, 0, 1],
-    beacon: [1, 1, 0, 1, 1, 0, 0, 1],
-};
+interface SignalPanelProgressResponse {
+    data: {
+        matchedPanels: Record<PanelId, boolean>;
+        beaconUnlocked: boolean;
+    };
+}
+
+interface SignalPanelClueResponse {
+    data: {
+        pattern: number[];
+    };
+}
 
 const PANEL_ORDER: PanelId[] = ['buffer', 'pulse', 'beacon'];
 
@@ -45,17 +52,40 @@ export default function Level3SignalRelay({ campaignId, levelId }: PuzzleCompone
     const [isSolved, setIsSolved] = useState(false);
     const [replayingPanel, setReplayingPanel] = useState<PanelId | null>(null);
     const [replayStep, setReplayStep] = useState<number>(-1);
+    const [replayPatternBits, setReplayPatternBits] = useState<number[]>([]);
+    const [matchedPanels, setMatchedPanels] = useState<Record<PanelId, boolean>>({
+        buffer: false,
+        pulse: false,
+        beacon: false,
+    });
+    const [beaconUnlocked, setBeaconUnlocked] = useState(false);
 
     const hasRamModule = session.inventoryItems.includes('module_ram');
     const hasLoopModule = session.inventoryItems.includes('module_loop');
 
-    const panelSolved = useMemo(
-        () => Object.fromEntries(PANEL_ORDER.map((panelId) => [panelId, arraysMatch(channels[panelId], TARGETS[panelId])])) as Record<PanelId, boolean>,
-        [channels],
-    );
-
-    const beaconUnlocked = panelSolved.buffer && panelSolved.pulse;
+    const panelSolved = matchedPanels;
     const allSolved = panelSolved.buffer && panelSolved.pulse && panelSolved.beacon;
+
+    useEffect(() => {
+        let cancelled = false;
+
+        void requestPuzzleProgress<SignalPanelProgressResponse>(campaignId, levelId, { channels })
+            .then((response) => {
+                if (cancelled) {
+                    return;
+                }
+
+                setMatchedPanels(response.data.matchedPanels);
+                setBeaconUnlocked(response.data.beaconUnlocked);
+            })
+            .catch((progressError) => {
+                console.error('Failed to refresh signal panel progress:', progressError);
+            });
+
+        return () => {
+            cancelled = true;
+        };
+    }, [campaignId, channels, levelId]);
 
     const toggleBit = (panelId: PanelId, index: number) => {
         if (isSolved || replayingPanel) {
@@ -98,13 +128,25 @@ export default function Level3SignalRelay({ campaignId, levelId }: PuzzleCompone
         setReplayingPanel(panelId);
         setReplayStep(-1);
 
-        for (let index = 0; index < TARGETS[panelId].length; index += 1) {
+        let pattern: number[];
+        try {
+            const clue = await requestPuzzleClue<SignalPanelClueResponse>(campaignId, levelId, { panelId });
+            pattern = clue.data.pattern;
+            setReplayPatternBits(pattern);
+        } catch (clueError) {
+            console.error('Failed to load signal replay clue:', clueError);
+            setReplayingPanel(null);
+            return;
+        }
+
+        for (let index = 0; index < pattern.length; index += 1) {
             setReplayStep(index);
             await wait(220);
         }
 
         await wait(150);
         setReplayingPanel(null);
+        setReplayPatternBits([]);
         setReplayStep(-1);
     };
 
@@ -205,10 +247,10 @@ export default function Level3SignalRelay({ campaignId, levelId }: PuzzleCompone
                                 <div
                                     key={panelId}
                                     className={`rounded-xl border p-4 transition-colors ${panelSolved[panelId]
-                                            ? 'border-emerald-500/60 bg-emerald-950/20'
-                                            : panelId === 'beacon' && !beaconUnlocked
-                                                ? 'border-slate-700 bg-slate-950/60 opacity-70'
-                                                : 'border-cyan-500/20 bg-slate-950/70'
+                                        ? 'border-emerald-500/60 bg-emerald-950/20'
+                                        : panelId === 'beacon' && !beaconUnlocked
+                                            ? 'border-slate-700 bg-slate-950/60 opacity-70'
+                                            : 'border-cyan-500/20 bg-slate-950/70'
                                         }`}
                                 >
                                     <div className="flex items-start justify-between gap-3">
@@ -229,7 +271,7 @@ export default function Level3SignalRelay({ campaignId, levelId }: PuzzleCompone
                                                 <BitButton
                                                     key={`${panelId}-${index}`}
                                                     bit={bit}
-                                                    flash={isFlashing(panelId, index, replayingPanel, replayStep)}
+                                                    flash={isFlashing(panelId, index, replayingPanel, replayStep, replayPatternBits)}
                                                     disabled={!beaconUnlocked}
                                                     onClick={() => toggleBit(panelId, index)}
                                                 />
@@ -241,7 +283,7 @@ export default function Level3SignalRelay({ campaignId, levelId }: PuzzleCompone
                                                 <BitButton
                                                     key={`${panelId}-${index}`}
                                                     bit={bit}
-                                                    flash={isFlashing(panelId, index, replayingPanel, replayStep)}
+                                                    flash={isFlashing(panelId, index, replayingPanel, replayStep, replayPatternBits)}
                                                     disabled={false}
                                                     onClick={() => toggleBit(panelId, index)}
                                                 />
@@ -333,16 +375,12 @@ export default function Level3SignalRelay({ campaignId, levelId }: PuzzleCompone
     );
 }
 
-function arraysMatch(a: number[], b: number[]) {
-    return a.length === b.length && a.every((value, index) => value === b[index]);
-}
-
 function wait(ms: number) {
     return new Promise((resolve) => window.setTimeout(resolve, ms));
 }
 
-function isFlashing(panelId: PanelId, index: number, replayingPanel: PanelId | null, replayStep: number) {
-    return replayingPanel === panelId && replayStep === index && TARGETS[panelId][index] === 1;
+function isFlashing(panelId: PanelId, index: number, replayingPanel: PanelId | null, replayStep: number, replayPatternBits: number[]) {
+    return replayingPanel === panelId && replayStep === index && replayPatternBits[index] === 1;
 }
 
 function BitButton({ bit, flash, disabled, onClick }: { bit: number; flash: boolean; disabled: boolean; onClick: () => void }) {
@@ -351,8 +389,8 @@ function BitButton({ bit, flash, disabled, onClick }: { bit: number; flash: bool
             onClick={onClick}
             disabled={disabled}
             className={`aspect-square rounded-lg border transition-all ${flash || bit === 1
-                    ? 'border-cyan-300 bg-cyan-400 shadow-[0_0_16px_rgba(34,211,238,0.4)]'
-                    : 'border-slate-700 bg-slate-950 hover:border-slate-500'
+                ? 'border-cyan-300 bg-cyan-400 shadow-[0_0_16px_rgba(34,211,238,0.4)]'
+                : 'border-slate-700 bg-slate-950 hover:border-slate-500'
                 } disabled:cursor-not-allowed disabled:opacity-40`}
         />
     );

@@ -49,6 +49,7 @@ export default function Level4TransitHub({ campaignId, levelId }: PuzzleComponen
     const [isManualDecryptOpen, setIsManualDecryptOpen] = useState(false);
     const [manualAnswer, setManualAnswer] = useState('');
     const [manualFeedbackKey, setManualFeedbackKey] = useState<string | null>(null);
+    const [activeInfoPanel, setActiveInfoPanel] = useState<'hint' | 'rules'>('hint');
 
     const hasDecryptor = session.inventoryItems.includes('usb_decryptor');
     const visibleCards = useMemo(
@@ -185,11 +186,11 @@ export default function Level4TransitHub({ campaignId, levelId }: PuzzleComponen
     };
 
     return (
-        <div className="relative flex h-full w-full flex-col overflow-hidden bg-slate-950 p-3 text-slate-100 xl:p-4">
+        <div className="relative flex h-full w-full min-h-0 flex-col overflow-hidden bg-slate-950 p-3 text-slate-100 xl:p-4">
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(234,179,8,0.09)_0%,rgba(2,6,23,1)_58%)]" />
 
-            <div className="relative z-10 mx-auto flex h-full min-h-0 w-full max-w-7xl flex-col gap-4">
-                <div className="relative overflow-hidden rounded-2xl border border-amber-500/20 bg-black/45 p-4 shadow-2xl backdrop-blur-md">
+            <div className="relative z-10 mx-auto flex h-full min-h-0 w-full max-w-7xl flex-col gap-3 xl:gap-4">
+                <div className="relative shrink-0 overflow-hidden rounded-2xl border border-amber-500/20 bg-black/45 p-3 shadow-2xl backdrop-blur-md xl:p-4">
                     <div className="absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-amber-400 via-orange-500 to-red-500" />
                     <div className="flex items-start justify-between gap-4">
                         <div>
@@ -197,8 +198,8 @@ export default function Level4TransitHub({ campaignId, levelId }: PuzzleComponen
                                 <Database size={18} />
                                 <div className="text-xs font-mono uppercase tracking-[0.24em]">{t('level4.subtitle')}</div>
                             </div>
-                            <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white">{t('level4.title')}</h2>
-                            <p className="mt-3 max-w-4xl border-l-2 border-amber-400 pl-3 text-sm leading-relaxed text-amber-100">{t(feedbackKey)}</p>
+                            <h2 className="mt-2 text-2xl font-semibold tracking-tight text-white xl:mt-3 xl:text-3xl">{t('level4.title')}</h2>
+                            <p className="mt-2 max-w-4xl border-l-2 border-amber-400 pl-3 text-sm leading-relaxed text-amber-100 xl:mt-3">{t(feedbackKey)}</p>
                         </div>
                         <button
                             onClick={() => {
@@ -213,46 +214,88 @@ export default function Level4TransitHub({ campaignId, levelId }: PuzzleComponen
                     </div>
                 </div>
 
-                <div className="grid min-h-0 flex-1 gap-5 xl:grid-cols-[1.3fr_0.9fr]">
-                    <section className="flex min-h-0 flex-col gap-4 rounded-[1.75rem] border border-slate-700 bg-[radial-gradient(circle_at_top,rgba(251,191,36,0.1),rgba(2,6,23,1)_64%)] p-5 shadow-xl">
+                <div className="grid min-h-0 flex-1 gap-4 xl:grid-cols-[minmax(0,1.18fr)_minmax(19rem,0.82fr)]">
+                    <section className="flex min-h-0 min-w-0 flex-col gap-3 overflow-y-auto rounded-[1.75rem] border border-slate-700 bg-[radial-gradient(circle_at_top,rgba(251,191,36,0.1),rgba(2,6,23,1)_64%)] p-4 shadow-xl custom-scrollbar xl:gap-4 xl:p-5 xl:pr-3">
                         <div className="grid gap-3 sm:grid-cols-3">
                             <StatusCard label={t('level4.completeRows')} value={`${completeRows}/${ROW_COUNT}`} accent="amber" />
                             <StatusCard label={t('level4.decryptorStatus')} value={hasDecryptor ? t('level4.online') : t('level4.offline')} accent={hasDecryptor ? 'emerald' : 'slate'} />
                             <StatusCard label={t('level4.cardBank')} value={`${visibleCards.length}`} accent="slate" />
                         </div>
 
-                        <div className="rounded-3xl border border-slate-800 bg-slate-950/72 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]">
-                            <div className="grid grid-cols-[0.9fr_repeat(4,minmax(0,1fr))] gap-2 items-center">
-                                <div className="text-[11px] font-mono uppercase tracking-[0.2em] text-slate-500">{t('level4.recordId')}</div>
-                                {CATEGORIES.map((category) => (
-                                    <div key={category} className="text-center text-[11px] font-mono uppercase tracking-[0.2em] text-slate-500">{t(`level4.categories.${category}`)}</div>
-                                ))}
+                        <div className="rounded-3xl border border-slate-800 bg-slate-950/72 p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] xl:p-4">
+                            <div className="hidden 2xl:block">
+                                <div className="grid grid-cols-[0.9fr_repeat(4,minmax(0,1fr))] gap-2 items-center">
+                                    <div className="text-[11px] font-mono uppercase tracking-[0.2em] text-slate-500">{t('level4.recordId')}</div>
+                                    {CATEGORIES.map((category) => (
+                                        <div key={category} className="text-center text-[11px] font-mono uppercase tracking-[0.2em] text-slate-500">{t(`level4.categories.${category}`)}</div>
+                                    ))}
 
-                                {Array.from({ length: ROW_COUNT }, (_, rowIndex) => (
-                                    <Fragment key={`row-${rowIndex}`}>
-                                        <div className="rounded-xl border border-slate-700 bg-slate-950/82 px-3 py-3 text-[11px] font-mono uppercase tracking-[0.16em] text-slate-200">
-                                            {t('level4.recordLabel', { index: rowIndex + 1 })}
+                                    {Array.from({ length: ROW_COUNT }, (_, rowIndex) => (
+                                        <Fragment key={`row-${rowIndex}`}>
+                                            <div className="rounded-xl border border-slate-700 bg-slate-950/82 px-3 py-3 text-[11px] font-mono uppercase tracking-[0.16em] text-slate-200">
+                                                {t('level4.recordLabel', { index: rowIndex + 1 })}
+                                            </div>
+                                            {CATEGORIES.map((category) => {
+                                                const slotKey = getSlotKey(rowIndex, category);
+                                                const cardId = placements[slotKey];
+                                                const card = CARDS.find((entry) => entry.id === cardId);
+
+                                                return (
+                                                    <button
+                                                        key={`${rowIndex}-${category}`}
+                                                        onClick={() => handleSlotClick(rowIndex, category)}
+                                                        className={`min-h-[4.25rem] rounded-xl border px-3 py-2.5 text-left text-sm transition-colors xl:min-h-[4.75rem] xl:py-3 ${card
+                                                            ? 'border-amber-400/50 bg-amber-950/18 text-amber-100 shadow-[0_0_14px_rgba(251,191,36,0.08)]'
+                                                            : 'border-slate-700 bg-slate-950/72 text-slate-500 hover:border-slate-500'}`}
+                                                    >
+                                                        <div className="text-[10px] font-mono uppercase tracking-[0.16em] text-slate-500">{t(`level4.categories.${category}`)}</div>
+                                                        <div className="mt-1.5 leading-tight xl:mt-2">{card ? t(`level4.values.${category}.${card.value}`) : t('level4.emptySlot')}</div>
+                                                    </button>
+                                                );
+                                            })}
+                                        </Fragment>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="grid gap-3 2xl:hidden">
+                                {Array.from({ length: ROW_COUNT }, (_, rowIndex) => {
+                                    const rowComplete = CATEGORIES.every((category) => Boolean(placements[getSlotKey(rowIndex, category)]));
+
+                                    return (
+                                        <div key={`stacked-row-${rowIndex}`} className="rounded-2xl border border-slate-800 bg-slate-950/82 p-3">
+                                            <div className="flex items-center justify-between gap-3">
+                                                <div className="text-[11px] font-mono uppercase tracking-[0.18em] text-slate-400">
+                                                    {t('level4.recordLabel', { index: rowIndex + 1 })}
+                                                </div>
+                                                <span className={`rounded-full border px-2.5 py-1 text-[10px] font-mono uppercase tracking-[0.18em] ${rowComplete ? 'border-amber-400/40 bg-amber-500/10 text-amber-200' : 'border-slate-700 bg-slate-900/80 text-slate-500'}`}>
+                                                    {rowComplete ? t('level4.online') : t('level4.incomplete')}
+                                                </span>
+                                            </div>
+
+                                            <div className="mt-3 grid grid-cols-2 gap-2">
+                                                {CATEGORIES.map((category) => {
+                                                    const slotKey = getSlotKey(rowIndex, category);
+                                                    const cardId = placements[slotKey];
+                                                    const card = CARDS.find((entry) => entry.id === cardId);
+
+                                                    return (
+                                                        <button
+                                                            key={`${rowIndex}-${category}`}
+                                                            onClick={() => handleSlotClick(rowIndex, category)}
+                                                            className={`min-h-[4.1rem] rounded-xl border px-3 py-2.5 text-left text-sm transition-colors ${card
+                                                                ? 'border-amber-400/50 bg-amber-950/18 text-amber-100 shadow-[0_0_14px_rgba(251,191,36,0.08)]'
+                                                                : 'border-slate-700 bg-slate-950/72 text-slate-500 hover:border-slate-500'}`}
+                                                        >
+                                                            <div className="text-[10px] font-mono uppercase tracking-[0.16em] text-slate-500">{t(`level4.categories.${category}`)}</div>
+                                                            <div className="mt-1.5 leading-tight">{card ? t(`level4.values.${category}.${card.value}`) : t('level4.emptySlot')}</div>
+                                                        </button>
+                                                    );
+                                                })}
+                                            </div>
                                         </div>
-                                        {CATEGORIES.map((category) => {
-                                            const slotKey = getSlotKey(rowIndex, category);
-                                            const cardId = placements[slotKey];
-                                            const card = CARDS.find((entry) => entry.id === cardId);
-
-                                            return (
-                                                <button
-                                                    key={`${rowIndex}-${category}`}
-                                                    onClick={() => handleSlotClick(rowIndex, category)}
-                                                    className={`min-h-[4.75rem] rounded-xl border px-3 py-3 text-left text-sm transition-colors ${card
-                                                        ? 'border-amber-400/50 bg-amber-950/18 text-amber-100 shadow-[0_0_14px_rgba(251,191,36,0.08)]'
-                                                        : 'border-slate-700 bg-slate-950/72 text-slate-500 hover:border-slate-500'}`}
-                                                >
-                                                    <div className="text-[10px] font-mono uppercase tracking-[0.16em] text-slate-500">{t(`level4.categories.${category}`)}</div>
-                                                    <div className="mt-2 leading-tight">{card ? t(`level4.values.${category}.${card.value}`) : t('level4.emptySlot')}</div>
-                                                </button>
-                                            );
-                                        })}
-                                    </Fragment>
-                                ))}
+                                    );
+                                })}
                             </div>
                         </div>
 
@@ -273,7 +316,7 @@ export default function Level4TransitHub({ campaignId, levelId }: PuzzleComponen
                         </div>
                     </section>
 
-                    <section className="flex min-h-0 flex-col gap-4 rounded-[1.75rem] border border-slate-700 bg-black/40 p-5 shadow-xl">
+                    <section className="flex min-h-0 min-w-0 flex-col gap-3 overflow-y-auto rounded-[1.75rem] border border-slate-700 bg-black/40 p-4 shadow-xl custom-scrollbar xl:gap-4 xl:p-5 xl:pr-3">
                         <div className="rounded-2xl border border-slate-700 bg-slate-950/82 p-4">
                             <div className="flex items-start justify-between gap-3">
                                 <div>
@@ -312,30 +355,45 @@ export default function Level4TransitHub({ campaignId, levelId }: PuzzleComponen
                             </div>
                         </div>
 
-                        <div className="grid gap-4 lg:grid-cols-[1.05fr_0.95fr]">
-                            <div className="rounded-2xl border border-slate-700 bg-slate-950/82 p-4">
+                        <div className="rounded-2xl border border-slate-700 bg-slate-950/82 p-4">
+                            <div className="flex items-center justify-between gap-3">
                                 <div className="flex items-center gap-2 text-amber-300">
-                                    <HelpCircle size={15} />
-                                    <div className="text-xs font-mono uppercase tracking-[0.2em]">{t('level4.hintTitle')}</div>
+                                    {activeInfoPanel === 'hint' ? <HelpCircle size={15} /> : <ScanLine size={15} />}
+                                    <div className="text-xs font-mono uppercase tracking-[0.2em]">
+                                        {activeInfoPanel === 'hint' ? t('level4.hintTitle') : t('level4.auditRules')}
+                                    </div>
                                 </div>
-                                <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-slate-300">{t('level4.hint')}</p>
+                                <div className="flex rounded-xl border border-slate-700 bg-slate-900/80 p-1">
+                                    <button
+                                        onClick={() => setActiveInfoPanel('hint')}
+                                        className={`rounded-lg px-3 py-1.5 text-[10px] font-mono uppercase tracking-[0.18em] transition-colors ${activeInfoPanel === 'hint' ? 'bg-amber-500/15 text-amber-100' : 'text-slate-400 hover:text-slate-200'}`}
+                                    >
+                                        {t('level4.hintTitle')}
+                                    </button>
+                                    <button
+                                        onClick={() => setActiveInfoPanel('rules')}
+                                        className={`rounded-lg px-3 py-1.5 text-[10px] font-mono uppercase tracking-[0.18em] transition-colors ${activeInfoPanel === 'rules' ? 'bg-amber-500/15 text-amber-100' : 'text-slate-400 hover:text-slate-200'}`}
+                                    >
+                                        {t('level4.auditRules')}
+                                    </button>
+                                </div>
                             </div>
 
-                            <div className="rounded-2xl border border-slate-700 bg-slate-950/82 p-4">
-                                <div className="flex items-center gap-2 text-amber-300">
-                                    <ScanLine size={15} />
-                                    <div className="text-xs font-mono uppercase tracking-[0.2em]">{t('level4.auditRules')}</div>
-                                </div>
-                                <p className="mt-3 text-sm leading-relaxed text-slate-300">{t('level4.statusHint')}</p>
-                                <ul className="mt-3 space-y-2 text-sm leading-relaxed text-slate-300">
-                                    {Array.from({ length: 7 }, (_, index) => (
-                                        <li key={index}>{t(`level4.rules.${index + 1}`)}</li>
-                                    ))}
-                                </ul>
-                            </div>
+                            {activeInfoPanel === 'hint' ? (
+                                <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-slate-300">{t('level4.hint')}</p>
+                            ) : (
+                                <>
+                                    <p className="mt-3 text-sm leading-relaxed text-slate-300">{t('level4.statusHint')}</p>
+                                    <ul className="mt-3 space-y-2 text-sm leading-relaxed text-slate-300">
+                                        {Array.from({ length: 7 }, (_, index) => (
+                                            <li key={index}>{t(`level4.rules.${index + 1}`)}</li>
+                                        ))}
+                                    </ul>
+                                </>
+                            )}
                         </div>
 
-                        <div className="grid gap-3 md:grid-cols-[0.9fr_1.1fr]">
+                        <div className="flex min-h-0 flex-1 flex-col gap-3 md:grid md:grid-cols-[1.05fr_0.95fr] md:flex-none">
                             <div className="rounded-2xl border border-slate-700 bg-slate-950/82 p-4">
                                 <div className="text-[11px] font-mono uppercase tracking-[0.18em] text-slate-500">Selected Fragment</div>
                                 <div className="mt-3 rounded-xl border border-slate-800 bg-slate-900/80 px-4 py-4">
@@ -350,15 +408,7 @@ export default function Level4TransitHub({ campaignId, levelId }: PuzzleComponen
                                 </div>
                             </div>
 
-                            <div className="grid gap-3 sm:grid-cols-2">
-                                <div className="rounded-2xl border border-slate-700 bg-slate-950/82 px-4 py-3 text-xs font-mono uppercase tracking-[0.18em] text-slate-400">
-                                    <div>{t('level4.completeRows')}</div>
-                                    <div className="mt-2 text-2xl text-amber-200">{completeRows}/{ROW_COUNT}</div>
-                                </div>
-                                <div className="rounded-2xl border border-slate-700 bg-slate-950/82 px-4 py-3 text-xs font-mono uppercase tracking-[0.18em] text-slate-400">
-                                    <div>{t('level4.decryptorStatus')}</div>
-                                    <div className={`mt-2 text-2xl ${hasDecryptor ? 'text-emerald-300' : 'text-slate-500'}`}>{hasDecryptor ? t('level4.online') : t('level4.offline')}</div>
-                                </div>
+                            <div className="flex min-h-0 flex-1 flex-col justify-end gap-3 md:justify-end">
                                 <button
                                     onClick={handleReset}
                                     className="rounded-2xl border border-slate-700 bg-slate-900 px-4 py-3 font-mono text-xs uppercase tracking-[0.22em] text-slate-200 transition-colors hover:border-slate-500 hover:text-white"
@@ -375,7 +425,7 @@ export default function Level4TransitHub({ campaignId, levelId }: PuzzleComponen
                             </div>
                         </div>
 
-                        <div className="flex min-h-0 flex-1 flex-col rounded-2xl border border-slate-700 bg-slate-950/82 p-4">
+                        <div className="flex min-h-[16rem] flex-1 flex-col rounded-2xl border border-slate-700 bg-slate-950/82 p-4 xl:min-h-[18rem]">
                             <div className="flex items-center justify-between gap-3">
                                 <div className="text-xs font-mono uppercase tracking-[0.2em] text-slate-500">{t('level4.cardBank')}</div>
                                 <div className="rounded-full border border-slate-700 bg-slate-900/80 px-3 py-1 text-[10px] font-mono uppercase tracking-[0.18em] text-slate-500">
@@ -391,12 +441,12 @@ export default function Level4TransitHub({ campaignId, levelId }: PuzzleComponen
                                             key={card.id}
                                             onClick={() => !isUsed && handleCardSelect(card.id)}
                                             disabled={isUsed}
-                                            className={`min-h-[4.6rem] rounded-xl border px-3 py-3 text-left transition-colors ${isSelected
+                                            className={`min-h-[4rem] rounded-xl border px-3 py-2.5 text-left transition-colors xl:min-h-[4.6rem] xl:py-3 ${isSelected
                                                 ? 'border-amber-400/70 bg-amber-500/15 text-amber-100'
                                                 : 'border-slate-700 bg-slate-900/80 text-slate-200'} ${isUsed ? 'cursor-not-allowed opacity-35' : 'hover:border-amber-400/40 hover:bg-slate-900'}`}
                                         >
                                             <div className="text-[10px] font-mono uppercase tracking-[0.18em] text-slate-500">{t(`level4.categories.${card.category}`)}</div>
-                                            <div className="mt-2 text-sm leading-tight">{t(`level4.values.${card.category}.${card.value}`)}</div>
+                                            <div className="mt-1.5 text-sm leading-tight xl:mt-2">{t(`level4.values.${card.category}.${card.value}`)}</div>
                                         </button>
                                     );
                                 })}

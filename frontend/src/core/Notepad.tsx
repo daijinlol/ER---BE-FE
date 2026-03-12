@@ -15,21 +15,22 @@ export const Notepad: React.FC<NotepadProps> = ({ isOpen, onClose }) => {
     const { t } = useTranslation();
     const { session, setNotes } = useGameSession();
     const [notes, setLocalNotes] = useState(session.notes);
-    const [isSaved, setIsSaved] = useState(true);
+    const [lastSavedNotes, setLastSavedNotes] = useState(session.notes);
 
     useEffect(() => {
-        setLocalNotes(session.notes);
-    }, [session.notes]);
+        if (notes === lastSavedNotes) {
+            return;
+        }
 
-    useEffect(() => {
         const timer = setTimeout(() => {
             setNotes(notes);
-            setIsSaved(true);
+            setLastSavedNotes(notes);
         }, NOTE_SAVE_DEBOUNCE_MS);
 
-        setIsSaved(false);
         return () => clearTimeout(timer);
-    }, [notes, setNotes]);
+    }, [lastSavedNotes, notes, setNotes]);
+
+    const isSaved = notes === lastSavedNotes;
 
     return (
         <AnimatePresence>

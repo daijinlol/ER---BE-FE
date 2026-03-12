@@ -18,7 +18,9 @@
     "cpu": "CPU",
     "ram": "RAM",
     "gpu": "GPU",
-    "storage": "Úložiště"
+    "storage": "Úložiště",
+    "sector_map": "Jádro Digitálního Dvojčete",
+    "flight_chip": "Navigační Čip Autopilota"
   },
   "level1": {
     "title": "Defragmentace Paměti",
@@ -511,9 +513,224 @@
   "branchConvergence": {
     "kicker": "Spojení Tras",
     "title": "Oddělené koridory se znovu stáčejí do stejné páteře.",
-    "body": "Zařízení se chvíli tvářilo, jako by reléová cesta a cesta přes třídič byly skutečně odlišné. Pak se však stěny stáčejí, podlahové značky se překrývají a obě větve se znovu slévají do stejné centrální servisní tepny.",
-    "detail": "Ať už jsi šel kteroukoliv cestou, komplex tě chtěl naučit dvě formy logiky: jak se informace pohybuje napříč propojenou sítí a jak rozhodnutí mění to, co se stane dál. Před tebou už zařízení působí znovu jako jeden celek.",
-    "continue": "Pokračovat Do Sloučeného Sektoru"
+    "body": "Reléová větev i logistický třídič tě nakonec vyplivly do stejné údržbářské tepny. V centrálním sektoru ale stále běží jen nouzové odhady: zařízení ví, co se kolem něj děje, jen tomu už správně nerozumí.",
+    "detail": "Síť tě naučila sledovat tok informace. Třídič zase ukázal, jak pravidla mění výsledek. Teď budeš potřebovat obě dovednosti najednou: nejprve znovu poskládat model celého sektoru a potom spustit opravný dron, který poslední chodbu stabilizuje.",
+    "continue": "Otevřít Centrální Řídicí Sektor"
+  },
+  "level7": {
+    "title": "ŘÍDICÍ DVOJČE SEKTORU",
+    "subtitle": "Obnova Modelu Evakuačního Křídla",
+    "awaiting": "Digitální dvojče pořád přijímá data, ale převádí je do chybných stavů. Znovu připoj surové vstupy ke správným subsystémům a nastav jejich režimy, aby model konečně ukázal bezpečný stav.",
+    "invalidLink": "Toto propojení nedává smysl. Senzory mají napájet subsystémy a subsystémy teprve finální stavové uzly.",
+    "linked": "Datová linka přesměrována. Sleduj, které části modelu se začínají stabilizovat.",
+    "unlinked": "Spojení odpojeno. Model znovu přepočítává sektorový stav.",
+    "modeUpdated": "Režim subsystému přepsán. Porovnej, jestli nový výklad dat opravdu vede k bezpečnému výsledku.",
+    "incomplete": "Digitální dvojče je stále neúplné. Chybí některé senzorové vazby nebo režimy subsystémů.",
+    "failure": "Model stále hlásí nebezpečný sektor. Některé vztahy mezi daty a systémem jsou špatně.",
+    "success": "Digitální dvojče konečně čte sektor správně. Centrální model se přepíná z nouzových odhadů na ověřený stav.",
+    "unlock": "Jádro digitálního dvojčete bylo obnoveno. Přesný model sektoru můžeš použít pro finální automatickou opravu.",
+    "objectiveTitle": "Kontext Mise",
+    "objective": "Tato hádanka ukazuje rozdíl mezi daty a informací. Senzory dodávají jen surové hodnoty. Teprve když je přiřadíš ke správným částem systému a správně nastavíš jejich význam, vznikne model, který dává smysl a dovolí rozhodnout, zda je sektor připravený k evakuaci.",
+    "hintTitle": "Provozní Poznámky",
+    "hint": "Containment používá tlak + těsnění. Life support používá teplotu + scrubber. Transit používá napájení + kolej. SAFE STATE potřebuje containment i life support. EVAC READY potřebuje transit.",
+    "metrics": {
+      "sensorLinks": "Senzorové Vazby",
+      "hubs": "Aktivní Subsystémy",
+      "outputs": "Stavové Uzly",
+      "model": "Model Sektoru",
+      "stable": "STABILNÍ",
+      "pending": "ČEKÁ"
+    },
+    "modesTitle": "Řídicí Režimy",
+    "modeLabels": {
+      "hub_life_support": "Life Support",
+      "hub_transit": "Transit",
+      "hub_containment": "Containment"
+    },
+    "modes": {
+      "balance_o2": "Vyvážit směs O2",
+      "purge_fast": "Nouzový rychlopurge",
+      "stagger_launch": "Postupné vypouštění tras",
+      "manual_dispatch": "Ruční odpaly tras",
+      "seal_delta": "Delta těsnění",
+      "vent_open": "Trvalé odvětrání"
+    },
+    "reset": "Reset Modelu",
+    "validating": "Vyhodnocuji...",
+    "validate": "Stabilizovat Model",
+    "statusHint": "Klikni na linku pro její odpojení. Cílem není připojit všechno všude, ale z surových dat vyrobit jeden správný obraz sektoru.",
+    "nodes": {
+      "sensor_pressure": {
+        "title": "Tlaková Mřížka",
+        "body": "Surový tlak v servisní chodbě. Bez správného výkladu je to jen číslo bez významu."
+      },
+      "sensor_seal": {
+        "title": "Snímač Těsnění",
+        "body": "Hlásí, jak dobře drží uzávěry na přechodových přepážkách."
+      },
+      "sensor_thermal": {
+        "title": "Teplotní Řada",
+        "body": "Tepelné čtení z obytného traktu. Samo o sobě neříká, jestli je vzduch obyvatelný."
+      },
+      "sensor_scrubber": {
+        "title": "Filtr Scrubberu",
+        "body": "Čistota filtračního okruhu. Potřebuje být čtena jako součást podpory života."
+      },
+      "sensor_battery": {
+        "title": "Napájecí Sběrnice",
+        "body": "Kapacita hlavního bateriového rozvodu pro přesunové systémy."
+      },
+      "sensor_rail": {
+        "title": "Evakuační Kolej",
+        "body": "Stav dopravní trasy pro kapsle a servisní přesuny."
+      },
+      "hub_containment": {
+        "title": "Containment Core",
+        "body": "Rozhoduje, zda sektor fyzicky drží pohromadě a nepropouští tlak do mrtvých chodeb."
+      },
+      "hub_life_support": {
+        "title": "Life Support Matrix",
+        "body": "Převádí surová data do informace o obyvatelném prostředí."
+      },
+      "hub_transit": {
+        "title": "Transit Scheduler",
+        "body": "Vyhodnocuje, zda lze bezpečně spustit pohyb dronů a evakuačních tras."
+      },
+      "status_safe_state": {
+        "title": "SAFE STATE",
+        "body": "Finální model potvrzující, že křídlo je tlakové a obyvatelné."
+      },
+      "status_evac_ready": {
+        "title": "EVAC READY",
+        "body": "Povolí nasazení automatických oprav a přesunových rutin."
+      }
+    }
+  },
+  "level8": {
+    "title": "AUTOPILOT SERVISNÍHO DRONU",
+    "subtitle": "Ladění Opravné Smyčky",
+    "awaiting": "Centrální model je konečně přesný, ale poslední koridor zůstává zamčený. Sestav krátkou rutinu pro servisní dron, aby při každém průchodu opravoval panely, zatočil jen když musí, a dorazil až k výstupu.",
+    "programUpdated": "Autopilot přepsán. Otestuj, jestli se dron chová správně v každém kroku smyčky.",
+    "incomplete": "Program ještě nemá všechny příkazy. Každý slot smyčky musí být obsazený.",
+    "executing": "Dron vyráží do koridoru. Sleduj jeho postup a hledej, kde se rutina láme.",
+    "wall": "Dron narazil do uzavřené přepážky. Rutina špatně reaguje na blokovanou cestu.",
+    "panels": "Dron sice dojel dál, ale některý opravný panel zůstal vypnutý. Přidej nebo přesuň opravu do správného místa cyklu.",
+    "failure": "Autopilot stále nevede k úplné stabilizaci koridoru.",
+    "success": "Autopilot běží čistě. Dron opravil oba panely a dostal se až k finální bráně.",
+    "unlock": "Navigační čip autopilota potvrzen. Merged corridor je stabilní a kampaň může být uzavřena.",
+    "objectiveTitle": "Kontext Mise",
+    "objective": "Tato hádanka ukazuje, jak algoritmus nemusí být dlouhý, aby byl chytrý. Sestavuješ malou smyčku s podmínkou: dron se má opakovaně rozhodovat, kdy opravit panel, kdy zatočit a kdy prostě pokračovat dál. Klíčem je testování a ladění, ne hádání.",
+    "hintTitle": "Technický List Dronu",
+    "hint": "Dron opakuje stále stejnou krátkou rutinu. Potřebuje zvládnout tři věci: umět opravit panel, rozpoznat zablokovanou cestu a jinak se jen posouvat vpřed. Když se rutina povede, stejný vzor ho protáhne oběma zatáčkami i opravami.",
+    "commandDeckTitle": "Balík Příkazů",
+    "iterationsTitle": "Počet Smyček",
+    "programTitle": "Autopilotní Rutina",
+    "slotLabel": "Slot {{index}}",
+    "emptySlot": "Vložit příkaz",
+    "gridTitle": "Servisní Koridor",
+    "runLogTitle": "Telemetrie Běhu",
+    "reset": "Reset Rutiny",
+    "validating": "Ověřuji...",
+    "run": "Spustit Dron",
+    "executingShort": "Běží...",
+    "statusHint": "Klikni na vybraný příkaz v balíku a potom na slot. Kliknutí na slot bez vybraného příkazu jej vyčistí.",
+    "idle": "Nečinný",
+    "metrics": {
+      "loop": "Smyčka",
+      "repaired": "Opravené Panely",
+      "direction": "Směr",
+      "position": "Pozice",
+      "activeCommand": "Aktivní Příkaz"
+    },
+    "directions": {
+      "up": "NAHORU",
+      "right": "VPRAVO",
+      "down": "DOLŮ",
+      "left": "VLEVO"
+    },
+    "commands": {
+      "REPAIR_IF_PANEL": "OPRAVIT POKUD PANEL",
+      "IF_BLOCKED_TURN_LEFT": "POKUD BLOK, OTOČ VLEVO",
+      "IF_BLOCKED_TURN_RIGHT": "POKUD BLOK, OTOČ VPRAVO",
+      "MOVE": "POSUN VPŘED",
+      "TURN_LEFT": "OTOČIT VLEVO",
+      "TURN_RIGHT": "OTOČIT VPRAVO"
+    }
+  },
+  "campaignDebrief": {
+    "kicker": "Kampaň Dokončena",
+    "title": "Řídicí páteř zařízení znovu reaguje.",
+    "body": "Neunikl jsi ze školy testem. Prošel jsi opravou celého systému. Obnovil jsi pořadí, smyčky, signál, archivy, rozhodování, model sektoru i finální automatickou opravu. Komplex už znovu nebloudí v poškozených odhadech.",
+    "metrics": {
+      "time": "Zbývající Čas",
+      "modules": "Obnovené Moduly",
+      "path": "Zvolená Větev"
+    },
+    "routeTitle": "Obnovená Trasa Mise",
+    "tabs": {
+      "path": "Paměť Trasy",
+      "systems": "Obnovené Systémy",
+      "learning": "Co Ses Naučil"
+    },
+    "paths": {
+      "left": {
+        "title": "Levá Reléová Větev",
+        "body": "Ve slabé síťové páteři jsi musel číst vlastnosti uzlů a hledat jedinou trasu, která splní všechna omezení. Tahle větev připomněla, že informace necestuje náhodně: vždy se řídí strukturou propojené sítě."
+      },
+      "right": {
+        "title": "Pravý Rozhodovací Třídič",
+        "body": "V logistické větvi jsi stavěl pravidla, podle kterých se náklad dělí do různých výstupů. Tato cesta ukázala, že jedna změna podmínky může obrátit celý výsledek algoritmu."
+      }
+    },
+    "route": {
+      "airlock": {
+        "tag": "Start",
+        "title": "Přechodová Komora"
+      },
+      "loops": {
+        "tag": "Algoritmy",
+        "title": "Hlídací Koridor"
+      },
+      "archive": {
+        "tag": "Data",
+        "title": "Archivní Uzel"
+      },
+      "left": {
+        "tag": "Větev",
+        "title": "Reléová Páteř"
+      },
+      "right": {
+        "tag": "Větev",
+        "title": "Rozhodovací Pole"
+      },
+      "twin": {
+        "tag": "Model",
+        "title": "Digitální Dvojče"
+      },
+      "autopilot": {
+        "tag": "Finále",
+        "title": "Autopilot Dronu"
+      }
+    },
+    "systemsTitle": "Kořist Z Obnovy",
+    "systemsBody": "Každý z obnovených modulů představuje nástroj nebo myšlenku, kterou jsi během kampaně použil. Nejde jen o inventář. Je to mapa toho, jak ses postupně dostal od jednoduchých kroků až k řízení systému jako celku.",
+    "learning": {
+      "1": {
+        "title": "Data nejsou totéž co informace",
+        "body": "Surová čtení sama nic nevyřeší. Smysl vzniká až ve chvíli, kdy data přiřadíš ke správnému modelu nebo pravidlu."
+      },
+      "2": {
+        "title": "Krátký algoritmus může dělat hodně",
+        "body": "Sekvence, opakování a jednoduché podmínky stačí k tomu, aby stroj provedl složitější úkol. Důležité je předvídat, testovat a opravovat chyby."
+      },
+      "3": {
+        "title": "Systémy spolu souvisejí",
+        "body": "Síť, archiv, model i dron fungují jen tehdy, když chápeš vztahy mezi jejich částmi. Informatika není jen o klikání, ale o hledání těchto vazeb."
+      }
+    },
+    "nextDirectiveTitle": "Další Direktiva",
+    "nextDirectiveBody": "Centrální sektor je stabilní. Záznamy přeživších i servisní trasa jsou znovu čitelné. Můžeš se vrátit do menu, zkusit kampaň jinou cestou, nebo pokračovat do dalšího protokolu, až bude připravený.",
+    "exit": "Návrat Do Hlavního Menu"
   },
   "gameContainer": {
     "puzzleNotFound": "Logika hádanky nenalezena pro úroveň {{level}}",

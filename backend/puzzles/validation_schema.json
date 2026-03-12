@@ -234,6 +234,142 @@
                 "incomplete": "At least one manifest still lacks a decryptor mode.",
                 "failure": "One or more manifest headers are still garbled."
             }
+        },
+        "7": {
+            "type": "system_model",
+            "expectedEdges": [
+                "sensor_pressure->hub_containment",
+                "sensor_seal->hub_containment",
+                "sensor_thermal->hub_life_support",
+                "sensor_scrubber->hub_life_support",
+                "sensor_battery->hub_transit",
+                "sensor_rail->hub_transit",
+                "hub_life_support->status_safe_state",
+                "hub_containment->status_safe_state",
+                "hub_transit->status_evac_ready"
+            ],
+            "expectedModes": {
+                "hub_life_support": "balance_o2",
+                "hub_transit": "stagger_launch",
+                "hub_containment": "seal_delta"
+            },
+            "unlocks": [
+                "sector_map"
+            ],
+            "messages": {
+                "invalid": "Digital twin payload is malformed.",
+                "incomplete": "Some sensor lines or subsystem modes are still unset.",
+                "failure": "The facility model still predicts an unsafe evacuation state."
+            }
+        },
+        "8": {
+            "type": "drone_program",
+            "grid": [
+                [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                ],
+                [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                ],
+                [
+                    1,
+                    3,
+                    0,
+                    2,
+                    0,
+                    0,
+                    1
+                ],
+                [
+                    1,
+                    1,
+                    1,
+                    0,
+                    1,
+                    1,
+                    1
+                ],
+                [
+                    1,
+                    1,
+                    1,
+                    0,
+                    1,
+                    1,
+                    1
+                ],
+                [
+                    1,
+                    0,
+                    0,
+                    2,
+                    1,
+                    1,
+                    1
+                ],
+                [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                ]
+            ],
+            "start": [
+                5,
+                1
+            ],
+            "exit": [
+                2,
+                1
+            ],
+            "panels": [
+                [
+                    5,
+                    3
+                ],
+                [
+                    2,
+                    3
+                ]
+            ],
+            "startDirection": "RIGHT",
+            "validCommands": [
+                "REPAIR_IF_PANEL",
+                "IF_BLOCKED_TURN_LEFT",
+                "IF_BLOCKED_TURN_RIGHT",
+                "MOVE",
+                "TURN_LEFT",
+                "TURN_RIGHT"
+            ],
+            "iterations": {
+                "min": 1,
+                "max": 9
+            },
+            "unlocks": [
+                "flight_chip"
+            ],
+            "messages": {
+                "invalid": "Autopilot routine is malformed.",
+                "incomplete": "The service drone is still missing commands or loop cycles.",
+                "wall": "The drone collided with a sealed corridor bulkhead.",
+                "panels": "The drone reached the sector, but at least one repair panel is still offline.",
+                "failure": "The drone still fails to stabilize the merged corridor."
+            }
         }
     }
 }

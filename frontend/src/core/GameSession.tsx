@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { GAME_SESSION_STORAGE_KEY } from './gameConstants';
+import { deleteSessionSnapshot, persistSessionSnapshot } from './sessionApi';
 
 export type CampaignSessionStatus = 'active' | 'failed' | 'completed';
 
@@ -70,6 +71,27 @@ function saveStoredSessions(sessions: CampaignSessionMap) {
     window.localStorage.setItem(GAME_SESSION_STORAGE_KEY, JSON.stringify(sessions));
 }
 
+export function cacheStoredSession(snapshot: CampaignSessionSnapshot) {
+    const sessions = loadStoredSessions();
+    sessions[snapshot.campaignId] = snapshot;
+    saveStoredSessions(sessions);
+}
+
+export function cacheStoredSessionTimeLeft(campaignId: string, sessionId: string, timeLeftSeconds: number) {
+    const sessions = loadStoredSessions();
+    const snapshot = sessions[campaignId];
+    if (!snapshot || snapshot.sessionId !== sessionId) {
+        return;
+    }
+
+    sessions[campaignId] = {
+        ...snapshot,
+        timeLeftSeconds,
+        updatedAt: new Date().toISOString(),
+    };
+    saveStoredSessions(sessions);
+}
+
 export function getStoredSession(campaignId: string) {
     return loadStoredSessions()[campaignId] ?? null;
 }
@@ -118,19 +140,19 @@ export function GameSessionProvider({ campaignId, initialTimeSeconds, initialSna
     });
 
     useEffect(() => {
-        const nextSession = initialSnapshot && initialSnapshot.campaignId === campaignId
-            ? { ...initialSnapshot, status: 'active' as CampaignSessionStatus }
-            : createFreshSession(campaignId, initialTimeSeconds);
-        setSession(nextSession);
-    }, [campaignId, initialSnapshot, initialTimeSeconds]);
-
-    useEffect(() => {
-        const nextSessions = loadStoredSessions();
-        nextSessions[campaignId] = {
+        const nextSnapshot = {
             ...session,
             updatedAt: new Date().toISOString(),
         };
-        saveStoredSessions(nextSessions);
+        cacheStoredSession(nextSnapshot);
+
+        const persistHandle = window.setTimeout(() => {
+            void persistSessionSnapshot(nextSnapshot).catch((error) => {
+                console.error('Failed to persist session snapshot:', error);
+            });
+        }, 150);
+
+        return () => window.clearTimeout(persistHandle);
     }, [campaignId, session]);
 
     const value = useMemo<GameSessionContextValue>(() => ({
@@ -158,7 +180,12 @@ export function GameSessionProvider({ campaignId, initialTimeSeconds, initialSna
         }),
         markStatus: (status) => setSession((prev) => ({ ...prev, status })),
         patchSession: (patch) => setSession((prev) => ({ ...prev, ...patch })),
-        clearPersistedSession: () => clearStoredSession(campaignId),
+        clearPersistedSession: () => {
+            clearStoredSession(campaignId);
+            void deleteSessionSnapshot(campaignId).catch((error) => {
+                console.error('Failed to clear persisted session:', error);
+            });
+        },
     }), [campaignId, session]);
 
     return <GameSessionContext.Provider value={value}>{children}</GameSessionContext.Provider>;

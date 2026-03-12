@@ -29,7 +29,7 @@ export default function BranchConvergence() {
                     <button
                         onClick={() => {
                             audio.playSuccess();
-                            gameEvents.publish('PUZZLE_SOLVED', { nextLevel: 'COMPLETE' });
+                            gameEvents.publish('PUZZLE_SOLVED', { nextLevel: 'NEXT' });
                         }}
                         className="mt-8 rounded-2xl border border-cyan-400/45 bg-cyan-500/10 px-5 py-4 font-mono text-xs font-bold uppercase tracking-[0.22em] text-cyan-100 transition-colors hover:bg-cyan-500/20"
                     >

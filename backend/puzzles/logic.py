@@ -26,6 +26,14 @@ class ValidationResponse(BaseModel):
     message: str = ""
 
 
+class ProgressResponse(BaseModel):
+    data: dict[str, Any] = Field(default_factory=dict)
+
+
+class ClueResponse(BaseModel):
+    data: dict[str, Any] = Field(default_factory=dict)
+
+
 SCHEMA_PATH = Path(__file__).with_name("validation_schema.json")
 
 
@@ -152,6 +160,50 @@ def validate_signal_panels(
     return ValidationResponse(success=True, unlocks=schema.get("unlocks", []))
 
 
+def get_signal_panel_progress(
+    schema: dict[str, Any], data: dict[str, Any]
+) -> dict[str, Any]:
+    channels = data.get("channels", {})
+    targets = schema.get("targets", {})
+
+    if not isinstance(channels, dict):
+        return {
+            "matchedPanels": {panel_id: False for panel_id in targets.keys()},
+            "beaconUnlocked": False,
+        }
+
+    matched_panels = {
+        panel_id: channels.get(panel_id) == target_bits
+        for panel_id, target_bits in targets.items()
+    }
+
+    return {
+        "matchedPanels": matched_panels,
+        "beaconUnlocked": bool(
+            matched_panels.get("buffer") and matched_panels.get("pulse")
+        ),
+    }
+
+
+def get_signal_panel_clue(
+    schema: dict[str, Any], data: dict[str, Any]
+) -> dict[str, Any]:
+    panel_id = data.get("panelId")
+    targets = schema.get("targets", {})
+    if not isinstance(panel_id, str) or panel_id not in targets:
+        raise HTTPException(
+            status_code=400,
+            detail={
+                "message": "Requested signal panel clue is invalid.",
+                "error_code": "SIGNAL_PANEL_CLUE_INVALID",
+            },
+        )
+
+    return {
+        "pattern": targets[panel_id],
+    }
+
+
 def validate_archive_records(
     schema: dict[str, Any], data: dict[str, Any]
 ) -> ValidationResponse:
@@ -252,6 +304,87 @@ def validate_decision_rules(
     return ValidationResponse(success=True, unlocks=schema.get("unlocks", []))
 
 
+DECISION_PACKETS = [
+    {
+        "id": "iris",
+        "checksum": "stable",
+        "priority": "high",
+        "tag": "amber",
+        "target": "bay_a",
+    },
+    {
+        "id": "quill",
+        "checksum": "stable",
+        "priority": "low",
+        "tag": "cyan",
+        "target": "bay_b",
+    },
+    {
+        "id": "mako",
+        "checksum": "warning",
+        "priority": "high",
+        "tag": "amber",
+        "target": "bay_c",
+    },
+    {
+        "id": "lyra",
+        "checksum": "warning",
+        "priority": "low",
+        "tag": "cyan",
+        "target": "bay_d",
+    },
+]
+
+
+def evaluate_decision_rule(packet: dict[str, str], rule_id: str | None) -> bool:
+    if rule_id == "stable":
+        return packet["checksum"] == "stable"
+    if rule_id == "high_priority":
+        return packet["priority"] == "high"
+    if rule_id == "low_priority":
+        return packet["priority"] == "low"
+    if rule_id in {"amber_tag", "archive_tag"}:
+        return packet["tag"] == "amber"
+    if rule_id == "cyan_tag":
+        return packet["tag"] == "cyan"
+    return False
+
+
+def simulate_decision_packet(packet: dict[str, str], rules: dict[str, str]) -> str:
+    alpha = (
+        "beta"
+        if evaluate_decision_rule(packet, rules.get("junction_alpha"))
+        else "gamma"
+    )
+    if alpha == "beta":
+        return (
+            "bay_a"
+            if evaluate_decision_rule(packet, rules.get("junction_beta"))
+            else "bay_b"
+        )
+
+    return (
+        "bay_c"
+        if evaluate_decision_rule(packet, rules.get("junction_gamma"))
+        else "bay_d"
+    )
+
+
+def get_decision_rule_progress(
+    schema: dict[str, Any], data: dict[str, Any]
+) -> dict[str, Any]:
+    rules = data.get("rules", {})
+    if not isinstance(rules, dict):
+        return {"correctPacketIds": []}
+
+    correct_packet_ids = [
+        packet["id"]
+        for packet in DECISION_PACKETS
+        if simulate_decision_packet(packet, rules) == packet["target"]
+    ]
+    return {"correctPacketIds": correct_packet_ids}
+
+
 def validate_ordered_sequence(
     schema: dict[str, Any], data: dict[str, Any]
 ) -> ValidationResponse:
@@ -311,6 +444,161 @@ def validate_value_map(
     return ValidationResponse(success=True, unlocks=schema.get("unlocks", []))
 
 
+def validate_system_model(
+    schema: dict[str, Any], data: dict[str, Any]
+) -> ValidationResponse:
+    edges = data.get("edges", [])
+    modes = data.get("modes", {})
+    expected_edges = sorted(schema.get("expectedEdges", []))
+    expected_modes = schema.get("expectedModes", {})
+    messages = schema.get("messages", {})
+
+    if not isinstance(edges, list) or not all(isinstance(edge, str) for edge in edges):
+        return ValidationResponse(
+            success=False,
+            message=messages.get("invalid", "Digital twin payload is malformed."),
+        )
+
+    if not isinstance(modes, dict) or not all(
+        isinstance(key, str) and isinstance(value, str) for key, value in modes.items()
+    ):
+        return ValidationResponse(
+            success=False,
+            message=messages.get("invalid", "Digital twin payload is malformed."),
+        )
+
+    normalized_edges = sorted(set(edges))
+    if len(normalized_edges) < len(expected_edges) or any(
+        hub_id not in modes or not modes[hub_id] for hub_id in expected_modes
+    ):
+        return ValidationResponse(
+            success=False,
+            message=messages.get(
+                "incomplete",
+                "Some sensor lines or subsystem modes are still unset.",
+            ),
+        )
+
+    if normalized_edges != expected_edges or any(
+        modes.get(hub_id) != expected_mode
+        for hub_id, expected_mode in expected_modes.items()
+    ):
+        return ValidationResponse(
+            success=False,
+            message=messages.get(
+                "failure",
+                "The facility model still predicts an unsafe evacuation state.",
+            ),
+        )
+
+    return ValidationResponse(success=True, unlocks=schema.get("unlocks", []))
+
+
+def validate_drone_program(
+    schema: dict[str, Any], data: dict[str, Any]
+) -> ValidationResponse:
+    commands = data.get("commands", [])
+    iterations = data.get("iterations", 0)
+    grid = schema.get("grid", [])
+    panels = {tuple(panel) for panel in schema.get("panels", [])}
+    exit_cell = tuple(schema.get("exit", [0, 0]))
+    row, col = schema.get("start", [0, 0])
+    direction = schema.get("startDirection", "RIGHT")
+    valid_commands = set(schema.get("validCommands", []))
+    iteration_constraints = schema.get("iterations", {"min": 1, "max": 20})
+    messages = schema.get("messages", {})
+
+    if not isinstance(commands, list) or not all(
+        isinstance(command, str) and command in valid_commands for command in commands
+    ):
+        return ValidationResponse(
+            success=False,
+            message=messages.get("invalid", "Autopilot routine is malformed."),
+        )
+
+    if (
+        not isinstance(iterations, int)
+        or iterations < iteration_constraints.get("min", 1)
+        or iterations > iteration_constraints.get("max", 20)
+    ):
+        return ValidationResponse(
+            success=False,
+            message=messages.get(
+                "incomplete",
+                "The service drone is still missing commands or loop cycles.",
+            ),
+        )
+
+    repaired_panels: set[tuple[int, int]] = set()
+    turn_left = {"UP": "LEFT", "LEFT": "DOWN", "DOWN": "RIGHT", "RIGHT": "UP"}
+    turn_right = {"UP": "RIGHT", "RIGHT": "DOWN", "DOWN": "LEFT", "LEFT": "UP"}
+    deltas = {"UP": (-1, 0), "DOWN": (1, 0), "LEFT": (0, -1), "RIGHT": (0, 1)}
+    rows = len(grid)
+    cols = len(grid[0]) if rows > 0 else 0
+
+    def is_blocked(next_row: int, next_col: int) -> bool:
+        return (
+            next_row < 0
+            or next_row >= rows
+            or next_col < 0
+            or next_col >= cols
+            or grid[next_row][next_col] == 1
+        )
+
+    for _ in range(iterations):
+        for command in commands:
+            if command == "TURN_LEFT":
+                direction = turn_left[direction]
+            elif command == "TURN_RIGHT":
+                direction = turn_right[direction]
+            elif command == "IF_BLOCKED_TURN_LEFT":
+                delta_row, delta_col = deltas[direction]
+                if is_blocked(row + delta_row, col + delta_col):
+                    direction = turn_left[direction]
+            elif command == "IF_BLOCKED_TURN_RIGHT":
+                delta_row, delta_col = deltas[direction]
+                if is_blocked(row + delta_row, col + delta_col):
+                    direction = turn_right[direction]
+            elif command == "REPAIR_IF_PANEL":
+                if (row, col) in panels:
+                    repaired_panels.add((row, col))
+            elif command == "MOVE":
+                delta_row, delta_col = deltas[direction]
+                next_row, next_col = row + delta_row, col + delta_col
+                if is_blocked(next_row, next_col):
+                    return ValidationResponse(
+                        success=False,
+                        message=messages.get(
+                            "wall",
+                            "The drone collided with a sealed corridor bulkhead.",
+                        ),
+                    )
+                row, col = next_row, next_col
+
+            if (row, col) == exit_cell and repaired_panels == panels:
+                return ValidationResponse(
+                    success=True,
+                    unlocks=schema.get("unlocks", []),
+                )
+
+    if repaired_panels != panels:
+        return ValidationResponse(
+            success=False,
+            message=messages.get(
+                "panels",
+                "The drone reached the sector, but at least one repair panel is still offline.",
+            ),
+        )
+
+    return ValidationResponse(
+        success=False,
+        message=messages.get(
+            "failure",
+            "The drone still fails to stabilize the merged corridor.",
+        ),
+    )
+
+
 VALIDATION_HANDLERS: dict[
     str, Callable[[dict[str, Any], dict[str, Any]], ValidationResponse]
 ] = {
@@ -322,7 +610,46 @@ VALIDATION_HANDLERS: dict[
     "decision_rules": validate_decision_rules,
     "ordered_sequence": validate_ordered_sequence,
     "value_map": validate_value_map,
+    "system_model": validate_system_model,
+    "drone_program": validate_drone_program,
 }
+
+PROGRESS_HANDLERS: dict[
+    str, Callable[[dict[str, Any], dict[str, Any]], dict[str, Any]]
+] = {
+    "signal_panels": get_signal_panel_progress,
+    "decision_rules": get_decision_rule_progress,
+}
+
+CLUE_HANDLERS: dict[str, Callable[[dict[str, Any], dict[str, Any]], dict[str, Any]]] = {
+    "signal_panels": get_signal_panel_clue,
+}
+
+
+def get_rule(
+    validation_schema: dict[str, dict[str, dict[str, Any]]], request: ValidationRequest
+) -> dict[str, Any]:
+    campaign_rules = validation_schema.get(request.campaignId)
+    if not campaign_rules:
+        raise HTTPException(
+            status_code=404,
+            detail={
+                "message": f"Validation protocol missing for campaign {request.campaignId}.",
+                "error_code": "CAMPAIGN_NOT_FOUND",
+            },
+        )
+
+    rule = campaign_rules.get(request.levelId)
+    if not rule:
+        raise HTTPException(
+            status_code=404,
+            detail={
+                "message": f"Validation protocol missing for campaign {request.campaignId} level {request.levelId}.",
+                "error_code": "LEVEL_NOT_FOUND",
+            },
+        )
+
+    return rule
 
 
 @router.post("/validate", response_model=ValidationResponse)
@@ -346,25 +673,7 @@ def validate_puzzle(request: ValidationRequest):
             },
         ) from exc
 
-    campaign_rules = validation_schema.get(request.campaignId)
-    if not campaign_rules:
-        raise HTTPException(
-            status_code=404,
-            detail={
-                "message": f"Validation protocol missing for campaign {request.campaignId}.",
-                "error_code": "CAMPAIGN_NOT_FOUND",
-            },
-        )
-
-    rule = campaign_rules.get(request.levelId)
-    if not rule:
-        raise HTTPException(
-            status_code=404,
-            detail={
-                "message": f"Validation protocol missing for campaign {request.campaignId} level {request.levelId}.",
-                "error_code": "LEVEL_NOT_FOUND",
-            },
-        )
+    rule = get_rule(validation_schema, request)
 
     validator_type = rule.get("type")
     validator = VALIDATION_HANDLERS.get(validator_type)
@@ -378,3 +687,39 @@ def validate_puzzle(request: ValidationRequest):
         )
 
     return validator(rule, request.data)
+
+
+@router.post("/progress", response_model=ProgressResponse)
+def get_puzzle_progress(request: ValidationRequest):
+    validation_schema = load_validation_schema()
+    rule = get_rule(validation_schema, request)
+
+    handler = PROGRESS_HANDLERS.get(rule.get("type"))
+    if not handler:
+        raise HTTPException(
+            status_code=404,
+            detail={
+                "message": f"No progress handler is defined for level {request.levelId}.",
+                "error_code": "PROGRESS_HANDLER_NOT_FOUND",
+            },
+        )
+
+    return ProgressResponse(data=handler(rule, request.data))
+
+
+@router.post("/clue", response_model=ClueResponse)
+def get_puzzle_clue(request: ValidationRequest):
+    validation_schema = load_validation_schema()
+    rule = get_rule(validation_schema, request)
+
+    handler = CLUE_HANDLERS.get(rule.get("type"))
+    if not handler:
+        raise HTTPException(
+            status_code=404,
+            detail={
+                "message": f"No clue handler is defined for level {request.levelId}.",
+                "error_code": "CLUE_HANDLER_NOT_FOUND",
+            },
+        )
+
+    return ClueResponse(data=handler(rule, request.data))

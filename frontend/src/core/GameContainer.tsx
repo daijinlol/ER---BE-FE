@@ -7,6 +7,7 @@ import type { PuzzleComponentProps, PuzzleRegistry } from '../features/puzzles/t
 import { InventorySystem } from './InventorySystem';
 import { CampaignTimer } from './CampaignTimer';
 import { Notepad } from './Notepad';
+import { CampaignDebrief } from './CampaignDebrief';
 import { Bug, FileText, ShieldAlert, Box } from 'lucide-react';
 import { audio } from './AudioEngine';
 import { GameSessionProvider, useGameSession, type CampaignSessionSnapshot } from './GameSession';
@@ -45,6 +46,8 @@ const DEBUG_PROGRESS_PRESETS: Record<string, Record<number, DebugProgressPreset>
     11: { inventoryItems: ['module_ram', 'module_loop', 'usb_decryptor', 'storage'], roomInteractions: ['mysterious_note', 'employee_log', 'mainframe'] },
     12: { inventoryItems: ['module_ram', 'module_loop', 'usb_decryptor', 'storage'], roomInteractions: ['mysterious_note', 'employee_log', 'mainframe'] },
     13: { inventoryItems: ['module_ram', 'module_loop', 'usb_decryptor', 'storage'], roomInteractions: ['mysterious_note', 'employee_log', 'mainframe'] },
+    14: { inventoryItems: ['module_ram', 'module_loop', 'usb_decryptor', 'storage'], roomInteractions: ['mysterious_note', 'employee_log', 'mainframe'] },
+    15: { inventoryItems: ['module_ram', 'module_loop', 'usb_decryptor', 'storage', 'sector_map'], roomInteractions: ['mysterious_note', 'employee_log', 'mainframe'] },
   },
 };
 
@@ -70,7 +73,6 @@ const GameContainerShell: React.FC<GameContainerShellProps> = ({ campaignId, onE
   const { t } = useTranslation();
   const puzzleRegistry = registry as PuzzleRegistry;
   const { session, setLevelIndex, addInventoryItem, markStatus, patchSession, clearPersistedSession } = useGameSession();
-  const [currentLevelIndex, setCurrentLevelIndex] = useState<number>(0);
   const [isTransitioning, setIsTransitioning] = useState<boolean>(false);
   const [transitionType, setTransitionType] = useState<'FORWARD' | 'BACKWARD'>('FORWARD');
   const [isNotepadOpen, setIsNotepadOpen] = useState<boolean>(false);
@@ -79,14 +81,11 @@ const GameContainerShell: React.FC<GameContainerShellProps> = ({ campaignId, onE
   const [isExitConfirmOpen, setIsExitConfirmOpen] = useState<boolean>(false);
   const [isDebugMenuOpen, setIsDebugMenuOpen] = useState<boolean>(false);
   const [autoSeedProgress, setAutoSeedProgress] = useState<boolean>(true);
+  const currentLevelIndex = session.levelIndex;
   const campaignSessionKey = session.sessionId;
   const campaign = puzzleRegistry.campaigns[campaignId];
   const puzzleConfig = campaign?.levels[session.levelIndex];
   const isDebugToolsEnabled = import.meta.env.DEV;
-
-  useEffect(() => {
-    setCurrentLevelIndex(session.levelIndex);
-  }, [session.levelIndex]);
 
   useEffect(() => {
     if (!isDebugToolsEnabled) {
@@ -240,7 +239,7 @@ const GameContainerShell: React.FC<GameContainerShellProps> = ({ campaignId, onE
 
         <div className="flex items-center gap-6">
           {/* Global Campaign Timer */}
-          <CampaignTimer />
+          <CampaignTimer key={session.sessionId} />
 
           <div className="flex items-center gap-3">
             <div className="text-right">
@@ -388,19 +387,9 @@ const GameContainerShell: React.FC<GameContainerShellProps> = ({ campaignId, onE
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="w-full h-full flex items-center justify-center absolute inset-0 px-6 text-center"
+              className="w-full h-full absolute inset-0"
             >
-              <div className="flex flex-col items-center gap-6">
-                <div className="text-brand-400 text-2xl animate-pulse font-mono tracking-widest">
-                  {t('gameContainer.campaignComplete', { defaultValue: 'CAMPAIGN COMPLETE. AWAITING NEW DIRECTIVE...' })}
-                </div>
-                <button
-                  onClick={() => handleExitToMenu(true)}
-                  className="rounded-lg border border-brand-500/60 bg-brand-500/10 px-6 py-3 font-mono text-sm font-bold uppercase tracking-wider text-brand-200 transition-colors hover:bg-brand-500/20"
-                >
-                  Return to Main Menu
-                </button>
-              </div>
+              <CampaignDebrief campaignId={campaignId} onExit={() => handleExitToMenu(true)} />
             </motion.div>
           ) : (
             <motion.div
@@ -436,7 +425,7 @@ const GameContainerShell: React.FC<GameContainerShellProps> = ({ campaignId, onE
       <InventorySystem isOpen={isInventoryOpen} onClose={() => setIsInventoryOpen(false)} />
 
       {/* Global Notepad Overlay */}
-      <Notepad isOpen={isNotepadOpen} onClose={() => setIsNotepadOpen(false)} />
+      <Notepad key={session.sessionId} isOpen={isNotepadOpen} onClose={() => setIsNotepadOpen(false)} />
 
       {/* Exit Confirmation */}
       <AnimatePresence>
@@ -523,6 +512,7 @@ export const GameContainer: React.FC<GameContainerProps> = ({ campaignId, onExit
 
   return (
     <GameSessionProvider
+      key={`${campaignId}:${initialSession?.sessionId ?? 'fresh'}`}
       campaignId={campaignId}
       initialTimeSeconds={initialTimeSeconds}
       initialSnapshot={initialSession}

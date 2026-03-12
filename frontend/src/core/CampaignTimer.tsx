@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Clock } from 'lucide-react';
 import { gameEvents } from './EventBus';
-import { DEFAULT_TIME_PENALTY_SECONDS, GAME_SESSION_STORAGE_KEY, TIMER_CRITICAL_SECONDS, TIMER_WARNING_SECONDS } from './gameConstants';
-import { useGameSession } from './GameSession';
+import { DEFAULT_TIME_PENALTY_SECONDS, TIMER_CRITICAL_SECONDS, TIMER_WARNING_SECONDS } from './gameConstants';
+import { cacheStoredSessionTimeLeft, useGameSession } from './GameSession';
+import { updateSessionTimer } from './sessionApi';
 
 const TIMER_PERSIST_INTERVAL_SECONDS = 10;
 
@@ -14,41 +15,11 @@ export const CampaignTimer: React.FC = () => {
   const lastPersistedRef = useRef(session.timeLeftSeconds);
 
   const persistTimeLeft = useCallback((nextTimeLeft: number) => {
-    if (typeof window === 'undefined' || typeof window.localStorage === 'undefined') {
-      return;
-    }
-
-    try {
-      const raw = window.localStorage.getItem(GAME_SESSION_STORAGE_KEY);
-      if (!raw) {
-        return;
-      }
-
-      const storedSessions = JSON.parse(raw) as Record<string, {
-        sessionId: string;
-        timeLeftSeconds: number;
-      }>;
-      const storedSession = storedSessions[session.campaignId];
-      if (!storedSession || storedSession.sessionId !== session.sessionId) {
-        return;
-      }
-
-      storedSessions[session.campaignId] = {
-        ...storedSession,
-        timeLeftSeconds: nextTimeLeft,
-      };
-      window.localStorage.setItem(GAME_SESSION_STORAGE_KEY, JSON.stringify(storedSessions));
-    } catch {
+    cacheStoredSessionTimeLeft(session.campaignId, session.sessionId, nextTimeLeft);
+    void updateSessionTimer(session.campaignId, session.sessionId, nextTimeLeft).catch(() => {
       // Ignore persistence errors and keep the live timer running.
-    }
+    });
   }, [session.campaignId, session.sessionId]);
-
-  useEffect(() => {
-    setTimeLeft(session.timeLeftSeconds);
-    timeLeftRef.current = session.timeLeftSeconds;
-    lastPersistedRef.current = session.timeLeftSeconds;
-    setIsRunning(true);
-  }, [session.sessionId, session.timeLeftSeconds]);
 
   useEffect(() => {
     timeLeftRef.current = timeLeft;
@@ -74,14 +45,7 @@ export const CampaignTimer: React.FC = () => {
       unsubscribeFail();
       unsubscribePenalty();
     };
-  }, []);
-
-  useEffect(() => {
-    if (timeLeft <= 0 && isRunning) {
-      gameEvents.publish('CAMPAIGN_FAILED', { reason: 'TIME_EXPIRED' });
-      setIsRunning(false);
-    }
-  }, [isRunning, timeLeft]);
+  }, [persistTimeLeft]);
 
   useEffect(() => {
     if (!isRunning) {
@@ -93,6 +57,11 @@ export const CampaignTimer: React.FC = () => {
       setTimeLeft((prev) => {
         const next = Math.max(0, prev - 1);
         timeLeftRef.current = next;
+
+        if (next <= 0) {
+          gameEvents.publish('CAMPAIGN_FAILED', { reason: 'TIME_EXPIRED' });
+          setIsRunning(false);
+        }
 
         if (
           lastPersistedRef.current - next >= TIMER_PERSIST_INTERVAL_SECONDS

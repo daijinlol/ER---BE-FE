@@ -1,7 +1,8 @@
-import { startTransition, useState } from 'react';
+import { startTransition, useCallback, useEffect, useState } from 'react';
 import { GameContainer } from './core/GameContainer';
-import { clearStoredSession, getStoredSession, loadStoredSessions, type CampaignSessionSnapshot } from './core/GameSession';
+import { clearStoredSession, type CampaignSessionSnapshot } from './core/GameSession';
 import { MainMenu } from './core/MainMenu';
+import { deleteSessionSnapshot, listPersistedSessions, restoreSessionSnapshot } from './core/sessionApi';
 
 type AppState = 'MENU' | 'PLAYING';
 
@@ -15,17 +16,49 @@ function App() {
   const [appState, setAppState] = useState<AppState>('MENU');
   const [selectedCampaign, setSelectedCampaign] = useState<string>('elem_6');
   const [initialSession, setInitialSession] = useState<CampaignSessionSnapshot | null>(null);
-  const [storedSessions, setStoredSessions] = useState(loadStoredSessions());
+  const [storedSessions, setStoredSessions] = useState<Record<string, CampaignSessionSnapshot>>({});
   const [options, setOptions] = useState<AppOptions>({
     volume: 80,
     enableCrt: true,
     enableDyslexic: false,
   });
 
-  const handleStart = (campaignId: string, mode: 'fresh' | 'resume' = 'fresh') => {
-    const nextSession = mode === 'resume' ? getStoredSession(campaignId) : null;
+  const refreshStoredSessions = useCallback(async () => {
+    return listPersistedSessions();
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    void refreshStoredSessions()
+      .then((sessions) => {
+        if (!cancelled) {
+          startTransition(() => {
+            setStoredSessions(sessions);
+          });
+        }
+      })
+      .catch((error) => {
+        console.error('Failed to refresh stored sessions:', error);
+        if (!cancelled) {
+          startTransition(() => {
+            setStoredSessions({});
+          });
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [refreshStoredSessions]);
+
+  const handleStart = async (campaignId: string, mode: 'fresh' | 'resume' = 'fresh') => {
+    const nextSession = mode === 'resume' ? await restoreSessionSnapshot(campaignId) : null;
     if (mode === 'fresh') {
       clearStoredSession(campaignId);
+      await deleteSessionSnapshot(campaignId).catch((error) => {
+        console.error('Failed to clear persisted session before fresh start:', error);
+      });
     }
 
     startTransition(() => {
@@ -38,9 +71,18 @@ function App() {
   const handleExit = () => {
     startTransition(() => {
       setInitialSession(null);
-      setStoredSessions(loadStoredSessions());
       setAppState('MENU');
     });
+
+    void refreshStoredSessions()
+      .then((sessions) => {
+        startTransition(() => {
+          setStoredSessions(sessions);
+        });
+      })
+      .catch((error) => {
+        console.error('Failed to refresh stored sessions:', error);
+      });
   };
 
   return (

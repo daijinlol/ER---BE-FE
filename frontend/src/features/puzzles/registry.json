@@ -113,6 +113,14 @@
         {
           "id": "merge_convergence",
           "componentPath": "BranchConvergence"
+        },
+        {
+          "id": "7",
+          "componentPath": "Level7_SectorTwin"
+        },
+        {
+          "id": "8",
+          "componentPath": "Level8_DroneAutopilot"
         }
       ]
     },

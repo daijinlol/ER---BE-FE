@@ -1,11 +1,11 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowDownToLine, Cpu, GitMerge, ShieldCheck } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { audio } from '../../../core/AudioEngine';
 import { gameEvents } from '../../../core/EventBus';
 import { PUZZLE_MISTAKE_PENALTY_SECONDS } from '../../../core/gameConstants';
-import { usePuzzleValidation } from '../../../hooks/usePuzzleValidation';
+import { requestPuzzleProgress, usePuzzleValidation } from '../../../hooks/usePuzzleValidation';
 import type { PuzzleComponentProps } from '../types';
 
 type JunctionId = 'junction_alpha' | 'junction_beta' | 'junction_gamma';
@@ -18,14 +18,19 @@ interface Packet {
     checksum: 'stable' | 'warning';
     priority: 'high' | 'low';
     tag: 'amber' | 'cyan';
-    target: OutputId;
+}
+
+interface DecisionRuleProgressResponse {
+    data: {
+        correctPacketIds: string[];
+    };
 }
 
 const PACKETS: Packet[] = [
-    { id: 'iris', labelKey: 'branchRightDecision.packets.iris', checksum: 'stable', priority: 'high', tag: 'amber', target: 'bay_a' },
-    { id: 'quill', labelKey: 'branchRightDecision.packets.quill', checksum: 'stable', priority: 'low', tag: 'cyan', target: 'bay_b' },
-    { id: 'mako', labelKey: 'branchRightDecision.packets.mako', checksum: 'warning', priority: 'high', tag: 'amber', target: 'bay_c' },
-    { id: 'lyra', labelKey: 'branchRightDecision.packets.lyra', checksum: 'warning', priority: 'low', tag: 'cyan', target: 'bay_d' },
+    { id: 'iris', labelKey: 'branchRightDecision.packets.iris', checksum: 'stable', priority: 'high', tag: 'amber' },
+    { id: 'quill', labelKey: 'branchRightDecision.packets.quill', checksum: 'stable', priority: 'low', tag: 'cyan' },
+    { id: 'mako', labelKey: 'branchRightDecision.packets.mako', checksum: 'warning', priority: 'high', tag: 'amber' },
+    { id: 'lyra', labelKey: 'branchRightDecision.packets.lyra', checksum: 'warning', priority: 'low', tag: 'cyan' },
 ];
 
 const JUNCTION_ORDER: JunctionId[] = ['junction_alpha', 'junction_beta', 'junction_gamma'];
@@ -42,13 +47,32 @@ export default function BranchRightDecisionArray({ campaignId, levelId }: Puzzle
     const [rules, setRules] = useState<Partial<Record<JunctionId, RuleId>>>({});
     const [feedbackKey, setFeedbackKey] = useState('branchRightDecision.awaiting');
     const [isSolved, setIsSolved] = useState(false);
+    const [correctPacketIds, setCorrectPacketIds] = useState<string[]>([]);
 
     const packetOutputs = useMemo(
         () => PACKETS.map((packet) => ({ packet, output: simulatePacket(packet, rules) })),
         [rules],
     );
 
-    const correctlyRouted = packetOutputs.filter(({ packet, output }) => packet.target === output).length;
+    const correctlyRouted = correctPacketIds.length;
+
+    useEffect(() => {
+        let cancelled = false;
+
+        void requestPuzzleProgress<DecisionRuleProgressResponse>(campaignId, levelId, { rules })
+            .then((response) => {
+                if (!cancelled) {
+                    setCorrectPacketIds(response.data.correctPacketIds);
+                }
+            })
+            .catch((progressError) => {
+                console.error('Failed to refresh decision array progress:', progressError);
+            });
+
+        return () => {
+            cancelled = true;
+        };
+    }, [campaignId, levelId, rules]);
 
     const handleRuleSelect = (junctionId: JunctionId, ruleId: RuleId) => {
         if (isSolved || isChecking) {
@@ -155,7 +179,7 @@ export default function BranchRightDecisionArray({ campaignId, levelId }: Puzzle
                             </div>
                             <div className="mt-4 space-y-3">
                                 {packetOutputs.map(({ packet, output }) => {
-                                    const correct = output === packet.target;
+                                    const correct = correctPacketIds.includes(packet.id);
                                     return (
                                         <motion.div
                                             key={packet.id}

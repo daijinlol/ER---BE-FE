@@ -1,6 +1,5 @@
-import { useState } from 'react';
-
-const API_BASE_URL = (import.meta.env.VITE_API_URL ?? 'http://127.0.0.1:8000').replace(/\/$/, '');
+import { useCallback, useState } from 'react';
+import { fetchJson, getApiErrorMessage } from '../core/api';
 
 export interface ValidationResponse {
     success: boolean;
@@ -12,38 +11,65 @@ interface ValidationErrorResponse {
     detail?: string | { message?: string };
 }
 
+export type PuzzlePayload = Record<string, unknown>;
+
+export async function requestPuzzleProgress<T>(campaignId: string, levelId: string, data: PuzzlePayload) {
+    const { response, data: json } = await fetchJson<T | ValidationErrorResponse>('/api/puzzles/progress', {
+        method: 'POST',
+        body: JSON.stringify({
+            campaignId,
+            levelId,
+            data,
+        }),
+    });
+
+    if (!response.ok) {
+        throw new Error(getApiErrorMessage(json, `Puzzle progress request failed (${response.status}).`));
+    }
+
+    return json as T;
+}
+
+export async function requestPuzzleClue<T>(campaignId: string, levelId: string, data: PuzzlePayload) {
+    const { response, data: json } = await fetchJson<T | ValidationErrorResponse>('/api/puzzles/clue', {
+        method: 'POST',
+        body: JSON.stringify({
+            campaignId,
+            levelId,
+            data,
+        }),
+    });
+
+    if (!response.ok) {
+        throw new Error(getApiErrorMessage(json, `Puzzle clue request failed (${response.status}).`));
+    }
+
+    return json as T;
+}
+
 export function usePuzzleValidation(campaignId: string, levelId: string) {
     const [isChecking, setIsChecking] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const validate = async (data: Record<string, any>): Promise<ValidationResponse> => {
+    const validate = useCallback(async (data: PuzzlePayload): Promise<ValidationResponse> => {
         setIsChecking(true);
         setError(null);
         const controller = new AbortController();
         const timeout = window.setTimeout(() => controller.abort(), 10000);
 
         try {
-            const res = await fetch(`${API_BASE_URL}/api/puzzles/validate`, {
+            const { response, data: json } = await fetchJson<ValidationResponse | ValidationErrorResponse>('/api/puzzles/validate', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
                 signal: controller.signal,
                 body: JSON.stringify({
                     campaignId,
                     levelId,
-                    data
-                })
+                    data,
+                }),
             });
-            const json = await res.json() as ValidationResponse | ValidationErrorResponse;
-            window.clearTimeout(timeout);
-            setIsChecking(false);
 
-            if (!res.ok) {
-                const errorResponse = json as ValidationErrorResponse;
-                const message = 'message' in json && typeof json.message === 'string'
-                    ? json.message
-                    : typeof errorResponse.detail === 'string'
-                        ? errorResponse.detail
-                        : errorResponse.detail?.message || `Validation request failed (${res.status}).`;
+            if (!response.ok) {
+                const message = getApiErrorMessage(json, `Validation request failed (${response.status}).`);
                 setError(message);
                 return { success: false, unlocks: [], message };
             }
@@ -54,16 +80,17 @@ export function usePuzzleValidation(campaignId: string, levelId: string) {
             }
             return validationResult;
         } catch (err) {
-            window.clearTimeout(timeout);
             console.error('Validation API Error:', err);
             const message = err instanceof DOMException && err.name === 'AbortError'
                 ? 'Connection to Core Server timed out.'
                 : 'Connection to Core Server failed.';
             setError(message);
-            setIsChecking(false);
             return { success: false, unlocks: [], message };
+        } finally {
+            window.clearTimeout(timeout);
+            setIsChecking(false);
         }
-    };
+    }, [campaignId, levelId]);
 
     return { validate, isChecking, error };
 }

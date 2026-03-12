@@ -3,6 +3,7 @@ import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from puzzles.logic import router as puzzle_router
+from session_store import router as session_router
 
 
 def get_allowed_origins() -> list[str]:
@@ -29,6 +30,7 @@ app.add_middleware(
 )
 
 app.include_router(puzzle_router, prefix="/api/puzzles", tags=["puzzles"])
+app.include_router(session_router, prefix="/api/sessions", tags=["sessions"])
 
 
 @app.get("/")
