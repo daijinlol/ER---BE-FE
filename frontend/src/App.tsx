@@ -3,6 +3,7 @@ import { GameContainer } from './core/GameContainer';
 import { clearStoredSession, type CampaignSessionSnapshot } from './core/GameSession';
 import { MainMenu } from './core/MainMenu';
 import { deleteSessionSnapshot, listPersistedSessions, restoreSessionSnapshot } from './core/sessionApi';
+import { registry } from './features/puzzles/registry';
 
 type AppState = 'MENU' | 'PLAYING';
 
@@ -12,9 +13,14 @@ export interface AppOptions {
   enableDyslexic: boolean;
 }
 
+const DEFAULT_CAMPAIGN_ID = Object.entries(registry.campaigns)
+  .find(([, campaign]) => campaign.levels.length > 0)?.[0]
+  ?? Object.keys(registry.campaigns)[0]
+  ?? 'elem_6';
+
 function App() {
   const [appState, setAppState] = useState<AppState>('MENU');
-  const [selectedCampaign, setSelectedCampaign] = useState<string>('elem_6');
+  const [selectedCampaign, setSelectedCampaign] = useState<string>(DEFAULT_CAMPAIGN_ID);
   const [initialSession, setInitialSession] = useState<CampaignSessionSnapshot | null>(null);
   const [storedSessions, setStoredSessions] = useState<Record<string, CampaignSessionSnapshot>>({});
   const [options, setOptions] = useState<AppOptions>({

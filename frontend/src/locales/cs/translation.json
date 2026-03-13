@@ -1,75 +1,161 @@
 {
   "system": {
-    "title": "Úniková_Platforma",
+    "title": "Informatické kampaně",
     "os": "OS",
-    "subtitle": "Interaktivní výukové prostředí pro informatické kompetence podle standardů RVP ČR.",
+    "subtitle": "Interaktivní escape-room prostředí pro rozvoj informatického myšlení podle RVP ČR.",
     "version": "Systém v0.1.0-alpha"
   },
   "inventory": {
     "title": "Inventář",
     "empty": "Prázdný",
-    "detailLabel": "Vybraný Předmět",
-    "hoverHint": "Najeď na předmět pro zobrazení detailu."
+    "detailLabel": "Vybraný předmět",
+    "hoverHint": "Najeď myší na předmět a zobrazí se jeho detail.",
+    "count_one": "{{count}} předmět",
+    "count_few": "{{count}} předměty",
+    "count_other": "{{count}} předmětů",
+    "recoveredItems": "Získané předměty",
+    "emptyState": "Zatím jsi nezískal žádné předměty.",
+    "selectPrompt": "Vyber předmět a zobraz jeho detail.",
+    "readableHint": "Tento získaný dokument můžeš kdykoli znovu otevřít.",
+    "unreadableHint": "Tento předmět je uložené vybavení, ne čitelný dokument.",
+    "openReadable": "Otevřít dokument",
+    "documentTitle": "Získaný dokument",
+    "defaultSummary": "Obnovené vybavení uložené v inventáři kampaně.",
+    "types": {
+      "document": "Dokument",
+      "tool": "Nástroj",
+      "artifact": "Artefakt"
+    }
   },
   "items": {
-    "module_ram": "Modul RAM Bufferu",
-    "module_loop": "Modul Ovládání Smyčky",
-    "usb_decryptor": "USB Dekryptor",
+    "module_ram": "Modul vyrovnávací paměti (RAM)",
+    "module_loop": "Modul smyček",
+    "usb_decryptor": "USB dekryptor",
     "cpu": "CPU",
     "ram": "RAM",
     "gpu": "GPU",
     "storage": "Úložiště",
-    "sector_map": "Jádro Digitálního Dvojčete",
-    "flight_chip": "Navigační Čip Autopilota"
+    "sector_map": "Jádro digitálního dvojčete",
+    "flight_chip": "Navigační čip autopilota",
+    "archive_notice": "Oznámení radnice",
+    "shelf_guide": "Vodítko archivních polic",
+    "clerk_index": "Kartotéční index",
+    "ledger_bundle": "Svazek obnovených registrů",
+    "wax_seal": "Vosková pečeť",
+    "routing_stamp": "Směrovací razítko",
+    "witness_note": "Svědecká poznámka",
+    "district_map": "Okresní překryvná mapa",
+    "charter_fragment": "Ověřený fragment listiny"
+  },
+  "itemDetails": {
+    "module_ram": {
+      "summary": "Obnovený modul vyrovnávací paměti nesoucí nouzová data pro restart systému.",
+      "body": "VYSUNUTÁ PAMĚŤOVÁ KARTUŠE\n\nOpravený mainframe vysunul skrz slot malou údržbovou kartuši. Označení na plášti potvrzuje, že jde o RAM buffer určený k uchování krátkých dávek obnovených dat během restartu poškozených systémů.\n\nRychle si ho schováš, než se zámek znovu zaklapne."
+    },
+    "module_loop": {
+      "summary": "Řídicí modul smyček určený k opakování krátkých rutin.",
+      "body": "VÝSTUP NOUZOVÉHO PROGRAMU // MODUL SMYČEK\n\nNouzový program vyhodil na servisní plochu malý hardwarový modul. Jeho záznam potvrzuje, že jde o řídicí čip smyček používaný k opakování krátkých postupů ve firmwaru hlídkových systémů.\n\nJe dost malý na to, abys ho mohl vzít s sebou hlouběji do zařízení."
+    },
+    "usb_decryptor": {
+      "summary": "Starý dekryptor, který starší archivní systémy stále přijímají.",
+      "body": "KONTEJNER SE STAROU ZÁPLATOU // OTEVŘEN\n\nVe staré složce administrátorských nástrojů leží kompaktní USB dekryptor. Během krizí se s ním kdysi lámaly zabezpečené archivy, když selhalo úplně všechno ostatní.\n\nTechnický štítek sice varuje, že jeho šifrovací schopnosti jsou dávno zastaralé, ale místní historické uzly mu zjevně pořád důvěřují."
+    },
+    "storage": {
+      "summary": "Přístup k archivním záznamům tranzitního uzlu byl obnoven."
+    },
+    "sector_map": {
+      "summary": "Obnovené jádro digitálního dvojčete shrnující model evakuačního sektoru.",
+      "body": "JÁDRO DIGITÁLNÍHO DVOJČETE\n\nObnovené jádro obsahuje konečně stabilní model evakuačního křídla. Tlakové, těsnicí, tepelné, filtrační, bateriové i kolejové údaje jsou znovu správně navázané na příslušné subsystémy.\n\nDokazuje to, že bezpečný stav systému vzniká teprve tehdy, když jsou mezi zdroji dat obnovené správné vztahy."
+    },
+    "flight_chip": {
+      "summary": "Navigační čip servisního dronu s uloženou opravnou rutinou.",
+      "body": "NAVIGAČNÍ ČIP AUTOPILOTA\n\nDo přenosného čipu byla zapsána finální rutina opravného dronu pro spojený koridor. Ukládá nejkratší opakovatelnou trasu, která navštíví všechny poškozené panely a dovede dron zpět na výstupní cestu.\n\nPřipomíná, že dobrá automatizace stojí na modelu, trase a postupu, který je možné provést spolehlivě znovu."
+    },
+    "archive_notice": {
+      "summary": "Oznámení radnice popisující spor o listinu a nutnost obnovit pořádek v archivu.",
+      "body": "RADNIČNÍ VÝZVA\n\nPři dnešní kontrole zjistila rada města nesoulad mezi hlavní listinou a jejími opisnými knihami. Dokud nebude doloženo, která verze je pravá, nesmí být záznam potvrzen.\n\nKaždý, kdo vstoupí do archivu, má nejprve zkontrolovat pořádek polic a zachránit vodítka, podle nichž byly záznamy řazeny."
+    },
+    "shelf_guide": {
+      "summary": "Vodítko vysvětlující chronologické řazení archivních polic.",
+      "body": "VODÍTKO ARCHIVNÍCH POLIC\n\nNa promočeném kartonu je stále čitelné pravidlo: police se řadily podle roku zapsání a teprve uvnitř stejného roku podle typu svazku.\n\nJestli chceš něco najít, musíš nejprve vrátit karty do správného pořadí. Jinak bude každá další stopa ležet na špatném místě."
+    },
+    "clerk_index": {
+      "summary": "Kartotéční postup ukazující, jak se ověřují jména, ulice, parcely a okrsky.",
+      "body": "KARTOTÉČNÍ POSTUP\n\nKaždé jméno v obytné knize musí ukazovat na správnou ulici, parcelu a městský okrsek. Pokud chybí jediný údaj, musí se záznam znovu porovnat s další knihou.\n\nSmysl informace vzniká až tehdy, když se všechny související položky potvrdí navzájem."
+    },
+    "ledger_bundle": {
+      "summary": "Obnovený svazek registrů uchovávající správně spárované obecní záznamy.",
+      "body": "OBNOVENÝ SVAZEK REGISTRŮ\n\nZáznam 1: Eliška -> Ulice Mostní -> Parcela A-12 -> Severní okrsek\nZáznam 2: Jan -> Ulice Náměstí -> Parcela B-07 -> Tržní okrsek\nZáznam 3: Marta -> Ulice Mlýnská -> Parcela C-19 -> Říční okrsek\n\nTyto řádky jsou nyní uložené jako ověřené kombinace, ne jen jako samostatné útržky údajů."
+    },
+    "wax_seal": {
+      "summary": "Pravidlo o pečeti potvrzující, že pravost se ověřuje dřív než obsah opisů.",
+      "body": "POZNÁMKA K PEČETI\n\nKdyž se údaje mezi knihami neshodují, nesmíme přepsat hlavní listinu podle první nalezené poznámky. Nejprve ověřujeme pečeť a pak srovnáváme index, adresu a parcelní číslo.\n\nBez pečeti je i krásně napsaná stránka jen podezřelý opis."
+    },
+    "routing_stamp": {
+      "summary": "Směrovací připomínka, že tok dokumentů ovlivňuje důvěryhodnost i dohledatelnost informací.",
+      "body": "SMĚROVACÍ RAZÍTKO\n\nPři velkých žádostech nejprve ověř směr toku. Jinak se dokument zamotá do špatné zásuvky a zpět už se nedohledá.\n\nSprávný spisový systém není jen o uložení. Je i o pravidlech, která rozhodují, kam informace putuje dál."
+    },
+    "witness_note": {
+      "summary": "Svědecký zápis o tom, kde byla uložena pravá listina a kde zůstal opis.",
+      "body": "SVĚDECKÁ POZNÁMKA\n\nVýpověď starého městského posla uvádí, že pravá listina byla po kontrole uložena zpět do vnitřního trezoru, zatímco opis zůstal v zásuvce kanceláře.\n\nJestli má pravdu, musí se to odrazit i v ostatních záznamech."
+    },
+    "district_map": {
+      "summary": "Překryvná mapa vysvětlující tři vrstvy používané při porovnání záznamů.",
+      "body": "PŘEKRYVNÁ MAPA OKRSKŮ\n\nNa tenkém průsvitném listu jsou vyznačeny tři mapové vrstvy. Jedna ukazuje severní okrsek, druhá říční parcely a třetí tržní oblast. Jen správné přiřazení vrstev odhalí, kam skutečně patří sporné záznamy."
+    },
+    "charter_fragment": {
+      "summary": "Ověřený fragment listiny uložený s finálním archivním verdiktem.",
+      "body": "OVĚŘENÝ FRAGMENT LISTINY\n\nVýsledek kontroly:\n- Stránka listiny -> Vnitřní trezor -> Neporušená vosková pečeť -> Pravá\n- Opis registru -> Zásuvka kanceláře -> Protiznačka -> Podpůrný důkaz\n- Svědecký svitek -> Severní police -> Nalomená pečeť -> Sporný\n\nFragment je teď podložený odpovídajícím uložením, stavem pečeti i navazujícími důkazy."
+    }
   },
   "level1": {
-    "title": "Defragmentace Paměti",
-    "subtitle": "Manuální Protokol Bubble Sort",
-    "story": "Mainframe v přechodové komoře ještě žije, ale sotva. Jeho porovnávací sběrnice je poškozená, takže dokáže kontrolovat jen sousední paměťové bloky po dvojicích. Proveď ručně celý defragmentační průchod a udrž obnovenou cache stabilní dost dlouho na znovuotevření sektoru.",
-    "objectiveTitle": "Kontext Mise",
-    "objective": "Tato hádanka simuluje, jak může stroj řadit data pomocí opakovaných lokálních porovnání. Nahrazuješ chybějící porovnávací logiku: podívej se na zvýrazněnou dvojici a rozhodni, zda hodnoty zůstanou, nebo se prohodí.",
-    "hintTitle": "INSTRUKCE PROTOKOLU",
-    "hint": "Porovnejte dva zvýrazněné paměťové bloky. Pokud je LEVÁ hodnota VĚTŠÍ než PRAVÁ, stiskněte PROHODIT. Jinak stiskněte PONECHAT.",
+    "title": "Defragmentace paměti",
+    "subtitle": "Manuální protokol: Bubble Sort",
+    "story": "Mainframe v přechodové komoře sice stále běží, ale jen tak tak. Porovnávací sběrnice je poškozená a zvládne kontrolovat jen sousední paměťové bloky – vždy pouze po dvou. Proveď ručně celou defragmentaci a udrž obnovenou paměť stabilní dost dlouho na to, aby se sektor znovu otevřel.",
+    "objectiveTitle": "Kontext mise",
+    "objective": "V této hádance nahrazuješ poškozenou logiku počítače. Stroj umí porovnat vždy jen zvýrazněnou dvojici a ty musíš rozhodnout, jestli hodnoty zůstanou na svém místě, nebo se prohodí.",
+    "hintTitle": "Pokyny protokolu",
+    "hint": "Porovnej dva zvýrazněné paměťové bloky. Pokud je LEVÁ hodnota VĚTŠÍ než PRAVÁ, stiskni PROHODIT. Pokud ne, zvol PONECHAT.",
     "swap": "PROHODIT",
     "keep": "PONECHAT",
     "pass": "Průchod",
     "comparisons": "Porovnání",
     "sorted": "Seřazeno",
-    "diagnosticsTitle": "Diagnostika Jádra",
-    "activePairTitle": "Aktivní Porovnání",
-    "actionsTitle": "Ovládání Komparátoru",
-    "passStatusTitle": "Uzamčený Ocas",
-    "noActivePair": "Všechny zbývající bloky už jsou srovnané. Aktuální průchod je hotový.",
-    "pairRelationGreater": "{{left}} je větší než {{right}}. Tato dvojice se musí prohodit, než průchod pokračuje.",
-    "pairRelationOrdered": "{{left}} už je menší nebo rovno {{right}}. Tato dvojice může zůstat na místě.",
-    "mistakeSwap": "{{a}} < {{b}} — jsou již ve správném pořadí. Stiskněte PONECHAT.",
-    "mistakeKeep": "{{a}} > {{b}} — jsou ve špatném pořadí! Stiskněte PROHODIT.",
-    "awaitingSort": "PAMĚŤOVÉ BLOKY POŠKOZENY. ČEKÁ SE NA MANUÁLNÍ DEFRAGMENTACI...",
-    "sortComplete": "DEFRAGMENTACE DOKONČENA. PAMĚŤ ZAROVNÁNA. DVEŘE ODEMČENY.",
-    "cartridgeReady": "CACHE MAINFRAMU UVOLNĚNA. VRAŤ SE DO PŘECHODOVÉ KOMORY A VYZVEDNI VYSUNUTOU PAMĚŤOVOU KARTUŠI.",
-    "tokenGranted": "PŘÍSTUPOVÝ TOKEN UDĚLEN. POKRAČOVÁNÍ DO DALŠÍ ZÓNY...",
-    "accessGranted": "Přístup Udělen",
-    "secureArea": "Zabezpečená Oblast"
+    "diagnosticsTitle": "Diagnostika jádra",
+    "activePairTitle": "Aktivní dvojice",
+    "actionsTitle": "Řízení komparátoru",
+    "passStatusTitle": "Zajištěný konec",
+    "noActivePair": "Všechny zbývající bloky jsou už srovnané. Aktuální průchod je hotový.",
+    "pairRelationGreater": "{{left}} je větší než {{right}}. Tato dvojice se musí prohodit, než budeš moct pokračovat.",
+    "pairRelationOrdered": "{{left}} je menší nebo rovno {{right}}. Tato dvojice může zůstat na místě.",
+    "mistakeSwap": "{{a}} < {{b}} — tato dvojice je už ve správném pořadí. Zvol PONECHAT.",
+    "mistakeKeep": "{{a}} > {{b}} — tady je pořadí špatné. Zvol PROHODIT.",
+    "awaitingSort": "PAMĚŤOVÉ BLOKY JSOU POŠKOZENY. ČEKÁ SE NA MANUÁLNÍ DEFRAGMENTACI...",
+    "sortComplete": "DEFRAGMENTACE BYLA DOKONČENA. PAMĚŤ JE ZAROVNÁNA. DVEŘE ODEMČENY.",
+    "cartridgeReady": "VYROVNÁVACÍ PAMĚŤ (CACHE) UVOLNĚNA. VRAŤ SE DO PŘECHODOVÉ KOMORY A VYZVEDNI VYSUNUTOU PAMĚŤOVOU KARTUŠI.",
+    "tokenGranted": "PŘÍSTUPOVÝ TOKEN BYL UDĚLEN. POKRAČUJ DO DALŠÍ ZÓNY...",
+    "accessGranted": "Přístup udělen",
+    "secureArea": "Zajištěná oblast"
   },
   "level2": {
-    "title": "PŘEPSÁNÍ HLÍDKOVÉ TRASY",
-    "subtitle": "Protokol Smyčkového Běžce",
-    "story": "Obnovená přechodová komora vede do zhaslé hlídkové chodby. Její bezpečnostní bot znovu otevře pancéřové dveře jen tehdy, když mu místo jednotlivých kroků předáš krátkou opakovatelnou rutinu. Sestav smyčku, nastav počet opakování a otestuj trasu na mapě chodby.",
-    "objectiveTitle": "Kontext Mise",
-    "objective": "Tato hádanka ukazuje, jak počítač používá smyčky k opakování stejného krátkého postupu vícekrát. Tvým cílem je napsat jeden kompaktní vzor příkazů, který bot bude vykonávat znovu a znovu, dokud nedorazí k východu.",
-    "awaitingProgram": "BEZPEČNOSTNÍ BOT OFFLINE. NAPROGRAMUJ HLÍDKOVOU SMYČKU K DOSAŽENÍ VÝCHODU...",
+    "title": "Přepsání hlídkové trasy",
+    "subtitle": "Protokol smyčkového běhu",
+    "story": "Obnovená přechodová komora ústí do vyhaslé hlídkové chodby. Bezpečnostní bot otevře pancéřové dveře jen tehdy, když mu místo jednotlivých kroků předáš krátký program, který dokáže opakovat pořád dokola. Slož smyčku, nastav počet opakování a prověř ji na mapě koridoru.",
+    "objectiveTitle": "Kontext mise",
+    "objective": "Tato hádanka ukazuje, jak počítač používá smyčky k opakování postupů. Nemůžeš napsat dlouhý seznam všech příkazů, musíš najít krátký vzor, který bota bezpečně dovede až k východu.",
+    "awaitingProgram": "BEZPEČNOSTNÍ BOT JE OFFLINE. NAPROGRAMUJ HLÍDKOVOU SMYČKU K DOSAŽENÍ VÝCHODU...",
     "doorUnlocked": "TRASA DOKONČENA. PŘEPSÁNÍ PANCÉŘOVÝCH DVEŘÍ PŘIJATO.",
-    "hintTitle": "Instrukce Protokolu",
-    "hint": "Sestav opakující se vzor příkazů (tělo smyčky). Robot provede všechny příkazy popořadě a potom je zopakuje. Nastav počet opakování a stiskni SPUSTIT. Sleduj robota — pokud narazí do zdi nebo mine východ, uprav příkazy nebo počet opakování.",
-    "commands": "Dostupné Příkazy",
-    "loopEditor": "Program Smyčky",
-    "routeGridTitle": "Simulační Mřížka Chodby",
-    "commandDeckTitle": "Příkazový Pult",
-    "programStatusTitle": "Nahrané Příkazy",
-    "iterationControlTitle": "Počet Opakování",
-    "currentProgramTitle": "Aktuální Program",
-    "executionStatusTitle": "Stav Vykonávání",
-    "repeat": "OPAKUJ",
+    "hintTitle": "Pokyny protokolu",
+    "hint": "Slož opakující se vzor příkazů, který se bude přehrávat stále dokola. Robot vykoná příkazy v daném pořadí, pak se vrátí na začátek smyčky a jede znovu. Nastav počet opakování, spusť program a sleduj, kde případně narazí.",
+    "commands": "Dostupné příkazy",
+    "loopEditor": "Program smyčky",
+    "routeGridTitle": "Simulační mřížka chodby",
+    "commandDeckTitle": "Sada příkazů",
+    "programStatusTitle": "Nahrané příkazy",
+    "iterationControlTitle": "Počet opakování",
+    "currentProgramTitle": "Aktuální rutina",
+    "executionStatusTitle": "Stav běhu",
+    "repeat": "OPAKOVAT",
     "emptyBody": "Přidej příkazy do těla smyčky...",
     "cmd_MOVE": "POHYB VPŘED",
     "cmd_TURN_LEFT": "OTOČIT VLEVO",
@@ -80,136 +166,138 @@
     "iteration": "Opakování",
     "step": "Krok",
     "mistakes": "Chyby",
-    "hitWall": "Robot narazil do zdi! Uprav své příkazy.",
-    "missedExit": "Robot nedosáhl východu. Zkus změnit počet opakování nebo příkazy.",
-    "success": "Trasa dokončena! Robot dosáhl východu.",
+    "hitWall": "Robot narazil do zdi. Rutina potřebuje úpravu.",
+    "missedExit": "Robot nedorazil k východu. Změň příkazy nebo počet opakování.",
+    "success": "Trasa je hotová. Robot bezpečně dorazil k východu.",
     "doorOpen": "DVEŘE OTEVŘENY",
     "doorLocked": "DVEŘE ZAMČENY"
   },
   "level3": {
-    "title": "SIGNÁLOVÉ RELÉ",
-    "subtitle": "Rekonstrukce Nouzového Majáku",
+    "title": "Signálové relé",
+    "subtitle": "Rekonstrukce nouzového majáku",
     "awaitingSignal": "KOMUNIKAČNÍ POLE NAPÁJENO. OBNOV RELÉOVÝ PAKET DŘÍV, NEŽ SE UZAVŘE VYSÍLACÍ OKNO.",
-    "beaconLocked": "PRIMÁRNÍ KANÁLY MUSÍ BÝT STABILNÍ, NEŽ FINÁLNÍ MAJÁKOVÁ MŘÍŽKA PŘIJME VSTUP.",
+    "beaconLocked": "PRIMÁRNÍ KANÁLY MUSÍ BÝT STABILNÍ, NEŽ FINÁLNÍ MŘÍŽKA MAJÁKU PŘIJME VSTUP.",
     "failedTransmission": "PŘENOS ODMÍTNUT. KONTROLNÍ SOUČET RELÉ SE JEŠTĚ NESHODUJE S OBNOVENÝM VZOREM.",
     "signalRecovered": "MAJÁK PŘIJAT. STARÝ NOUZOVÝ UZEL ODPOVÍDÁ.",
-    "decryptorGranted": "PŘIJAT NÁSTROJ PRO ARCHIV: USB DEKRYPTOR. ZABEZPEČENÉ SOUBORY LZE NYNÍ OTEVŘÍT.",
+    "decryptorGranted": "BYL PŘIJAT NÁSTROJ PRO ARCHIV: USB DEKRYPTOR. ZABEZPEČENÉ SOUBORY LZE NYNÍ OTEVŘÍT.",
     "archiveLinkReady": "ARCHIVNÍ DOPRAVNÍ UZEL ZAMĚŘEN. POKRAČUJ K OBNOVENÝM LOGŮM.",
-    "hintTitle": "Poznámky k Relé",
-    "hint": "Tři poškozené kanály popisují stejný nouzový signál ve formě čitelné pro stroj. Přehraj zachráněný puls na každém panelu, obnov rozsvícené buňky a potom odešli celý paket. První dva kanály napájí finální mřížku majáku.\n\nNejde o hádání slova, ale o zakódování informace pro stroj.",
-    "replayPattern": "Přehrát Vzor",
-    "resetPanel": "Reset Panelu",
-    "transmit": "Odeslat Maják",
+    "hintTitle": "Poznámky k relé",
+    "hint": "Tři poškozené kanály přenášejí stejný nouzový signál ve formátu, kterému rozumí stroj. Přehraj zachráněný pulz na každém panelu, obnov rozsvícené buňky a potom odešli celý paket. První dva kanály napájí finální mřížku majáku.\n\nNejde o hádání slova, ale o správné zakódování informace pro počítač.",
+    "replayPattern": "Přehrát vzor",
+    "resetPanel": "Reset panelu",
+    "transmit": "Odeslat maják",
     "transmitting": "Odesílání...",
     "readyToTransmit": "Všechny tři kanály jsou sladěné. Relé je připravené k odeslání.",
-    "partialSignal": "Pokračuj v obnově panelů. Shodné vzory znamenají, že stroj znovu čte stejnou informaci.",
-    "objectiveTitle": "Kontext Mise",
-    "objective": "Přepsání hlídky obnovilo místní řízení pohybu, ale vnější síť je stále tichá. Oprav nouzový reléový paket, aby stará záchranná síť prozradila, kam byli přeživší přesměrováni.",
-    "storyTitle": "Obnovená Operační Poznámka",
-    "story": "Komunikační záliv byl postaven pro pracovníky, kteří museli během výpadků posílat nouzové dávky čitelné pro stroje.\n\nOpravený modul RAM podrží krátké pakety. Ovladač smyček umí znovu přehrát poškozené intervaly pulsů. Pokud relé tvůj paket přijme, zařízení možná konečně odpoví trasou za zapečetěný sektor.",
-    "packetPreview": "Aktuální Sestava Paketu",
+    "partialSignal": "Pokračuj v obnově panelů. Shodné vzory znamenají, že stroj znovu čte správně tu samou informaci.",
+    "objectiveTitle": "Kontext mise",
+    "objective": "Přepsání hlídky obnovilo místní řízení pohybu, ale vnější síť je stále hluchá. Oprav nouzový reléový paket, aby stará záchranná síť prozradila, kam byli přeživší evakuováni.",
+    "storyTitle": "Obnovený provozní záznam",
+    "story": "Komunikační místnost byla postavena pro techniky, kteří museli během výpadků posílat nouzové pakety čitelné pro stroje.\n\nOpravený modul RAM udrží krátké pakety v paměti. Řadič smyček umí znovu přehrát poškozené intervaly pulzů. Pokud relé tvůj paket přijme, zařízení ti možná konečně odhalí trasu za zapečetěný sektor.",
+    "packetPreview": "Sestavený paket",
     "replay": {
       "buffer": "Přehrávání sekvence RAM bufferu...",
       "pulse": "Přehrávání sekvence oscilátoru smyčky...",
       "beacon": "Přehrávání finálního kontrolního součtu majáku..."
     },
     "status": {
-      "buffer": "Kanál bufferu upraven. Porovnej rozsvícené buňky s obnoveným vzorem.",
-      "pulse": "Kanál pulzu upraven. Udrž časovací pruh stabilní.",
-      "beacon": "Kontrolní součet majáku upraven. Pole finálního paketu aktualizováno."
+      "buffer": "Kanál bufferu byl upraven. Porovnej rozsvícené buňky s obnoveným vzorem.",
+      "pulse": "Kanál pulzu byl upraven. Udrž časovací pruh stabilní.",
+      "beacon": "Kontrolní součet majáku byl upraven. Pole finálního paketu je aktualizováno."
     },
     "panels": {
       "buffer": {
         "title": "RAM BUFFER",
         "short": "BUF",
-        "description": "Krátká dávka zkopírovaná z poškozených paměťových sektorů. Obnov bitový pruh přesně tak, jak jej buffer přehrává."
+        "description": "Krátká datová dávka zkopírovaná z poškozených paměťových sektorů. Obnov bitový pruh přesně tak, jak ho buffer přehrává."
       },
       "pulse": {
         "title": "OSCILÁTOR SMYČKY",
         "short": "OSC",
-        "description": "Modul smyčky obnovil rytmus, ale ne uložené hodnoty. Oprav časovací pruh po buňkách."
+        "description": "Modul smyčky obnovil rytmus, ale ne samotné uložené hodnoty. Oprav časovací pruh buňku po buňce."
       },
       "beacon": {
         "title": "KONTROLNÍ SOUČET MAJÁKU",
         "short": "CHK",
-        "description": "Finální mřížka relé zůstane uzamčená, dokud se první dva kanály neshodnou. Potom obnov odchozí pole kontrolního součtu."
+        "description": "Finální mřížka relé zůstane uzamčená, dokud se první dva kanály neshodnou. Teprve potom obnov odchozí pole kontrolního součtu."
       }
     },
     "metrics": {
-      "buffer": "Synchronizace Bufferu",
-      "pulse": "Synchronizace Oscilátoru",
-      "packet": "Stav Kontrolního Součtu",
+      "buffer": "Synchronizace bufferu",
+      "pulse": "Synchronizace oscilátoru",
+      "packet": "Stav kontrolního součtu",
       "synced": "SLADĚNO",
       "pending": "ČEKÁ"
     }
   },
   "archiveBridge": {
-    "title": "SPOJENÍ S ARCHIVEM NAVÁZÁNO",
-    "subtitle": "Přehrání Nouzové Odezvy",
-    "channelStatus": "Obnovená Vlákna",
-    "inventoryTitle": "Obnovený Hardware",
-    "summary": "Maják nepřivolal záchranu. Probudil starého pomocníka nouzového směrování, který stále drží útržky evakuačního logu. Každý soubor odhaluje, proč zařízení selhalo a proč další systém, kterému čelíš, už není problém stroje, ale záznamů.",
-    "openHub": "Otevřít Archivní Dopravní Uzly",
+    "title": "Spojení s archivem navázáno",
+    "subtitle": "Přehrání nouzové odpovědi",
+    "channelStatus": "Obnovená vlákna",
+    "inventoryTitle": "Obnovený hardware",
+    "summary": "Maják nepřivolal záchranu. Místo toho probudil starého asistenta nouzového směrování, který ještě drží útržky evakuačního logu. Každý záznam odhaluje, proč zařízení selhalo a ukazuje, že další překážkou už není stroj samotný, ale rozpadlá data.",
+    "openHub": "Otevřít archivní tranzitní uzel",
     "actions": {
-      "supervisor": "Otevřít Fragment Vedoucího",
-      "transit": "Načíst Schéma Tranzitu"
+      "supervisor": "Otevřít fragment záznamu vedoucího",
+      "transit": "Načíst tranzitní schéma"
     },
     "nodes": {
       "response": {
-        "title": "Nouzový Uzel",
-        "tag": "Vnější odpověď",
-        "heading": "Vnější Odezva // Relay-17",
-        "body": "Původ signálu ověřen. Vnitřní maják zařízení rozpoznán.\n\nPrimární evakuační příkaz selhal během kaskády poškození archivů.\nDoporučeno manuální obnovení: obnovit záznamy o přesunu personálu před pokusem o otevření sektorů.\n\nPřílohy: fragment vedoucího, kostra tranzitní mapy.",
+        "title": "Nouzový uzel",
+        "tag": "Vnější odezva",
+        "heading": "Vnější odezva // Relay-17",
+        "body": "Původ signálu byl ověřen. Vnitřní maják zařízení byl rozpoznán.\n\nPrimární evakuační příkaz selhal během řetězového poškození archivů.\nDoporučeno manuální řešení: před pokusem o otevření sektorů obnovte záznamy o přesunu personálu.\n\nPřílohy: fragment záznamu vedoucího, kostra tranzitní mapy.",
         "titleShort": "Uzel"
       },
       "supervisor": {
-        "title": "Fragment Vedoucího",
+        "title": "Fragment vedoucího",
         "tag": "Šifrovaný log",
-        "heading": "Fragment Vedoucího // Vedoucí směny M. Varga",
-        "body": "Jestli se k tomuto terminálu dostal praktikant, poslouchej pozorně. Jádrová AI nezamkla jen dveře. Roztrhala i záznamy. Jména oddělila od sektorů, sektory od raketoplánů, časy od oprávnění.\n\nStále ji můžeš přelstít, protože dokážeš číst souvislosti, ne jen tokeny. Obnov tranzitní knihu a zjistíš, kam byli evakuovaní přesměrováni.",
+        "heading": "Fragment záznamu // Vedoucí směny M. Varga",
+        "body": "Jestli se k tomuto terminálu dostal někdo z přeživších, poslouchej pozorně. Hlavní umělá inteligence nezamkla jen dveře. Zničila i záznamy. Odtrhla jména od sektorů, sektory od raketoplánů, časy od oprávnění.\n\nStále ji ale můžeš přelstít. Ty totiž na rozdíl od stroje dokážeš číst data v souvislostech. Obnov tranzitní knihu a zjistíš, kam byli všichni evakuováni.",
         "titleShort": "Log"
       },
       "transit": {
-        "title": "Tranzitní Schéma",
+        "title": "Tranzitní schéma",
         "tag": "Kostra tras",
-        "heading": "Překryv Tranzitního Ulu // Archivní Dopravní Uzel",
-        "body": "Tři trasy raketoplánů zůstaly částečně zachované. Uzel si stále pamatuje, že každá trasa potřebuje jednu osobu, jeden sektor odletu, jeden čas startu a jeden přidělený raketoplán.\n\nJedna zásuvka je zapečetěná, ale tvůj dekryptor ji umí otevřít. Obnov poslední chybějící záznam a mapa tras by měla osvětlit bezpečnou cestu hlouběji do zařízení.",
+        "heading": "Překryv tranzitního uzlu // Archivní tranzitní uzel",
+        "body": "Zůstaly jen útržky tří tras raketoplánů. Uzel si ale pořád pamatuje základní pravidlo: každá trasa potřebuje jednu osobu, jeden odletový sektor, jeden čas startu a jeden přidělený raketoplán.\n\nJedna zásuvka je zapečetěná, ale získaný dekryptor by ji měl otevřít. Obnov poslední chybějící záznam a mapa tras ti ukáže bezpečnou cestu hlouběji do zařízení.",
         "titleShort": "Mapa"
       }
     }
   },
   "level4": {
-    "title": "ARCHIVNÍ DOPRAVNÍ UZEL",
-    "subtitle": "Obnova Evakuační Knihy",
+    "title": "Archivní tranzitní uzel",
+    "subtitle": "Rekonstrukce evakuační knihy",
     "awaitingRebuild": "LOGISTICKÁ TABULE JE POŠKOZENÁ. OBNOV TŘI KONZISTENTNÍ TRANZITNÍ ZÁZNAMY A VYSLEDUJ EVAKUAČNÍ TRASU.",
     "slotMismatch": "Tento fragment záznamu patří do jiného sloupce archivu.",
-    "recordUpdated": "Pole záznamu aktualizováno. Udržuj tabuli vnitřně konzistentní.",
-    "drawerUnlocked": "Zapečetěná zásuvka dešifrována. Chybějící personální záznam je zpět v oběhu.",
+    "recordUpdated": "Pole záznamu bylo aktualizováno. Udržuj tabuli logicky provázanou.",
+    "drawerUnlocked": "Zapečetěná zásuvka byla dešifrována. Chybějící personální záznam je zpět v oběhu.",
     "incomplete": "Některá pole tras jsou stále prázdná.",
-    "failedAudit": "Kontrola archivu selhala. Trasy si stále odporují s dochovanými logy.",
-    "archiveRestored": "Tranzitní kniha obnovena. Za uzlem se rozsvěcí trasa přeživších.",
-    "storageGranted": "MODUL ARCHIVNÍHO ÚLOŽIŠTĚ OBNOVEN. SNÍMKY TRAS ULOŽENY.",
-    "hintTitle": "Poznámky ke Kontrole",
-    "hint": "Tabule ukládá strukturované záznamy. Každý řádek potřebuje jednu osobu, jeden sektor, jeden čas a jeden raketoplán. Použij kontrolní pravidla a dešifrovanou zásuvku k umístění všech fragmentů do konzistentní knihy.\n\nMůžeš vybrat kartu a potom ji vložit do odpovídajícího sloupce. Kliknutím na vyplněné pole bez vybrané karty jej vyčistíš.",
-    "drawerTitle": "Šifrovaná Zásuvka",
+    "failedAudit": "Kontrola archivu selhala. Sestavené trasy si stále odporují s dochovanými logy.",
+    "archiveRestored": "Tranzitní kniha byla úspěšně obnovena. Za uzlem se rozsvěcí bezpečná trasa.",
+    "storageGranted": "MODUL ARCHIVNÍHO ÚLOŽIŠTĚ BYL OBNOVEN. SNÍMKY TRAS ULOŽENY.",
+    "hintTitle": "Poznámky ke kontrole",
+    "hint": "Tabule ukládá strukturované záznamy. Každý řádek představuje jednu trasu a potřebuje jednu osobu, jeden sektor, jeden čas a jeden raketoplán. Použij kontrolní pravidla a dešifrovanou zásuvku k umístění všech fragmentů do správného pořadí.\n\nMůžeš vybrat kartu a vložit ji do odpovídajícího sloupce. Kliknutím na vyplněné pole bez vybrané karty jej zase vyčistíš.",
+    "drawerTitle": "Šifrovaná zásuvka",
     "drawerSubtitle": "Jeden chybějící záznam přežil v zapečetěném úložišti.",
-    "unlockDrawer": "Použít USB Dekryptor",
-    "drawerOpened": "Zásuvka Otevřena",
-    "manualDrawerUnlocked": "Ruční dešifrování uspělo. Zapečetěná zásuvka je otevřená.",
-    "cardBank": "Archivní Fragmenty",
-    "auditRules": "Pravidla Kontroly",
+    "unlockDrawer": "Použít USB dekryptor",
+    "drawerOpened": "Zásuvka otevřena",
+    "manualDrawerUnlocked": "Ruční dešifrování uspělo. Zapečetěná zásuvka je nyní otevřená.",
+    "cardBank": "Archivní fragmenty",
+    "auditRules": "Auditní pravidla (Nápověda)",
     "recordId": "Záznam",
     "recordLabel": "Trasa {{index}}",
     "routeLane": "Koridor Trasy {{index}}",
     "emptySlot": "Vložit fragment",
-    "completeRows": "Hotové Řádky",
+    "completeRows": "Kompletní řádky",
     "decryptorStatus": "Dekryptor",
     "online": "ONLINE",
     "offline": "OFFLINE",
-    "reset": "Reset Tabule",
-    "validate": "Spustit Kontrolu",
+    "reset": "Reset tabule",
+    "validate": "Spustit kontrolu",
     "validating": "Kontroluji...",
     "statusHint": "Obnov knihu tak, aby byl každý řádek trasy kompletní, a potom spusť kontrolu archivu.",
+    "selectedFragmentTitle": "Vybraný fragment",
+    "selectedFragmentHint": "Vyber fragment z archivní banky a vlož ho do správného sloupce v knize.",
     "categories": {
       "person": "Osoba",
       "sector": "Sektor",
@@ -239,75 +327,75 @@
       }
     },
     "rules": {
-      "1": "Nejdřívější raketoplán byl Ventus.",
-      "2": "Sektor A odstartoval v 19:20.",
-      "3": "V dešifrované zásuvce je osoba přidělená k poslední trase.",
-      "4": "Trasa v 19:30 použila Kestrel.",
-      "5": "Hana odletěla ze sektoru C.",
-      "6": "Atlas nebyl přiřazen k sektoru D.",
+      "1": "První raketoplán, který odletěl, byl Ventus.",
+      "2": "Ze Sektoru A se startovalo v 19:20.",
+      "3": "V dešifrované zásuvce je uložena osoba přiřazená k poslední trase.",
+      "4": "Trasa v 19:30 letěla lodí Kestrel.",
+      "5": "Hana odletěla ze Sektoru C.",
+      "6": "Raketoplán Atlas nebyl přiřazen k Sektoru D.",
       "7": "Ivo neletěl Ventusem."
     },
     "manualDecrypt": {
-      "open": "Zkusit Ruční Dešifrování",
-      "title": "Ruční Přepsání Šifry",
-      "body": "USB dekryptor nebyl nalezen. Archiv ale stále nabízí jeden slabý operátorský trik, pokud zvládneš šifru vrátit ručně.",
-      "cipherLabel": "Obnovený Šifrovaný Fragment",
-      "hint": "Vedoucí Varga posouval chráněná jména v abecedě o tři písmena dopředu, než je uložil. Vrať posun zpět a odhal cestujícího ukrytého v této zásuvce.",
-      "answerLabel": "Rozluštěné Jméno",
+      "open": "Zkusit ruční dešifrování",
+      "title": "Ruční prolomení šifry",
+      "body": "Nemáš u sebe USB dekryptor. Archiv ale pořád nabízí jednu nouzovou operátorskou zadní vrátka, pokud dokážeš šifru zlomit ručně.",
+      "cipherLabel": "Obnovený šifrovaný fragment",
+      "hint": "Vedoucí Varga před uložením posouval chráněná jména v abecedě o tři písmena dopředu (Caesarova šifra). Vrať posun zpět a odhal jméno cestujícího ukrytého v této zásuvce.",
+      "answerLabel": "Rozluštěné jméno",
       "placeholder": "Napiš obnovené jméno",
-      "prompt": "Obnov původní jméno cestujícího z QHUD.",
-      "submit": "Odemknout Zásuvku",
+      "prompt": "Obnov původní jméno cestujícího z šifry QHUD.",
+      "submit": "Odemknout zásuvku",
       "cancel": "Zrušit",
       "empty": "Nejdřív zadej rozluštěné jméno.",
-      "failure": "Toto rozluštění neodpovídá archivní šifře.",
-      "success": "Šifra prolomena. Pečeť zásuvky byla zvednuta."
+      "failure": "Toto rozluštění neodpovídá archivní šifře. Zkus to znovu.",
+      "success": "Šifra byla úspěšně prolomena. Pečeť zásuvky je uvolněna."
     }
   },
   "branchJunction": {
-    "kicker": "Rozdělení Trasy",
-    "title": "Zařízení se otevírá do dvou aktivních koridorů.",
-    "body": "Obnovená kniha tras ukazuje dvě možné cesty hlouběji do komplexu. Levý koridor má stále živou reléovou páteř. Pravý vede do ztichlého logistického třídiče. Vyber směr, kterému budeš věřit, a pokračuj jím.",
-    "prompt": "Vyber koridor pro pokračování příběhu.",
+    "kicker": "Rozdělení trasy",
+    "title": "Zařízení se před tebou dělí do dvou funkčních koridorů.",
+    "body": "Obnovená kniha tras ukazuje dvě možné cesty hlouběji do komplexu. Levý koridor udržuje při životě poškozená reléová páteř. Pravý vede do ztichlého logistického třídiče. Vyber si směr, kterému budeš víc věřit.",
+    "prompt": "Vyber koridor a pokračuj hlouběji do komplexu.",
     "left": {
-      "title": "Levá Chodba",
-      "summary": "Reléová Páteř",
-      "detail": "Následuj komunikační tah a obnov trasu paketu přes poškozenou reléovou síť. Tato cesta se soustředí na sítě a na to, jak data putují mezi propojenými uzly."
+      "title": "Levý koridor",
+      "summary": "Reléová páteř",
+      "detail": "Následuj komunikační tah a obnov trasu datového paketu přes poškozenou síť. Tato cesta se soustředí na sítě a na to, jak data putují mezi propojenými uzly."
     },
     "right": {
-      "title": "Pravá Chodba",
-      "summary": "Třídicí Přístavek",
-      "detail": "Vstup do logistické větve a nastav rozhodovací systém, který směruje nákladní bedny do správných výstupů. Tato cesta se soustředí na podmínky, větvení a algoritmické rozhodování."
+      "title": "Pravý koridor",
+      "summary": "Třídicí anexe",
+      "detail": "Vstup do logistické anexe a oprav rozhodovací systém, který směruje nákladní bedny do správných výstupů. Tato cesta stojí na podmínkách, větvení a algoritmickém rozhodování."
     }
   },
   "branchLeftRelay": {
-    "kicker": "Levá Trasa // Síťové Systémy",
-    "title": "Reléová Páteř",
-    "story": "Levá chodba vede do sítě přežívajících reléových uzlů. Archivní trasa stále existuje, ale paket si vybírá poškozené větve. Prostuduj popisy relé a sestav jedinou trasu, která splňuje obnovená síťová omezení.",
-    "awaiting": "Sestav trasu paketu, která splní všechny podmínky relé, a teprve potom ji odešli.",
-    "progress": "Trasa prodloužena. Pokračuj po stabilních reléových spojích.",
-    "backtracked": "Poslední relé odstraněno. Zkus jinou větev.",
-    "invalidStep": "Tento skok není povolen. Pakety mohou cestovat jen po propojených a dosud nepoužitých relé.",
-    "ready": "Výstupní uplink dosažen. Ověř trasu a odešli paket.",
-    "failure": "Paket stále naráží do nestabilní větve. Zkontroluj reléovou trasu.",
-    "success": "Reléová trasa přijata. Tvoje oprávnění mizí hlouběji v komplexu.",
-    "routeLength": "Napojené Uzly",
-    "boardTitle": "Mapa Relé",
-    "boardHint": "Najeď na relé pro zobrazení jeho údajů. Klikni na propojené relé pro prodloužení trasy nebo klikni na předchozí hop pro návrat.",
-    "objectiveTitle": "Cíl Mise",
-    "objective": "Tato hádanka zrcadlí, jak data cestují síťovým grafem. Musíš zkombinovat vlastnosti uzlů s omezeními propojení a poslat paket jedinou trasou, která splní všechny podmínky.",
-    "currentPath": "Aktuální Trasa",
-    "rulesTitle": "Pravidla Relé",
-    "relayDetailsTitle": "Zaměřené Relé",
+    "kicker": "Levá trasa // Síťové systémy",
+    "title": "Reléová páteř",
+    "story": "Levá chodba tě dovedla k síti přežívajících reléových uzlů. Archivní trasa sice stále existuje, ale datový paket bloudí po poškozených větvích. Prostuduj vlastnosti relé a sestav trasu, která splní všechna aktuální síťová omezení.",
+    "awaiting": "Sestav trasu paketu, která splní všechny podmínky sítě, a teprve potom ji odešli.",
+    "progress": "Trasa byla prodloužena. Pokračuj po stabilních reléových spojích.",
+    "backtracked": "Poslední relé bylo odstraněno. Zkus jinou větev sítě.",
+    "invalidStep": "Tento skok není povolený. Pakety mohou cestovat jen po propojených a dosud nepoužitých relé.",
+    "ready": "Výstupní uplink byl dosažen. Ověř trasu a odešli paket.",
+    "failure": "Paket stále naráží do nestabilní větve. Zkontroluj cestu v reléové mapě.",
+    "success": "Reléová trasa byla přijata. Tvoje oprávnění ti otevírá cestu hlouběji do komplexu.",
+    "routeLength": "Počet uzlů",
+    "boardTitle": "Mapa relé",
+    "boardHint": "Najeď na relé a zobrazí se jeho profil. Kliknutím na propojené relé prodloužíš trasu, kliknutím na předchozí skok se vrátíš o krok zpět.",
+    "objectiveTitle": "Cíl mise",
+    "objective": "Tato hádanka ukazuje, jak data putují po síti. Nestačí znát jen to, které uzly jsou propojené. Musíš číst i jejich vlastnosti a poslat paket jedinou cestou, která splní všechna omezení.",
+    "currentPath": "Aktuální trasa",
+    "rulesTitle": "Pravidla relé",
+    "relayDetailsTitle": "Zaměřené relé",
     "rules": {
       "1": "Začni ve vstupním portu a skonči na výstupním uplinku.",
-      "2": "První hop po vstupu musí použít azurové servisní pásmo.",
+      "2": "První skok po vstupu musí využít azurové servisní pásmo.",
       "3": "Trasa nesmí procházet žádným nestabilním relé.",
-      "4": "Prostřední relé musí mít nejnižší latenci mezi stabilními relé dosažitelnými z prvního hopu a finální přípravné relé musí mít sudou kontrolní bránu."
+      "4": "Prostřední relé musí mít nejnižší latenci (zpoždění) mezi stabilními uzly dosažitelnými z prvního skoku a poslední přípravné relé musí mít sudý kontrolní součet."
     },
-    "reset": "Reset Trasy",
-    "validate": "Odeslat Trasou",
+    "reset": "Reset trasy",
+    "validate": "Odeslat trasu",
     "validating": "Odesílání...",
-    "statusHint": "Nejdřív vizuálně postav trasu a potom ji odešli, až bude uplink připojený.",
+    "statusHint": "Nejdřív mapu sestav vizuálně a teprve až budeš u výstupního uplinku, trasu odešli.",
     "detailLabels": {
       "band": "Pásmo",
       "latency": "Latence",
@@ -344,41 +432,41 @@
     }
   },
   "branchRightDecision": {
-    "kicker": "Pravá Trasa // Algoritmy",
-    "title": "Třídicí Přístavek",
-    "story": "Pravá chodba se otevírá do nákladního třídiče, který se stále snaží směrovat nouzové bedny. Jeho přepínače přišly o rozhodovací pravidla, takže každá bedna míří do špatného žlabu. Obnov podmínky v jednotlivých uzlech a znovu nauč systém správně třídit vstupní náklad.",
-    "awaiting": "Nastav pravidlo pro každý uzel tak, aby každá bedna dorazila do svého cílového výstupu.",
-    "updated": "Podmínka přepínače upravena. Sleduj, jak se bedny přesměrují v náhledu.",
+    "kicker": "Pravá trasa // Algoritmy",
+    "title": "Třídicí anexe",
+    "story": "Pravá chodba se otevírá do nákladního třídiče, který se neustále snaží směrovat nouzové bedny. Jeho přepínače ale zapomněly svá rozhodovací pravidla, takže každá bedna míří do špatného žlabu. Obnov podmínky v jednotlivých uzlech a znovu nauč systém, jak správně třídit materiál.",
+    "awaiting": "Nastav pravidlo pro každý uzel tak, aby všechny bedny dorazily do svého cílového výstupu.",
+    "updated": "Podmínka přepínače byla upravena. V náhledu můžeš sledovat, jak se bedny přesměrují.",
     "incomplete": "Alespoň jednomu uzlu stále chybí rozhodovací pravidlo.",
-    "failure": "Třídič stále posílá část toku do špatných výstupů.",
-    "success": "Logika třídiče obnovena. Přístavek přijímá tvůj profil směrování a otevírá hlubší sektor.",
-    "routed": "Správné Výstupy",
-    "previewTitle": "Živá Simulace",
-    "objectiveTitle": "Cíl Mise",
-    "objective": "Tato hádanka představuje algoritmus s větvením. Každý uzel zkontroluje jednu vlastnost bedny a pošle ji vlevo nebo vpravo. Zvol správnou podmínku tak, aby fungoval celý rozhodovací strom.",
-    "ruleGuideTitle": "Poznámky k Rozhodování",
+    "failure": "Třídič stále posílá část beden do špatných výstupů.",
+    "success": "Logika třídiče byla úspěšně obnovena. Anexe přijímá tvůj směrovací profil a otevírá cestu do hlubšího sektoru.",
+    "routed": "Správné výstupy",
+    "previewTitle": "Živá simulace",
+    "objectiveTitle": "Cíl mise",
+    "objective": "Tato hádanka ukazuje, jak fungují algoritmy s větvením. Každý uzel zkontroluje jednu vlastnost bedny a pošle ji vlevo, nebo vpravo. Když nastavíš jen jedinou špatnou podmínku, rozpadne se celý rozhodovací strom.",
+    "ruleGuideTitle": "Poznámky k rozhodování",
     "ruleGuide": {
-      "1": "První uzel má oddělit zdravý tok od poškozeného.",
-      "2": "Horní větev pak musí oddělit urgentní bedny od běžných dodávek.",
+      "1": "První uzel má za úkol oddělit stabilní nepoškozené bedny od těch s varováním.",
+      "2": "Horní větev pak musí oddělit urgentní bedny s vysokou prioritou od těch s nízkou.",
       "3": "Dolní větev nakonec odděluje jantarově označený náklad od azurově označeného."
     },
-    "reset": "Reset Pravidel",
-    "validate": "Spustit Třídič",
+    "reset": "Reset pravidel",
+    "validate": "Spustit třídič",
     "validating": "Simuluji...",
-    "statusHint": "Vyber tři pravidla, ověř živou simulaci a potom spusť třídič.",
-    "currentOutput": "Aktuální Výstup",
+    "statusHint": "Vyber tři pravidla, zkontroluj výsledek v simulaci a teprve potom spusť třídič naostro.",
+    "currentOutput": "Aktuální výstup",
     "junctions": {
       "junction_alpha": {
         "title": "Uzel Alfa",
-        "body": "Primární vstupní brána. Má rozdělit proud nákladu na stabilní a poškozený."
+        "body": "Primární vstupní brána. Má rozdělit proud nákladu na stabilní a ten s chybou."
       },
       "junction_beta": {
         "title": "Uzel Beta",
-        "body": "Brána horní větve. Musí oddělit urgentní bedny od běžných dodávek."
+        "body": "Brána horní větve. Musí oddělit urgentní zásilky od běžných."
       },
       "junction_gamma": {
         "title": "Uzel Gama",
-        "body": "Brána dolní větve. Rozhoduje, která poškozená větev dorazí do kterého opravného boxu."
+        "body": "Brána dolní větve. Rozhoduje, která z poškozených beden dorazí do kterého opravného boxu."
       }
     },
     "rules": {
@@ -417,86 +505,86 @@
     }
   },
   "branchLeftBuffer": {
-    "kicker": "Levá Trasa // RAM Buffer",
-    "title": "Komora Pro Složení Paketu",
-    "story": "Reléová páteř nese tvůj signál do spojovací komory, kde je polovina paketu stále rozptýlená v nouzové paměti. Modul RAM bufferu dokáže stabilizovat pět slotů najednou, ale jeden fragment je jen poškozená echo stopa. Obnov finální rámec v jediném pořadí, které relé přijme.",
-    "awaiting": "Nahraj obnovené fragmenty do RAM bufferu ve správném pořadí.",
-    "updated": "Fragment uložen do bufferu. Pokračuj ve skládání reléového rámce.",
-    "removed": "Fragment odstraněn z bufferu. Znovu zkontroluj pořadí.",
-    "ready": "Všech pět RAM slotů je obsazených. Ověř pořadí složení.",
-    "incomplete": "Reléovému rámci stále chybí jeden nebo více fragmentů.",
-    "failure": "Toto pořadí fragmentů stále rozbíjí odchozí paket.",
-    "success": "Rámec přijat. Reléová páteř se stáhne do jediného stabilního proudu.",
-    "bufferSlots": "Sloty Bufferu",
-    "itemTitle": "Aktivní Hardware",
+    "kicker": "Levá trasa // RAM Buffer",
+    "title": "Komora pro spojení paketu",
+    "story": "Reléová páteř tě dovedla do spojovací komory, kde si nouzová paměť pamatuje jen rozházené útržky finálního paketu. RAM buffer zvládne udržet přesně pět stabilních částí, jenže jeden z fragmentů je pouze poškozený šum. Poskládej datový rámec tak, aby ho relé poznalo jako platný přenos.",
+    "awaiting": "Usaď obnovené fragmenty do RAM bufferu ve správném pořadí.",
+    "updated": "Fragment zapadl do bufferu. Signál začíná držet pohromadě.",
+    "removed": "Fragment byl z bufferu vytažen.",
+    "ready": "Všech pět slotů je obsazených. Teď záleží na tom, jestli je pořadí správné.",
+    "incomplete": "Přenosový rámec je stále neúplný.",
+    "failure": "Relé tento sled fragmentů nadále odmítá jako neplatný.",
+    "success": "Rámec byl přijat. Rozpadlá reléová páteř se stáhla do jednoho čistého proudu.",
+    "bufferSlots": "Sloty bufferu",
+    "itemTitle": "Aktivní hardware",
     "itemReady": "Vložen",
     "itemMissing": "Chybí",
-    "itemBlocked": "Spojovací komora potřebuje Modul RAM Bufferu, než udrží celý reléový rámec.",
-    "objectiveTitle": "Cíl Mise",
-    "objective": "Tato hádanka ukazuje, jak počítače ukládají a řadí fragmenty paketu v paměti před přenosem. Použij RAM buffer k uchování správných fragmentů a slož je v pořadí, které splní všechna omezení.",
-    "rulesTitle": "Pravidla Složení",
+    "itemBlocked": "Spojovací komora potřebuje modul RAM bufferu, jinak se celý reléový rámec rozpadne.",
+    "objectiveTitle": "Cíl mise",
+    "objective": "Tato hádanka ukazuje, jak počítač drží a řadí kousky informací ještě před jejich samotným odesláním. Nejde jen o to někam něco vložit, ale musíš vybrat správné části a poskládat je tak, aby prošly kontrolou relé.",
+    "rulesTitle": "Pravidla složení",
     "rules": {
-      "1": "Reléový rámec začíná boot handshake a končí checksum pečetí.",
-      "2": "Autorizační fragment musí ležet bezprostředně před checksum pečetí.",
-      "3": "Paritní fragment musí ležet mezi směrovací hlavičkou a autorizačním fragmentem.",
-      "4": "Modul RAM otevírá přesně pět stabilních slotů a všech pět finálních slotů musí být využito.",
-      "5": "Echo fragment je poškozený šum a musí zůstat mimo finální přenosový buffer."
+      "1": "Reléový rámec vždy začíná spouštěcím fragmentem (Boot Handshake) a končí ověřovací pečetí (Checksum).",
+      "2": "Autorizační otisk musí ležet bezprostředně před ověřovací pečetí.",
+      "3": "Paritní pruh musí být umístěn mezi směrovací hlavičkou a autorizačním otiskem.",
+      "4": "Modul RAM otevírá přesně pět stabilních slotů a všechny musí být využity.",
+      "5": "Echo kopie je pouhý poškozený šum a nesmí se ve finálním bufferu vůbec objevit."
     },
-    "fragmentFocusTitle": "Zaměřený Fragment",
-    "bufferTitle": "Přenosový Buffer",
+    "fragmentFocusTitle": "Zaměřený fragment",
+    "bufferTitle": "Přenosový buffer",
     "slotLabel": "Slot {{value}}",
     "emptySlot": "Prázdný slot",
-    "reset": "Reset Bufferu",
-    "validate": "Odeslat Rámec",
+    "reset": "Reset bufferu",
+    "validate": "Odeslat rámec",
     "validating": "Odesílání...",
-    "statusHint": "Umísti pět fragmentů do bufferu a odesílej až tehdy, když je každý slot obsazený.",
+    "statusHint": "Nejprve zaplň všech pět slotů. Odeslat paket má smysl až ve chvíli, kdy rámec dává smysl jako celek.",
     "fragments": {
       "boot": "Boot Handshake",
-      "route": "Směrovací Hlavička",
-      "parity": "Paritní Pruh",
-      "auth": "Autorizační Otisk",
-      "checksum": "Checksum Pečeť",
-      "echo": "Echo Kopie"
+      "route": "Směrovací hlavička",
+      "parity": "Paritní pruh",
+      "auth": "Autorizační otisk",
+      "checksum": "Checksum pečeť",
+      "echo": "Echo kopie"
     },
     "fragmentClues": {
-      "boot": "Tento rámec inicializuje reléový paket. Nic jiného nemůže přenos otevírat.",
-      "route": "Směrovací hlavička musí být před paritním pruhem, aby další relé věděla, kterou větev ověřit.",
-      "parity": "Paritní pruh stabilizuje mezeru mezi směrováním a autorizací.",
-      "auth": "Autorizace nemůže paket uzavřít sama; checksum pečeť musí přijít hned po ní.",
-      "checksum": "Tento fragment vždy zakončuje přenos. Uzavírá všechna předchozí pole do jednoho ověřeného rámce.",
-      "echo": "Tento duplicitní fragment je jen poškozený zbytek z relé. Do finálního bufferu nikdy nepatří."
+      "boot": "Tento fragment spouští přenos celého reléového paketu. Nic jiného na prvním místě být nemůže.",
+      "route": "Směrovací hlavička musí předcházet paritnímu pruhu, aby další relé věděla, kam data poslat.",
+      "parity": "Paritní pruh zajišťuje stabilitu mezi směrováním a autorizací.",
+      "auth": "Autorizace nedokáže paket uzavřít sama o sobě; hned za ní musí přijít Checksum pečeť.",
+      "checksum": "Tento fragment vždy zakončuje přenos. Uzamyká a potvrzuje všechna předchozí data v rámci.",
+      "echo": "Tento duplicitní kousek je jen poškozený zbytek signálu. Do bufferu ho nedávej."
     }
   },
   "branchRightDecryptor": {
-    "kicker": "Pravá Trasa // USB Dekryptor",
-    "title": "Skříň S Manifestovou Šifrou",
-    "story": "Za třídicím přístavkem stále stojí zapečetěná archivní skříň, která ukládá nouzové manifesty ve staré posunuté abecedě. Tvůj USB dekryptor dokáže pro každý soubor nastavit jiný zpětný posun. Najdi správný režim pro každou hlavičku, aby se záznamy staly znovu čitelnými.",
-    "awaiting": "Nastav režim dekryptoru pro každý manifest tak, aby se každá hlavička proměnila ve smysluplný archivní štítek.",
-    "updated": "Režim dekryptoru upraven. Sleduj, jestli se v náhledu objeví čitelná hlavička.",
-    "incomplete": "Alespoň jeden manifest zatím nemá zvolený režim dekryptoru.",
-    "failure": "Jedna nebo více hlaviček je stále rozbitá. Znovu dolaď režimy dekryptoru.",
-    "success": "Šifrová skříň odemčena. Rozluštěné manifesty uvolní poslední archivní západku.",
-    "decodedCount": "Rozluštěné Soubory",
-    "itemTitle": "Aktivní Hardware",
+    "kicker": "Pravá trasa // USB dekryptor",
+    "title": "Skříň s posunutou šifrou",
+    "story": "Za třídicí anexí čeká zapečetěná skříň s nouzovými archivy přepsanými do staré posunuté abecedy. USB dekryptor umí pro každý soubor nastavit jiný zpětný posun. Najdi správný režim pro každý z nich a vrať zkomoleným štítkům jejich původní význam.",
+    "awaiting": "Nalaď dekryptor pro každý dokument tak, aby se v náhledu ukázal smysluplný archivní štítek.",
+    "updated": "Režim dekryptoru změněn. Sleduj, jestli se ze shluku písmen nestává čitelný záznam.",
+    "incomplete": "Alespoň jeden záznam ještě nemá zvolený režim dešifrování.",
+    "failure": "Některé hlavičky nedávají smysl. Režimy dekryptoru je potřeba ještě doladit.",
+    "success": "Šifrová skříň povolila. Rozluštěné dokumenty odemykají poslední záchytný bod archivu.",
+    "decodedCount": "Rozluštěné soubory",
+    "itemTitle": "Aktivní hardware",
     "itemReady": "Připojen",
     "itemMissing": "Chybí",
-    "itemBlocked": "Manifestová skříň vyžaduje USB Dekryptor, než bude možné přečíst jakoukoli starou hlavičku.",
-    "objectiveTitle": "Cíl Mise",
-    "objective": "Tato hádanka se zaměřuje na kódování a převod informací. Stejná zpráva může být reprezentována různými formami a stroj potřebuje správné pravidlo dekódování, aby získal původní význam.",
-    "rulesTitle": "Poznámky K Dekryptoru",
+    "itemBlocked": "Bez USB dekryptoru zůstanou všechny hlavičky ve skříni zašifrované a nečitelné.",
+    "objectiveTitle": "Cíl mise",
+    "objective": "Tato hádanka ukazuje, že stejná data mohou vypadat různě. Dokud stroji nepředáš správný klíč k dekódování, vidí jen šum. Jakmile pravidlo odhalíš, informace se znovu objeví.",
+    "rulesTitle": "Poznámky k dekryptoru",
     "rules": {
-      "1": "Každý manifest používá jeden zpětný posun o 1, 2 nebo 3 písmena.",
-      "2": "Správný posun vytvoří v náhledu čitelný archivní štítek.",
-      "3": "Každý soubor musí mít režim dekryptoru, než půjde skříň uvolnit."
+      "1": "Každý záznam používá Caesarovu šifru se zpětným posunem o 1, 2 nebo 3 písmena.",
+      "2": "Správný posun vytvoří v náhledu smysluplný a čitelný štítek archivu.",
+      "3": "Pro otevření skříně musíš nastavit správný režim pro každý soubor."
     },
     "previewTitle": "Náhled",
-    "shiftLabel": "Posun -{{value}}",
-    "decodedLabel": "Očekávaný Archivní Štítek",
-    "focusTitle": "Zaměřený Manifest",
-    "reset": "Reset Režimů",
-    "validate": "Uvolnit Skříň",
+    "shiftLabel": "Posun o -{{value}}",
+    "decodedLabel": "Očekávaný archivní štítek",
+    "focusTitle": "Zaměřený záznam",
+    "reset": "Reset režimů",
+    "validate": "Uvolnit skříň",
     "validating": "Dešifruji...",
-    "statusHint": "Dolaď každý manifest tak, aby se v náhledu objevil smysluplný archivní štítek, a potom uvolni skříň.",
+    "statusHint": "Vyzkoušej různé posuny a proměň každý náhled v čitelný štítek. Teprve pak půjde skříň otevřít.",
     "decoded": {
       "route": "tabulka ROUTE",
       "crew": "záznam CREW",
@@ -504,143 +592,143 @@
       "quarantine": "poznámka QUAR"
     },
     "details": {
-      "route": "Tabulka ROUTE zaznamenává, kam byla evakuační doprava přesměrována po uzavření pancéřových dveří.",
-      "crew": "Záznam CREW sleduje, kdo zůstal v sektoru ve chvíli, kdy nouzový třídič přešel do záložních pravidel.",
-      "maint": "Soubor MAINT obsahuje hardwarové opravy, které personál používal, když začaly selhávat koridorové systémy jeden po druhém.",
-      "quarantine": "Poznámka QUAR označuje, které sektory musely být izolovány poté, co se po přístavku rozšířil první poškozený tok nákladu."
+      "route": "Tabulka ROUTE zaznamenává, kam přesně byla evakuace odkloněna po uzavření bezpečnostních dveří.",
+      "crew": "Záznam CREW (posádka) eviduje, kdo zůstal v sektoru uvězněn ve chvíli, kdy třídič spadl do nouzového režimu.",
+      "maint": "Soubor MAINT (údržba) ukazuje postupy, kterými se technici snažili opravovat selhávající systémy v chodbách.",
+      "quarantine": "Poznámka QUAR (karanténa) označuje sektory, které musely být odříznuty hned poté, co se systémem prohnal poškozený proud dat."
     }
   },
   "branchConvergence": {
-    "kicker": "Spojení Tras",
-    "title": "Oddělené koridory se znovu stáčejí do stejné páteře.",
-    "body": "Reléová větev i logistický třídič tě nakonec vyplivly do stejné údržbářské tepny. V centrálním sektoru ale stále běží jen nouzové odhady: zařízení ví, co se kolem něj děje, jen tomu už správně nerozumí.",
-    "detail": "Síť tě naučila sledovat tok informace. Třídič zase ukázal, jak pravidla mění výsledek. Teď budeš potřebovat obě dovednosti najednou: nejprve znovu poskládat model celého sektoru a potom spustit opravný dron, který poslední chodbu stabilizuje.",
-    "continue": "Otevřít Centrální Řídicí Sektor"
+    "kicker": "Splynutí tras",
+    "title": "Oddělené koridory se znovu slévají do jediné funkční páteře.",
+    "body": "Reléová větev i logistický třídič tě nakonec vyvedly do stejné údržbářské křižovatky. V centrálním sektoru ale stále běží jen staré nouzové režimy: zařízení sice sbírá data, ale už jim nerozumí a neumí z nich vyvodit správné závěry.",
+    "detail": "Síť tě naučila sledovat tok informací. Třídič zase ukázal, jak pravidla a podmínky mění výsledek. Teď budeš potřebovat obojí: nejprve poskládat přesný model celého sektoru a potom naprogramovat opravný dron, který stabilizuje poslední neprůchozí chodbu.",
+    "continue": "Otevřít centrální řídicí sektor"
   },
   "level7": {
-    "title": "ŘÍDICÍ DVOJČE SEKTORU",
-    "subtitle": "Obnova Modelu Evakuačního Křídla",
-    "awaiting": "Digitální dvojče pořád přijímá data, ale převádí je do chybných stavů. Znovu připoj surové vstupy ke správným subsystémům a nastav jejich režimy, aby model konečně ukázal bezpečný stav.",
-    "invalidLink": "Toto propojení nedává smysl. Senzory mají napájet subsystémy a subsystémy teprve finální stavové uzly.",
-    "linked": "Datová linka přesměrována. Sleduj, které části modelu se začínají stabilizovat.",
-    "unlinked": "Spojení odpojeno. Model znovu přepočítává sektorový stav.",
-    "modeUpdated": "Režim subsystému přepsán. Porovnej, jestli nový výklad dat opravdu vede k bezpečnému výsledku.",
-    "incomplete": "Digitální dvojče je stále neúplné. Chybí některé senzorové vazby nebo režimy subsystémů.",
-    "failure": "Model stále hlásí nebezpečný sektor. Některé vztahy mezi daty a systémem jsou špatně.",
-    "success": "Digitální dvojče konečně čte sektor správně. Centrální model se přepíná z nouzových odhadů na ověřený stav.",
-    "unlock": "Jádro digitálního dvojčete bylo obnoveno. Přesný model sektoru můžeš použít pro finální automatickou opravu.",
-    "objectiveTitle": "Kontext Mise",
-    "objective": "Tato hádanka ukazuje rozdíl mezi daty a informací. Senzory dodávají jen surové hodnoty. Teprve když je přiřadíš ke správným částem systému a správně nastavíš jejich význam, vznikne model, který dává smysl a dovolí rozhodnout, zda je sektor připravený k evakuaci.",
-    "hintTitle": "Provozní Poznámky",
-    "hint": "Containment používá tlak + těsnění. Life support používá teplotu + scrubber. Transit používá napájení + kolej. SAFE STATE potřebuje containment i life support. EVAC READY potřebuje transit.",
+    "title": "Řídicí dvojče sektoru",
+    "subtitle": "Rekonstrukce modelu evakuačního křídla",
+    "awaiting": "Digitální dvojče (model sektoru) sice stále nasává data, ale skládá si z nich špatný obrázek o realitě. Propoj surová data ze senzorů se správnými systémy a nastav jejich chování tak, aby model konečně ukázal pravdu – že je sektor bezpečný.",
+    "invalidLink": "Toto propojení nedává smysl. Senzory musí dodávat data přímo do modulů systémů, a teprve ty pak určují finální stav celého křídla.",
+    "linked": "Datová linka byla propojena. Části modelu začínají dávat smysl.",
+    "unlinked": "Spojení bylo přerušeno. Dvojče znovu přepočítává obraz sektoru.",
+    "modeUpdated": "Režim modulu upraven. Teď se ukáže, jestli data čteš správně.",
+    "incomplete": "Digitální dvojče stále není kompletní. Chybí propojit některé senzory nebo nastavit režimy subsystémů.",
+    "failure": "Model stále vyhodnocuje sektor jako nebezpečný. Některá spojení mezi daty a systémem jsou chybná.",
+    "success": "Digitální dvojče konečně vyhodnocuje sektor správně. Centrální model opouští nouzový režim a potvrzuje bezpečný stav.",
+    "unlock": "Jádro digitálního dvojčete bylo obnoveno. Teď můžeš tento opravený model použít k finální automatické opravě chodby.",
+    "objectiveTitle": "Kontext mise",
+    "objective": "Tato hádanka ukazuje rozdíl mezi daty a informacemi. Senzor ti dá jen číslo (např. teplotu), ale teprve ty určíš, co toto číslo znamená pro celý systém. Jakmile propojíš senzory se správnými moduly, ze zmatených čísel se stane model, podle kterého se dá rozhodovat.",
+    "hintTitle": "Provozní poznámky",
+    "hint": "Modul uzavření (Containment) závisí na datech z tlaku a těsnění. Podpora života (Life support) potřebuje znát teplotu a stav filtru (scrubberu). Doprava (Transit) sleduje napájení baterie a koleje. BEZPEČNÝ STAV (SAFE STATE) potvrdí až fungující Containment a Life support. Připravenost k EVAKUACI (EVAC READY) čeká na úspěšný Transit.",
     "metrics": {
-      "sensorLinks": "Senzorové Vazby",
-      "hubs": "Aktivní Subsystémy",
-      "outputs": "Stavové Uzly",
-      "model": "Model Sektoru",
+      "sensorLinks": "Datové vazby senzorů",
+      "hubs": "Aktivní subsystémy",
+      "outputs": "Stavové uzly",
+      "model": "Model sektoru",
       "stable": "STABILNÍ",
       "pending": "ČEKÁ"
     },
-    "modesTitle": "Řídicí Režimy",
+    "modesTitle": "Řídicí režimy",
     "modeLabels": {
-      "hub_life_support": "Life Support",
-      "hub_transit": "Transit",
-      "hub_containment": "Containment"
+      "hub_life_support": "Life Support Matrix",
+      "hub_transit": "Transit Scheduler",
+      "hub_containment": "Containment Core"
     },
     "modes": {
       "balance_o2": "Vyvážit směs O2",
-      "purge_fast": "Nouzový rychlopurge",
-      "stagger_launch": "Postupné vypouštění tras",
-      "manual_dispatch": "Ruční odpaly tras",
-      "seal_delta": "Delta těsnění",
+      "purge_fast": "Nouzové rychlé odvětrání",
+      "stagger_launch": "Postupné spouštění tras",
+      "manual_dispatch": "Ruční vyslání kapslí",
+      "seal_delta": "Režim delta těsnění",
       "vent_open": "Trvalé odvětrání"
     },
-    "reset": "Reset Modelu",
+    "reset": "Reset modelu",
     "validating": "Vyhodnocuji...",
-    "validate": "Stabilizovat Model",
-    "statusHint": "Klikni na linku pro její odpojení. Cílem není připojit všechno všude, ale z surových dat vyrobit jeden správný obraz sektoru.",
+    "validate": "Stabilizovat model",
+    "statusHint": "Kliknutím propojení zrušíš. Není cílem propojit všechno se vším, ale sestavit jeden přesný a spolehlivý model sektoru.",
     "nodes": {
       "sensor_pressure": {
-        "title": "Tlaková Mřížka",
-        "body": "Surový tlak v servisní chodbě. Bez správného výkladu je to jen číslo bez významu."
+        "title": "Tlaková mřížka",
+        "body": "Surová data o tlaku v servisní chodbě. Sama o sobě jsou to jen čísla bez hlubšího významu."
       },
       "sensor_seal": {
-        "title": "Snímač Těsnění",
+        "title": "Snímač těsnění",
         "body": "Hlásí, jak dobře drží uzávěry na přechodových přepážkách."
       },
       "sensor_thermal": {
-        "title": "Teplotní Řada",
-        "body": "Tepelné čtení z obytného traktu. Samo o sobě neříká, jestli je vzduch obyvatelný."
+        "title": "Teplotní čidlo",
+        "body": "Teplotní údaje z obytného traktu. Samo o sobě to neříká, jestli je vzduch bezpečný pro dýchání."
       },
       "sensor_scrubber": {
         "title": "Filtr Scrubberu",
-        "body": "Čistota filtračního okruhu. Potřebuje být čtena jako součást podpory života."
+        "body": "Čistota vzduchového okruhu. Musí být vyhodnocována jako součást systému podpory života."
       },
       "sensor_battery": {
-        "title": "Napájecí Sběrnice",
-        "body": "Kapacita hlavního bateriového rozvodu pro přesunové systémy."
+        "title": "Napájecí sběrnice",
+        "body": "Kapacita hlavního bateriového rozvodu pro dopravní systémy."
       },
       "sensor_rail": {
-        "title": "Evakuační Kolej",
-        "body": "Stav dopravní trasy pro kapsle a servisní přesuny."
+        "title": "Evakuační kolej",
+        "body": "Stav mechanické dopravní trasy pro záchranné moduly a drony."
       },
       "hub_containment": {
         "title": "Containment Core",
-        "body": "Rozhoduje, zda sektor fyzicky drží pohromadě a nepropouští tlak do mrtvých chodeb."
+        "body": "Vyhodnocuje, jestli je sektor hermeticky uzavřený a neuniká z něj tlak do poškozených chodeb."
       },
       "hub_life_support": {
         "title": "Life Support Matrix",
-        "body": "Převádí surová data do informace o obyvatelném prostředí."
+        "body": "Převádí surová čísla ze senzorů na informaci o tom, zda je v sektoru dýchatelno."
       },
       "hub_transit": {
         "title": "Transit Scheduler",
-        "body": "Vyhodnocuje, zda lze bezpečně spustit pohyb dronů a evakuačních tras."
+        "body": "Vyhodnocuje, zda je bezpečné pustit na koleje drony a evakuační moduly."
       },
       "status_safe_state": {
         "title": "SAFE STATE",
-        "body": "Finální model potvrzující, že křídlo je tlakové a obyvatelné."
+        "body": "Finální stav. Potvrzuje, že křídlo je bezpečně natlakované a podpora života běží."
       },
       "status_evac_ready": {
         "title": "EVAC READY",
-        "body": "Povolí nasazení automatických oprav a přesunových rutin."
+        "body": "Potvrzení, že lze bezpečně zahájit automatický přesun nebo evakuaci."
       }
     }
   },
   "level8": {
-    "title": "AUTOPILOT SERVISNÍHO DRONU",
-    "subtitle": "Ladění Opravné Smyčky",
-    "awaiting": "Centrální model je konečně přesný, ale poslední koridor zůstává zamčený. Sestav krátkou rutinu pro servisní dron, aby při každém průchodu opravoval panely, zatočil jen když musí, a dorazil až k výstupu.",
-    "programUpdated": "Autopilot přepsán. Otestuj, jestli se dron chová správně v každém kroku smyčky.",
-    "incomplete": "Program ještě nemá všechny příkazy. Každý slot smyčky musí být obsazený.",
-    "executing": "Dron vyráží do koridoru. Sleduj jeho postup a hledej, kde se rutina láme.",
-    "wall": "Dron narazil do uzavřené přepážky. Rutina špatně reaguje na blokovanou cestu.",
-    "panels": "Dron sice dojel dál, ale některý opravný panel zůstal vypnutý. Přidej nebo přesuň opravu do správného místa cyklu.",
-    "failure": "Autopilot stále nevede k úplné stabilizaci koridoru.",
-    "success": "Autopilot běží čistě. Dron opravil oba panely a dostal se až k finální bráně.",
-    "unlock": "Navigační čip autopilota potvrzen. Merged corridor je stabilní a kampaň může být uzavřena.",
-    "objectiveTitle": "Kontext Mise",
-    "objective": "Tato hádanka ukazuje, jak algoritmus nemusí být dlouhý, aby byl chytrý. Sestavuješ malou smyčku s podmínkou: dron se má opakovaně rozhodovat, kdy opravit panel, kdy zatočit a kdy prostě pokračovat dál. Klíčem je testování a ladění, ne hádání.",
-    "hintTitle": "Technický List Dronu",
-    "hint": "Dron opakuje stále stejnou krátkou rutinu. Potřebuje zvládnout tři věci: umět opravit panel, rozpoznat zablokovanou cestu a jinak se jen posouvat vpřed. Když se rutina povede, stejný vzor ho protáhne oběma zatáčkami i opravami.",
-    "commandDeckTitle": "Balík Příkazů",
-    "iterationsTitle": "Počet Smyček",
-    "programTitle": "Autopilotní Rutina",
-    "slotLabel": "Slot {{index}}",
+    "title": "Autopilot servisního dronu",
+    "subtitle": "Ladění opravné smyčky",
+    "awaiting": "Centrální model už nelže, ale poslední koridor je stále blokovaný. Slož pro servisní dron krátký program tak, aby při průjezdu opravil poškozené panely, zatáčel jen tehdy, když narazí na překážku, a nakonec bezpečně dorazil až k výstupní bráně.",
+    "programUpdated": "Autopilot byl upraven. Nyní dron pusť do chodby a sleduj, kde se program zlomí.",
+    "incomplete": "Program není kompletní. Musíš obsadit všechny volné sloty ve smyčce.",
+    "executing": "Dron vyráží do koridoru. Hned uvidíme, jestli tvůj program funguje v praxi.",
+    "wall": "Dron narazil do uzavřené přepážky. Program neumí správně reagovat na blokovanou cestu.",
+    "panels": "Dron sice projel dál, ale některý z panelů zůstal neopravený. Příkaz k opravě musíš v programu přesunout na jiné místo.",
+    "failure": "Aktuální autopilot dron nedokáže provést celou stabilizací chodby.",
+    "success": "Autopilot funguje bezchybně. Dron opravil panely, zvládl zatáčky a dorazil k finální bráně.",
+    "unlock": "Navigační čip autopilota byl přijat. Sloučený koridor je nyní stabilní. Kampaň je u konce.",
+    "objectiveTitle": "Kontext mise",
+    "objective": "Tato hádanka připomíná, že chytrý algoritmus nemusí být vůbec dlouhý. Programuješ krátkou smyčku, ve které se dron neustále dokola rozhoduje: Mám opravovat? Změnit směr? Nebo jet dál? Jde tu o hledání logického vzoru, ne o náhodu.",
+    "hintTitle": "Technický list dronu",
+    "hint": "Dron opakuje ten samý krátký cyklus příkazů. Musí umět tři věci: opravit panel pod sebou, poznat zeď před sebou a jet rovně. Když tyto tři kroky seřadíš správně, dron si automaticky poradí s oběma zatáčkami i s oběma panely.",
+    "commandDeckTitle": "Sada příkazů",
+    "iterationsTitle": "Počet smyček",
+    "programTitle": "Program autopilota",
+    "slotLabel": "Krok {{index}}",
     "emptySlot": "Vložit příkaz",
-    "gridTitle": "Servisní Koridor",
-    "runLogTitle": "Telemetrie Běhu",
-    "reset": "Reset Rutiny",
+    "gridTitle": "Servisní koridor",
+    "runLogTitle": "Telemetrie letu",
+    "reset": "Smazat program",
     "validating": "Ověřuji...",
-    "run": "Spustit Dron",
+    "run": "Spustit dron",
     "executingShort": "Běží...",
-    "statusHint": "Klikni na vybraný příkaz v balíku a potom na slot. Kliknutí na slot bez vybraného příkazu jej vyčistí.",
+    "statusHint": "Vyber příkaz z panelu a vlož ho do prázdného kroku. Kliknutím na obsazený krok příkaz zase smažeš.",
     "idle": "Nečinný",
     "metrics": {
-      "loop": "Smyčka",
-      "repaired": "Opravené Panely",
+      "loop": "Smyčka č.",
+      "repaired": "Opraveno panelů",
       "direction": "Směr",
       "position": "Pozice",
-      "activeCommand": "Aktivní Příkaz"
+      "activeCommand": "Aktivní příkaz"
     },
     "directions": {
       "up": "NAHORU",
@@ -649,222 +737,810 @@
       "left": "VLEVO"
     },
     "commands": {
-      "REPAIR_IF_PANEL": "OPRAVIT POKUD PANEL",
+      "REPAIR_IF_PANEL": "OPRAVIT POKUD JE ZDE PANEL",
       "IF_BLOCKED_TURN_LEFT": "POKUD BLOK, OTOČ VLEVO",
       "IF_BLOCKED_TURN_RIGHT": "POKUD BLOK, OTOČ VPRAVO",
       "MOVE": "POSUN VPŘED",
       "TURN_LEFT": "OTOČIT VLEVO",
       "TURN_RIGHT": "OTOČIT VPRAVO"
+    },
+    "gridLabels": {
+      "fixed": "OK",
+      "repair": "OPR",
+      "exit": "CÍL"
     }
   },
   "campaignDebrief": {
-    "kicker": "Kampaň Dokončena",
-    "title": "Řídicí páteř zařízení znovu reaguje.",
-    "body": "Neunikl jsi ze školy testem. Prošel jsi opravou celého systému. Obnovil jsi pořadí, smyčky, signál, archivy, rozhodování, model sektoru i finální automatickou opravu. Komplex už znovu nebloudí v poškozených odhadech.",
+    "kicker": "Kampaň dokončena",
+    "title": "Klíčová stopa je znovu čitelná.",
+    "body": "Nešlo jen o splnění série úkolů. Obnovil jsi pořádek v datech, postupech i vztazích mezi částmi systému. Každá další kampaň může mít jiné kulisy, ale cíl zůstává stejný: pochopit problém, ověřit informace a vrátit jim smysl.",
     "metrics": {
-      "time": "Zbývající Čas",
-      "modules": "Obnovené Moduly",
-      "path": "Zvolená Větev"
+      "time": "Zbývající čas",
+      "modules": "Obnovené moduly",
+      "path": "Zvolená větev",
+      "outcome": "Výsledek"
     },
-    "routeTitle": "Obnovená Trasa Mise",
+    "routeTitle": "Tvoje trasa misí",
     "tabs": {
-      "path": "Paměť Trasy",
-      "systems": "Obnovené Systémy",
-      "learning": "Co Ses Naučil"
+      "path": "Průchod",
+      "systems": "Hardware",
+      "learning": "Co sis odnesl"
     },
     "paths": {
       "left": {
-        "title": "Levá Reléová Větev",
-        "body": "Ve slabé síťové páteři jsi musel číst vlastnosti uzlů a hledat jedinou trasu, která splní všechna omezení. Tahle větev připomněla, že informace necestuje náhodně: vždy se řídí strukturou propojené sítě."
+        "title": "Levá reléová větev",
+        "body": "V poškozené síti jsi musel pečlivě číst vlastnosti každého uzlu a hledat jedinou trasu, která splní všechna pravidla. Zjistil jsi, že data necestují náhodně – vždy se řídí strukturou sítě a jejími omezeními."
       },
       "right": {
-        "title": "Pravý Rozhodovací Třídič",
-        "body": "V logistické větvi jsi stavěl pravidla, podle kterých se náklad dělí do různých výstupů. Tato cesta ukázala, že jedna změna podmínky může obrátit celý výsledek algoritmu."
+        "title": "Pravý rozhodovací třídič",
+        "body": "V logistické větvi jsi musel nastavit přesná pravidla pro větvení algoritmu. Zjistil jsi, že jediná špatná podmínka dokáže poslat celý systém do naprostého zmatku."
       }
     },
     "route": {
       "airlock": {
         "tag": "Start",
-        "title": "Přechodová Komora"
+        "title": "Přechodová komora"
       },
       "loops": {
         "tag": "Algoritmy",
-        "title": "Hlídací Koridor"
+        "title": "Hlídací koridor"
       },
       "archive": {
         "tag": "Data",
-        "title": "Archivní Uzel"
+        "title": "Archivní uzel"
       },
       "left": {
         "tag": "Větev",
-        "title": "Reléová Páteř"
+        "title": "Reléová páteř"
       },
       "right": {
         "tag": "Větev",
-        "title": "Rozhodovací Pole"
+        "title": "Rozhodovací pole"
       },
       "twin": {
         "tag": "Model",
-        "title": "Digitální Dvojče"
+        "title": "Digitální dvojče"
       },
       "autopilot": {
         "tag": "Finále",
-        "title": "Autopilot Dronu"
+        "title": "Autopilot dronu"
       }
     },
-    "systemsTitle": "Kořist Z Obnovy",
-    "systemsBody": "Každý z obnovených modulů představuje nástroj nebo myšlenku, kterou jsi během kampaně použil. Nejde jen o inventář. Je to mapa toho, jak ses postupně dostal od jednoduchých kroků až k řízení systému jako celku.",
+    "systemsTitle": "Co se podařilo obnovit",
+    "systemsBody": "Každý z těchto obnovených modulů představuje dovednost nebo myšlenku, kterou jsi použil k záchraně stanice. Není to jen inventář věcí. Je to důkaz tvého vlastního pokroku od malých krůčků až k řízení obřích systémů.",
     "learning": {
       "1": {
         "title": "Data nejsou totéž co informace",
-        "body": "Surová čtení sama nic nevyřeší. Smysl vzniká až ve chvíli, kdy data přiřadíš ke správnému modelu nebo pravidlu."
+        "body": "Surová čísla ze senzorů ti sama o sobě nic neřeknou. Smysl získají až tehdy, když je správně vyhodnotíš v kontextu širšího modelu."
       },
       "2": {
-        "title": "Krátký algoritmus může dělat hodně",
-        "body": "Sekvence, opakování a jednoduché podmínky stačí k tomu, aby stroj provedl složitější úkol. Důležité je předvídat, testovat a opravovat chyby."
+        "title": "Krátký algoritmus dokáže velké věci",
+        "body": "Správná kombinace jednoduchých příkazů, smyček a podmínek stačí k tomu, aby počítač vyřešil velmi složitý problém."
       },
       "3": {
-        "title": "Systémy spolu souvisejí",
-        "body": "Síť, archiv, model i dron fungují jen tehdy, když chápeš vztahy mezi jejich částmi. Informatika není jen o klikání, ale o hledání těchto vazeb."
+        "title": "Systémy spolu vždy souvisejí",
+        "body": "Síť, databáze i dron mohou fungovat jen tehdy, když správně pochopíš vztahy mezi nimi. Informatika není jen o kódování, ale hlavně o hledání logických vazeb."
       }
     },
-    "nextDirectiveTitle": "Další Direktiva",
-    "nextDirectiveBody": "Centrální sektor je stabilní. Záznamy přeživších i servisní trasa jsou znovu čitelné. Můžeš se vrátit do menu, zkusit kampaň jinou cestou, nebo pokračovat do dalšího protokolu, až bude připravený.",
-    "exit": "Návrat Do Hlavního Menu"
+    "nextDirectiveTitle": "Co dál",
+    "nextDirectiveBody": "Můžeš se vrátit do hlavního menu, projít si kampaň jinou cestou nebo pokračovat do dalšího světa, jakmile bude připravený.",
+    "exit": "Návrat do hlavního menu"
+  },
+  "campaignDebriefCampaigns": {
+    "elem_7": {
+      "title": "Městský archiv znovu mluví pravdu.",
+      "body": "Neobnovil jsi stroj, ale důvěryhodnost veřejného záznamu. Srovnal jsi rozhozené police, spojil roztržené registry, opravil pracovní postup kanceláře, nastavil směrování žádostí a ověřil, že mapa i listiny ukazují stejný příběh.",
+      "systemsTitle": "Obnovené důkazy",
+      "systemsBody": "Každý získaný předmět představuje část stop, které bylo potřeba ověřit. Dohromady tvoří důkazní řetězec, bez něhož by město přijalo chybnou verzi vlastní historie.",
+      "nextDirectiveTitle": "Další krok",
+      "nextDirectiveBody": "Archiv je znovu čitelný. Můžeš se vrátit do menu, projít si kampaň znovu nebo pokračovat do dalšího světa, až bude připravený.",
+      "paths": {
+        "fast_track": {
+          "title": "Přímá archivní trasa",
+          "body": "Ledger jsi opravil natolik čistě, že tě archiv pustil přímo do hlavní procedurální větve. Tahle trasa zdůraznila, že dobře propojená data zkracují další ověřovací kroky."
+        },
+        "review_track": {
+          "title": "Trasa přes sekundární kontrolu",
+          "body": "Obnovený ledger musel ještě projít vedlejší revizí, než mu kancelář začala znovu věřit. Tahle větev ukazuje, že nejistá data mají vést do ověření, ne rovnou do finálního rozhodnutí."
+        }
+      },
+      "results": {
+        "verified": {
+          "title": "Plně ověřený verdikt",
+          "body": "Finální důkazní tabule se srovnala bez nutnosti další opravy. Město dostává správnou listinu i silně podloženou auditní stopu."
+        },
+        "contested": {
+          "title": "Sporné, ale vyřešené",
+          "body": "Ke správné listině ses dostal až po opravě důkazní tabule. Verdikt je správný, ale zároveň dokazuje, že slabé rekonstrukce je potřeba napadnout a přepočítat."
+        }
+      },
+      "route": {
+        "archive_entry": {
+          "tag": "Start",
+          "title": "Vstup do archivu"
+        },
+        "shelf_audit": {
+          "tag": "Pořádek",
+          "title": "Revize polic"
+        },
+        "ledger_rebuild": {
+          "tag": "Data",
+          "title": "Obnova registru"
+        },
+        "fast_track": {
+          "tag": "Větev",
+          "title": "Přímá revize"
+        },
+        "review_track": {
+          "tag": "Větev",
+          "title": "Sekundární kontrola"
+        },
+        "procedure": {
+          "tag": "Postup",
+          "title": "Kancelářský workflow"
+        },
+        "index_router": {
+          "tag": "Systém",
+          "title": "Směrování indexu"
+        },
+        "evidence_vault": {
+          "tag": "Stopy",
+          "title": "Trezor důkazů"
+        },
+        "map_room": {
+          "tag": "Model",
+          "title": "Překryvná mapa"
+        },
+        "reconciliation": {
+          "tag": "Finále",
+          "title": "Závěrečná rekonstrukce"
+        }
+      },
+      "learning": {
+        "1": {
+          "title": "Údaj bez kontextu nestačí",
+          "body": "Jedna karta nebo jedna stránka ještě nedokazuje pravdu. Teprve když souhlasí více evidencí, mění se jednotlivé údaje v informaci, které lze věřit."
+        },
+        "2": {
+          "title": "Správný postup je součástí informatiky",
+          "body": "Pořadí kroků v kanceláři není náhoda. Když se krok přeskočí nebo zamění, vznikne chyba stejně snadno jako ve špatně navrženém algoritmu."
+        },
+        "3": {
+          "title": "Model musí odpovídat záznamům",
+          "body": "Mapa, index i listina jsou jen různé pohledy na stejnou skutečnost. Informatika pomáhá hlídat, aby si tyto modely vzájemně neodporovaly."
+        }
+      }
+    }
+  },
+  "errorBoundary": {
+    "title": "Kritická chyba běhu",
+    "body": "Aktuální protokol narazil na závažnou chybu v rozhraní, ze které se nelze automaticky zotavit. Vrať se do hlavního menu a spusť systém znovu.",
+    "reset": "Návrat do hlavního menu"
+  },
+  "common": {
+    "closeInterface": "Zavřít rozhraní",
+    "clear": "Vymazat",
+    "lockedIn": "Potvrzeno",
+    "active": "Aktivní"
   },
   "gameContainer": {
     "puzzleNotFound": "Logika hádanky nenalezena pro úroveň {{level}}",
     "level": "Úroveň",
-    "unknownZone": "Neznámá Zóna",
-    "loadingModule": "Načítání Modulu {{module}}...",
+    "unknownZone": "Neznámá zóna",
+    "loadingTitle": "Načítání modulu",
+    "loadingModule": "Načítání modulu {{module}}...",
+    "transitionTitle": "Přechod protokolu",
     "purging": "ČIŠTĚNÍ SYSTÉMU... INICIALIZACE DALŠÍHO PROTOKOLU",
-    "returning": "PŘÍSTUP K PŘEDCHOZÍMU UZLU..."
+    "returning": "PŘÍSTUP K PŘEDCHOZÍMU UZLU...",
+    "abortButton": "PŘERUŠIT PROTOKOL",
+    "exitConfirmTitle": "Přerušit protokol?",
+    "exitConfirmBody": "Návrat do hlavního menu ukončí aktuální rozehranou kampaň {{campaign}}.",
+    "exitConfirmNote": "Zavřením jednotlivé hádanky křížkem svůj postup neztratíš, ale přerušením celého protokolu ano.",
+    "continueRun": "Pokračovat ve hře",
+    "exitToMenu": "Odejít do menu",
+    "gameOverTitle": "Systém uzamčen",
+    "gameOverBody": "Byl detekován závažný bezpečnostní incident. Všechny logické sektory byly preventivně zmrazeny.",
+    "returnToMainMenu": "NÁVRAT DO HLAVNÍHO MENU",
+    "debug": {
+      "openTitle": "Otevřít vývojářské menu",
+      "title": "Vývojářské menu (skoky)",
+      "body": "Přeskoč přímo do libovolné fáze aktuální kampaně.",
+      "close": "Zavřít",
+      "autoSeed": "Automaticky doplnit potřebné předměty a vyřešit místnosti",
+      "screenLabel": "Obrazovka {{index}}",
+      "shortcut": "Zkratka: Ctrl+Shift+D"
+    }
   },
   "menu": {
     "main": {
       "difficulty": {
-        "title": "Inicializovat Protokol",
-        "subtitle": "Výběr obtížnosti simulace"
+        "title": "Vybrat kampaň",
+        "subtitle": "Otevři přehled dostupných světů"
       },
       "options": {
-        "title": "Konfigurace Systému",
-        "subtitle": "Audio, Video & Přístupnost"
+        "title": "Nastavení",
+        "subtitle": "Zvuk, obraz a přístupnost"
       },
       "credits": {
-        "title": "Hlavní Přispěvatelé",
-        "subtitle": "Vývojový tým a titulky"
+        "title": "Tvůrci",
+        "subtitle": "Vývojový tým a informace"
       },
       "exit": {
-        "title": "Ukončit Relaci",
-        "subtitle": "Odejít z platformy"
+        "title": "Ukončit relaci",
+        "subtitle": "Zavřít rozhraní"
       }
     },
     "difficultyView": {
-      "title": "Výběr Simulačního Protokolu",
-      "levelPrefix": "ÚROVEŇ"
+      "title": "Výběr kampaně",
+      "levelPrefix": "ÚROVEŇ",
+      "resumeAvailable": "Lze navázat od úrovně {{level}}",
+      "resumeRun": "Navázat na rozehranou hru",
+      "startFresh": "Začít úplně znovu",
+      "startRun": "Spustit kampaň",
+      "comingSoon": "Ve vývoji"
     },
     "optionsView": {
-      "title": "Konfigurace Systému",
+      "title": "Nastavení rozhraní",
       "crt": {
-        "title": "CRT Efekt Terminálu",
-        "desc": "Povolit retro řádkování a chromatickou aberaci"
+        "title": "Retro efekt monitoru (CRT)",
+        "desc": "Zapnout vizuální řádkování a mírné rozostření barev"
       },
       "audio": {
-        "title": "Audio Telemetrie",
-        "desc": "Hlavní ovládání hlasitosti pro prostředí a efekty ({{volume}}%)"
+        "title": "Hlasitost",
+        "desc": "Hlavní ovládání hlasitosti pro zvuky prostředí a efekty ({{volume}} %)"
       },
       "dyslexia": {
-        "title": "Podpora pro Dyslektiky",
-        "desc": "Použít speciální fonty pro veškeré terminálové výstupy"
+        "title": "Podpora pro dyslektiky",
+        "desc": "Změnit terminálové písmo na font čitelnější pro dyslektiky"
       },
       "language": {
-        "title": "Jazyk Systému",
-        "desc": "Přepínání mezi anglickým a českým rozhraním"
+        "title": "Jazyk rozhraní",
+        "desc": "Přepínání mezi českým a anglickým rozhraním"
       }
     },
     "creditsView": {
-      "title": "Hlavní Přispěvatelé",
-      "lead": "Hlavní Architekt & Pedagogika",
-      "ai": "Integrace AI Systémů",
-      "footer": "Vytvořeno pro Revizi RVP 2021/2026"
-    }
-  },
-  "difficulties": {
-    "1": {
-      "title": "Algoritmická Sekvence",
-      "desc": "Pohyb postavy pomocí bloků."
+      "title": "Tvůrci",
+      "lead": "Hlavní architektura a pedagogika",
+      "ai": "Integrace systémů umělé inteligence",
+      "footer": "Vytvořeno jako podpora pro revizi RVP (2021/2026)"
     },
-    "2": {
-      "title": "Opakující se Zámek",
-      "desc": "Implementace základních smyček k obejití bezpečnosti."
+    "status": {
+      "activeCampaigns": "Dostupné kampaně",
+      "resumeSlots": "Rozpracované hry",
+      "interface": "Rozhraní",
+      "crt": "CRT efekt",
+      "clean": "Čisté"
     },
-    "3": {
-      "title": "Binární Pochodeň",
-      "desc": "Přepínání světel podle vzorů."
+    "commandSurface": {
+      "title": "Přehled kampaní",
+      "body": "Vyber svět, uprav rozhraní nebo navaz na rozehranou kampaň."
     },
-    "4": {
-      "title": "Archivy",
-      "desc": "Organizace fyzických objektů do polí."
-    },
-    "5": {
-      "title": "Zapojení Brány",
-      "desc": "Použití hradel AND/OR k napájení zámků."
-    },
-    "6": {
-      "title": "Phishing na Stráž",
-      "desc": "Identifikace bezpečných digitálních zpráv."
-    },
-    "7": {
-      "title": "Generátor Brute Force",
-      "desc": "Optimalizace zpracovací cesty k prolomení PINu."
-    },
-    "8": {
-      "title": "SQL Infiltrace",
-      "desc": "Terminálové rozhraní pro tvorbu dotazů."
+    "views": {
+      "main": "Hlavní menu",
+      "difficulty": "Protokoly",
+      "options": "Nastavení",
+      "credits": "Tvůrci"
     }
   },
   "desktopSim": {
+    "title": "Konzole obnovy (Plocha)",
+    "instructions": "Procházej složky, přečti si zanechané dokumenty a spusť starý nouzový program (override), který ze zničených dat vytáhne důležitý modul smyček.",
+    "remoteLink": "Vzdálený přístup ke stanici",
+    "recoveredArtifacts": "Obnovené předměty",
+    "workstationState": "Stav počítače",
+    "loopOverrideExecuted": "Nouzový program (override) pro modul smyček byl spuštěn.",
+    "legacyOverridePending": "Nouzový program stále čeká na spuštění.",
+    "operatorNotesTitle": "Poznámky operátora",
+    "operatorNotesBody": "Dvojklikem otevřeš složku nebo spustíš vybraný soubor. Spustitelné soubory reagují okamžitě. Odměny a nástroje se ti uloží do inventáře při jejich prvním otevření.",
+    "recoveredItemsTitle": "Získané vybavení",
+    "recoveredState": "Získáno",
+    "missingState": "Chybí",
+    "recoveryWorkspaceTitle": "Obnovovací plocha",
+    "recoveryWorkspaceBody": "Zde se objevují přeživší archivy, servisní nástroje a hardwarové moduly, které zachránil nouzový systém.",
+    "nodesAvailable": "Dostupné soubory: {{count}}",
     "emptyFolder": "Tato složka je prázdná.",
-    "executing": "SPOUŠTĚNÍ PROTOKOLU PŘEPSÁNÍ...",
+    "executing": "SPOUŠTÍM NOUZOVÝ PROTOKOL (OVERRIDE)...",
+    "overrideInProgress": "Probíhá stará přepisovací sekvence",
+    "recoveredItemTitle": "Nový předmět získán",
     "pickups": {
-      "usb_decryptor": "USB Dekryptor obnoven ze starých administrátorských nástrojů.",
-      "module_loop": "Modul Ovládání Smyčky obnoven z výstupu přepsání.",
-      "module_loop_ready": "Modul Ovládání Smyčky spadl na plochu. Pro pokračování ho vyzvedni."
+      "usb_decryptor": "USB dekryptor byl úspěšně vytažen ze starých administrátorských nástrojů.",
+      "module_loop": "Modul smyček byl úspěšně vygenerován.",
+      "module_loop_ready": "Modul smyček přistál na ploše. Vyzvedni si ho a budeš moct pokračovat."
     },
     "lore": {
-      "decryptor": "KONTEJNER SE STAROU ZÁPLATOU // OTEVŘEN\n\nUvnitř starého balíčku administrátorských záplat nacházíš kompaktní USB dekryptor, který se kdysi používal k otevírání zapečetěných archivních zásuvek při nouzových kontrolách.\n\nNa štítku stojí, že šifrovací rutiny jsou zastaralé, ale tranzitní uzel je stále přijímá.",
-      "loopModule": "VÝSTUP Z PŘEPSÁNÍ // MODUL OVLÁDÁNÍ SMYČKY\n\nSpustitelný override vypsal na údržbářskou plochu hardwarový shim. Jeho registrační štítek ho označuje jako modul ovládání smyčky, který se používal k opakování krátkých sekvencí příkazů ve firmwaru hlídkových systémů.\n\nVypadá dost kompaktně na to, aby sis ho odnesl hlouběji do zařízení.",
-      "sys": "KONFIGURACE SYSTÉMU [UTAJENO]\n\nModul alokace paměti obejit.\nDalší zóna vyžaduje navigaci hlídkového bota skrz koridor.\nBot umí pouze JÍT VPŘED, OTOČIT SE VLEVO nebo OTOČIT SE VPRAVO.\nNajdi opakující se vzor a použij smyčku.",
-      "warn": "ZPRÁVA O INCIDENTU #04\n\nBezpečnostní bot byl deaktivován. Pro znovuotevření pancéřových dveří musí někdo naprogramovat novou hlídkovou trasu.\n\nKoridory tvoří zubatý vzor — bot musí navigovat kolem zdí.\nNÁPOVĚDA: Hledej krátkou sekvenci pohybů, která se opakuje a pokryje celou cestu.",
-      "readme": "VÍTEJTE NA PORTÁLU PRO ZAMĚSTNANCE.\n\nPřipomenutí: Přepsání pancéřových dveří vyžaduje správně zacyklenou hlídkovou trasu. Smyčka je sekvence příkazů, která se opakuje vícekrát. Přemýšlej, které příkazy provedou bota jednou částí koridoru, a kolikrát se musí tento vzor opakovat."
+      "decryptor": "KONTEJNER SE STAROU ZÁPLATOU // OTEVŘEN\n\nVe staré složce administrátorských nástrojů leží kompaktní USB dekryptor. Během krizí se s ním kdysi lámaly zabezpečené archivy, když selhalo úplně všechno ostatní.\n\nTechnický štítek sice varuje, že jeho šifrovací schopnosti jsou dávno zastaralé, ale místní historické uzly mu zjevně pořád důvěřují.",
+      "loopModule": "VÝSTUP NOUZOVÉHO PROGRAMU // MODUL SMYČEK\n\nSystém vyplivl na servisní plochu malý hardwarový modul. Jeho značka potvrzuje, že se jedná o řídicí čip smyček – nástroj určený k tomu, aby počítač dokázal donekonečna opakovat krátkou sadu příkazů.\n\nJe přesně tak akorát velký, aby sis ho schoval do vybavení. Bude se ti hodit hlouběji v komplexu.",
+      "sys": "KONFIGURACE SYSTÉMU [UTAJENO]\n\nModul přidělování paměti se podařilo obejít.\nDalší sektor ale spoléhá na hlídkového bota, který teď trčí v servisním koridoru.\nZná jen tři rozkazy: JÍT VPŘED, OTOČIT VLEVO a OTOČIT VPRAVO.\nBez dobré a funkční smyčky se odtud nikdo živý nedostane.",
+      "warn": "ZPRÁVA O INCIDENTU #04\n\nBezpečnostní hlídkový bot se zasekl. Aby se těžké pancéřové dveře odemkly, bude muset operátor robotovi nahrát zbrusu novou trasu.\n\nKoridor je plný zatáček a překážek. Vypsat mu každý krok ručně by trvalo věčnost. Hledejte proto krátký vzor pohybu, který lze v chodbě opakovat jako smyčku.",
+      "readme": "VÍTEJ NA ZAMĚSTNANECKÉM PORTÁLU.\n\nBezpečnostní dveře otevřete jen funkční naprogramovanou smyčkou. Smyčka není nic magického – je to zkrátka jen velmi krátká sekvence příkazů, kterou pak stroj opakuje znovu a znovu dokola. Najdi vzor, který bezpečně překoná jednu menší překážku, a pak ho nech robota opakovat, dokud nedojde na konec."
     }
   },
   "room": {
-    "scanRecovered": "Sken Prostředí",
-    "interactHint": "Obnovené objekty teď promítají polní značky. Poznámky se zobrazují jako označené důkazní karty, zatímco aktivní stroje otevírají tranzitní trasu hlouběji do zařízení.",
-    "loreRecovered": "Obnovený Záznam",
+    "scanRecovered": "Skenování prostředí",
+    "noVisualSignal": "ŽÁDNÝ VIZUÁLNÍ SIGNÁL",
+    "interactHint": "Objekty, se kterými jde manipulovat, teď svítí. Přečtené vzkazy se ti uloží, zatímco interakce se stroji a konzolemi tě posune dál do zařízení.",
+    "loreRecovered": "Záznam byl stažen",
     "recoveredState": "Přečteno",
     "newState": "Nové",
-    "mysteriousNoteTitle": "Záhadný Vzkaz",
-    "mysteriousNote": "Kde to jsem? Poslední co si pamatuji... umělá inteligence zařízení se zbláznila a zamíchala všechny paměťové bloky. Datová sběrnice mainframu je poškozená — dokáže porovnat pouze dva SOUSEDNÍ bloky najednou.\n\nPokud to čtete, musíme ručně seřadit paměť, aby se systém obnovil. V logu vedoucího směny by měl být popsán postup defragmentace.",
-    "employeeLogTitle": "Log Zaměstnance",
-    "employeeLog": "LOG VEDOUCÍHO SMĚNY\n\nNouzový Defragmentační Protokol:\n1. Podívejte se na dva sousední paměťové bloky\n2. Pokud má levý VĚTŠÍ hodnotu než pravý, PROHOĎTE je\n3. Pokud jsou již ve správném pořadí, nechte je a pokračujte dál\n4. Opakujte, dokud nebude vše seřazeno\n\nTomuto se říká 'Bubble Sort' — největší hodnoty postupně probublávají na konec, jako vzduchové bubliny stoupající ve vodě.",
-    "mainframeTitle": "Zkontrolovat Mainframe",
-    "memoryCartridgeTitle": "Vysunutá Paměťová Kartuše",
-    "memoryCartridge": "Opravený mainframe vysunul údržbářskou kartuši do servisního slotu v přechodové komoře. Označení na pouzdře říká, že jde o modul RAM bufferu, pravděpodobně používaný k držení krátkých dávek obnovených dat během restartu poškozených systémů.\n\nSchováš si ji dřív, než se slot znovu uzamkne.",
-    "transitConsoleTitle": "Údržbářská Transitní Konzole"
+    "mysteriousNoteTitle": "Záhadný vzkaz",
+    "mysteriousNote": "Kde to jsem? Poslední, co si vybavuju, je naprostý chaos. Hlavní umělá inteligence stanice se utrhla ze řetězu a rozházela všechny paměťové bloky.\n\nDatová sběrnice počítače (mainframu) je teď natolik poškozená, že zvládne naráz porovnat jen DVA sousední bloky.\n\nJestli tohle někdo čte: musíme tu paměť srovnat ručně, jinak se z toho systém už nevzpamatuje. Ve vzkazu od vedoucího směny by měl být přesný postup.",
+    "employeeLogTitle": "Záznam vedoucího",
+    "employeeLog": "LOG VEDOUCÍHO SMĚNY\n\nNouzový defragmentační protokol:\n1. Podívej se na dva sousední paměťové bloky.\n2. Pokud je hodnota vlevo VĚTŠÍ než ta vpravo, PROHOĎ JE.\n3. Pokud už jsou seřazené správně, nech je na pokoji a pokračuj na další dvojici.\n4. Opakuj to tak dlouho, dokud nebude vše seřazené od nejmenšího po největší.\n\nTéto metodě se říká Bubble Sort (Bublinkové řazení). Ty největší hodnoty totiž při každém průchodu pomalu \"probublávají\" na úplný konec paměti.",
+    "mainframeTitle": "Prověřit mainframe",
+    "memoryCartridgeTitle": "Vysunutá paměťová kartuše",
+    "memoryCartridge": "Úspěšně opravený mainframe s cvaknutím vysunul z bočního slotu malou paměťovou kartuši. Podle technického označení jde o RAM buffer – modul sloužící k uložení a roztřídění nouzových dat při restartu zařízení.\n\nRychle si ho vezmi, než se zámek znovu zaklapne.",
+    "transitConsoleTitle": "Údržbářská konzole tranzitu"
   },
   "notepad": {
-    "title": "Osobní Záznamy",
-    "placeholder": "Zde zaznamenejte svá pozorování a sekvence protokolů...",
+    "title": "Osobní poznámky",
+    "placeholder": "Sem si můžeš psát svoje pozorování, stopy, hesla nebo nápady...",
     "saved": "ULOŽENO"
+  },
+  "elem7": {
+    "common": {
+      "restored": "Obnoveno",
+      "pending": "Čeká",
+      "selected": "Vybráno",
+      "none": "Žádné"
+    },
+    "rooms": {
+      "archiveEntry": {
+        "subtitle": "Městský archiv",
+        "title": "Vstupní hala archivu",
+        "body": "Voda pronikla až do vstupní haly a první police se sesuly do jediné hromady. Rada města přesto trvá na tom, že se musí co nejrychleji potvrdit pravost ztracené listiny. Nejdřív ale potřebuješ pochopit, jak byly záznamy původně uspořádány.",
+        "objective": "Projdi všechny nalezené stopy. Jakmile si přečteš oznámení, vodítko polic i záznam o škodách, můžeš pokračovat k revizi prvního regálu.",
+        "reviewed": "Přečteno",
+        "new": "Nové",
+        "evidenceCount": "Přečtené stopy",
+        "instructionTitle": "Pokyn archiváře",
+        "instruction": "Každá stopa odhaluje jinou část problému. Pokračuj teprve tehdy, až budeš rozumět tomu, proč nestačí najít jen jednu jedinou stránku.",
+        "continue": "Pokračovat k policím",
+        "evidenceLabel": "Důkazní záznam",
+        "notes": {
+          "mayorNotice": {
+            "title": "Oznámení radnice",
+            "body": "RADNIČNÍ VÝZVA\n\nPři dnešní kontrole zjistila rada města nesoulad mezi hlavní listinou a jejími opisnými knihami. Dokud nebude doloženo, která verze je pravá, nesmí být záznam potvrzen.\n\nKaždý, kdo vstoupí do archivu, má nejprve zkontrolovat pořádek polic a zachránit vodítka, podle nichž byly záznamy řazeny."
+          },
+          "shelfGuide": {
+            "title": "Vodítko archivních polic",
+            "body": "Na promočeném kartonu je stále čitelné pravidlo: police se řadily podle roku zapsání a teprve uvnitř stejného roku podle typu svazku.\n\nJestli chceš něco najít, musíš nejprve vrátit karty do správného pořadí. Jinak bude každá další stopa ležet na špatném místě."
+          },
+          "waterLog": {
+            "title": "Záznam o škodách",
+            "body": "Zpráva správce popisuje, že nejvíc utrpěla severní stěna a police s pomocnými opisy. Hlavní listina možná přežila, ale její okolní evidence je rozptýlená po více místnostech.\n\nBudeš muset porovnávat více zdrojů najednou."
+          }
+        }
+      },
+      "clerkDesk": {
+        "subtitle": "Kancelář písaře",
+        "title": "Stůl městského kanceláře",
+        "body": "Na stole zůstaly otevřené registry, pečetní vosk i kartotéční zásuvky. Je zřejmé, že písař ještě těsně před havárií porovnával více evidencí, aby dohledal původ jedné sporné stránky.",
+        "objective": "Přečti si deník, návod ke kartotéce i okrajovou poznámku. Bez nich nebude jasné, jak mají jednotlivé registry do sebe zapadat.",
+        "reviewed": "Přečteno",
+        "new": "Nové",
+        "evidenceCount": "Přečtené stopy",
+        "instructionTitle": "Poznámka pro kontrolu",
+        "instruction": "Tato místnost vysvětluje, proč nestačí seřadit police. Skutečný problém je v tom, že stejné osoby a parcely se objevují v několika registrech zároveň.",
+        "continue": "Pokračovat k ledgeru",
+        "evidenceLabel": "Úřední dokument",
+        "notes": {
+          "clerkDiary": {
+            "title": "Denník kanceláře",
+            "body": "DENNÍ ZÁZNAM\n\nKdyž se údaje mezi knihami neshodují, nesmíme přepsat hlavní listinu podle první nalezené poznámky. Nejprve ověřujeme pečeť a pak srovnáváme index, adresu a parcelní číslo.\n\nBez pečeti je i krásně napsaná stránka jen podezřelý opis."
+          },
+          "indexManual": {
+            "title": "Návod ke kartotéce",
+            "body": "KARTOTÉČNÍ POSTUP\n\nKaždé jméno v obytné knize musí ukazovat na správnou ulici, parcelu a městský okrsek. Pokud chybí jediný údaj, musí se záznam znovu porovnat s další knihou.\n\nSmysl informace vzniká až tehdy, když se všechny související položky potvrdí navzájem."
+          },
+          "marginNote": {
+            "title": "Okrajová poznámka",
+            "body": "Na okraji rozpisu je připsáno: 'Při velkých žádostech nejprve ověř směr toku. Jinak se dokument zamotá do špatné zásuvky a zpět už se nedohledá.'\n\nJe to zřejmě narážka na směrovací tabuli v další místnosti."
+          }
+        }
+      },
+      "ledgerFastTrack": {
+        "subtitle": "Spisový koridor",
+        "title": "Lístek pro přímou revizi",
+        "body": "Obnovené řádky ledgeru spolu souhlasí tak čistě, že archiv pouští spis dál bez vedlejší zastávky. Písař po sobě nechal už jen krátké procedurální poznámky, než případ poslal ke kontrole workflow.",
+        "objective": "Projdi obě poznámky. Tahle větev vznikla proto, že propojení dat bylo obnoveno dostatečně čistě na přeskočení mezikroku.",
+        "reviewed": "Přečteno",
+        "new": "Nové",
+        "evidenceCount": "Přečtené poznámky",
+        "instructionTitle": "Poznámka k větvi",
+        "instruction": "Dobrý informační systém jen neodhaluje chyby. Když jsou data spolehlivá, umí také zkrátit cestu k dalšímu potvrzenému kroku.",
+        "continue": "Pokračovat k postupu",
+        "evidenceLabel": "Směrovací poznámka",
+        "notes": {
+          "directReviewSlip": {
+            "title": "Lístek pro přímou revizi",
+            "body": "PŘÍMÁ REVIZE POVOLENA\n\nObnovené řádky ledgeru se shodují ve všech polích. Není nutná žádná další třídicí kontrola. Spis může pokračovat rovnou k opravě pracovního postupu."
+          },
+          "routingBrief": {
+            "title": "Krátká směrovací poznámka",
+            "body": "Když propojené záznamy souhlasí, kancelář šetří čas kratší ověřenou větví. I to je rozhodovací proces: systém se může větvit podle toho, jak spolehlivá jsou jeho data."
+          }
+        }
+      },
+      "ledgerReview": {
+        "subtitle": "Spisový koridor",
+        "title": "Stůl sekundární kontroly",
+        "body": "Archiv obnovený ledger přijímá, ale až po krátké vedlejší revizi. Případ může pokračovat, jenže kancelář zanechala upozornění, co se stane, když se propojená data opravují pozdě.",
+        "objective": "Projdi obě poznámky. Tahle větev vznikla proto, že data musela před pokračováním projít ještě jednou kontrolou.",
+        "reviewed": "Přečteno",
+        "new": "Nové",
+        "evidenceCount": "Přečtené poznámky",
+        "instructionTitle": "Poznámka k větvi",
+        "instruction": "Informační systémy potřebují záložní větev pro nejisté výsledky. Dodatečné ověření není selhání. Je to způsob, jak si důvěryhodný proces chrání vlastní kvalitu.",
+        "continue": "Pokračovat k postupu",
+        "evidenceLabel": "Revizní poznámka",
+        "notes": {
+          "secondaryReviewNotice": {
+            "title": "Upozornění na vedlejší revizi",
+            "body": "VYŽADOVÁNA SEKUNDÁRNÍ KONTROLA\n\nMěstský ledger je obnoven, ale řetězec propojených údajů nebyl stabilní hned na první pokus. Před návratem do hlavního postupu musí spis projít vedlejší revizní kanceláří."
+          },
+          "procedureWarning": {
+            "title": "Varování pro postup",
+            "body": "Když jsou propojená data nejistá, kancelář nesmí předstírat, že se nic nestalo. Správnou reakcí je odbočit do dodatečného ověření a teprve potom navázat na hlavní workflow."
+          }
+        }
+      },
+      "evidenceVault": {
+        "subtitle": "Trezor důkazů",
+        "title": "Místnost s uzamčenými stopami",
+        "body": "Za posledními dveřmi leží mapy, pečetní schránky a svědecké záznamy. Tady už nejde jen o to mít správně uspořádané knihy, ale ověřit, že všechny modely města ukazují stejnou skutečnost.",
+        "objective": "Projdi si všechny tři stopy. Teprve potom bude dávat smysl překryvná mapa i závěrečné porovnání důkazů.",
+        "reviewed": "Přečteno",
+        "new": "Nové",
+        "evidenceCount": "Přečtené stopy",
+        "instructionTitle": "Před závěrečnou kontrolou",
+        "instruction": "Mapa, svědecký zápis a pečetní schránka jsou tři různé zdroje. Ve finále musíš ukázat, že spolu souhlasí a vedou ke stejnému závěru.",
+        "continue": "Pokračovat k mapě",
+        "evidenceLabel": "Uložený důkaz",
+        "notes": {
+          "witnessNote": {
+            "title": "Svědecká poznámka",
+            "body": "Výpověď starého městského posla uvádí, že pravá listina byla po kontrole uložena zpět do vnitřního trezoru, zatímco opis zůstal v zásuvce kanceláře.\n\nJestli má pravdu, musí se to odrazit i v ostatních záznamech."
+          },
+          "districtOverlay": {
+            "title": "Překryvná mapa okrsků",
+            "body": "Na tenkém průsvitném listu jsou vyznačeny tři mapové vrstvy. Jedna ukazuje severní okrsek, druhá říční parcely a třetí tržní oblast. Jen správné přiřazení vrstev odhalí, kam skutečně patří sporné záznamy."
+          },
+          "sealBox": {
+            "title": "Schránka s pečetěmi",
+            "body": "Uvnitř schránky jsou tři různé otisky: neporušená vosková pečeť, nalomená pečeť a protiznačka kanceláře. Každá patří jinému typu dokumentu a žádná nesmí být zaměněná."
+          }
+        }
+      }
+    },
+    "level1": {
+      "subtitle": "Revize polic",
+      "title": "Seřazení archivních karet",
+      "story": "Vodítko polic přežilo jen napůl. Potřebuješ vrátit karty do správného pořadí podle roku, jinak nebude možné najít navazující registry ve správném kontextu.",
+      "feedback": {
+        "start": "Karty jsou promíchané. Přesuň je tak, aby šly od nejstaršího záznamu k nejnovějšímu.",
+        "updated": "Pořadí se mění. Zkontroluj, zda na tebe z polic navazuje správná časová osa.",
+        "failure": "Archivní řada stále není srovnaná od nejstaršího roku k nejmladšímu.",
+        "success": "Pořádek polic je obnoven. V navazující zásuvce se objevil kartotéční index."
+      },
+      "shelfCode": "Rok záznamu",
+      "totalRecords": "Počet karet",
+      "validationState": "Stav pořadí",
+      "hintTitle": "Pravidlo řazení",
+      "hint": "Archivář ukládal tyto karty čistě podle roku. Nejmenší číslo musí být nahoře, největší dole.",
+      "validate": "Potvrdit pořadí",
+      "entries": {
+        "deed_b": "Listinná kniha B",
+        "register_f": "Obytný registr F",
+        "parcel_c": "Parcelní soupis C",
+        "roll_a": "Městský svitek A",
+        "ledger_d": "Daňový ledger D",
+        "index_e": "Jmenný index E"
+      }
+    },
+    "level2": {
+      "subtitle": "Křížová kontrola registrů",
+      "title": "Propojování záznamů v ledgeru",
+      "story": "Z několika roztržených knih se zachovaly jen části jmen, ulic, parcel a okrsků. Spoj správné údaje do celých řádků, aby bylo možné obnovit důvěryhodný městský ledger.",
+      "feedback": {
+        "start": "Doplň tři celé záznamy tak, aby se žádný údaj neopakoval v nesprávném řádku.",
+        "incomplete": "Aspoň jeden řádek ledgeru je stále neúplný. Před kontrolou doplň všechna čtyři pole.",
+        "updated": "Řádky se zaplňují. Sleduj, jestli k sobě opravdu patří jméno, ulice, parcela i okrsek.",
+        "fieldMismatch": "Vybraný údaj patří do jiného sloupce evidence.",
+        "failure": "Některé dvojice údajů si stále odporují. Zkus znovu porovnat celé řádky.",
+        "success": "Městský ledger je znovu čitelný a vznikl z něj svazek potvrzených registrů.",
+        "fastTrack": "Ledger se srovnal čistě. Archiv ti vydává lístek pro přímou revizi a otevírá kratší větev.",
+        "reviewTrack": "Ledger je obnoven, ale archiv ho před pokračováním posílá přes vedlejší kontrolní větev."
+      },
+      "record": "Řádek",
+      "recordLabel": "Záznam {{index}}",
+      "fields": {
+        "resident": "Obyvatel",
+        "street": "Ulice",
+        "parcel": "Parcela",
+        "district": "Okrsek"
+      },
+      "values": {
+        "resident": {
+          "eliska": "Eliška",
+          "jan": "Jan",
+          "marta": "Marta"
+        },
+        "street": {
+          "bridge": "Mostní",
+          "mill": "Mlýnská",
+          "square": "Náměstí"
+        },
+        "parcel": {
+          "A_12": "A-12",
+          "B_07": "B-07",
+          "C_19": "C-19"
+        },
+        "district": {
+          "north": "Severní",
+          "river": "Říční",
+          "market": "Tržní"
+        }
+      },
+      "emptySlot": "Prázdné pole",
+      "cardBank": "Banka karet",
+      "completeRows": "Hotové řádky",
+      "consistentRows": "Shodné řádky",
+      "selection": "Výběr",
+      "rowAudit": "Kontroly řádku {{index}}",
+      "status": {
+        "ok": "souhlasí",
+        "warning": "rozpor",
+        "pending": "čeká"
+      },
+      "checks": {
+        "residentStreet": "Obyvatel -> Ulice",
+        "streetParcel": "Ulice -> Parcela",
+        "parcelDistrict": "Parcela -> Okrsek"
+      },
+      "sources": {
+        "residentStreet": {
+          "title": "Kniha obyvatel",
+          "body": "Tohle je první spojení: každý obyvatel vede přesně na jednu ulici."
+        },
+        "streetParcel": {
+          "title": "Parcelní ledger",
+          "body": "Druhé spojení převádí ulici na parcelní označení."
+        },
+        "parcelDistrict": {
+          "title": "Registr okrsků",
+          "body": "Poslední spojení přiřadí parcele správný městský okrsek."
+        }
+      },
+      "hintTitle": "Kontrolní otázka",
+      "hint": "Ber to jako rekonstrukci propojených dat. Nejprve spoj obyvatele s ulicí, potom ulici s parcelou a nakonec parcelu s okrskem. Řádek je správný jen tehdy, když drží všechna tři propojení.",
+      "validate": "Potvrdit ledger"
+    },
+    "level3": {
+      "subtitle": "Kancelářský postup",
+      "title": "Obnovení pracovního workflow",
+      "story": "Bez správného postupu by kancelář snadno schválila chybný opis. Seřaď jednotlivé kroky tak, aby kontrola listiny proběhla ve správném pořadí.",
+      "feedback": {
+        "start": "Přesuň kroky tak, aby tvořily smysluplný úřední postup od přijetí žádosti po uložení opisu.",
+        "updated": "Workflow se skládá. Dbej na to, aby ověření předcházelo zapisování i ukládání.",
+        "failure": "Pořadí kroků stále nedává správný úřední postup.",
+        "success": "Postup kanceláře je opraven a vosková pečeť potvrzuje další stopu."
+      },
+      "stepLabel": "Krok",
+      "totalSteps": "Počet kroků",
+      "sequenceState": "Stav postupu",
+      "hintTitle": "Jak přemýšlet",
+      "hint": "Nejdřív musí žádost dorazit, pak se ověří, teprve potom se hledá v indexu, zapisuje poznámka a ukládá opis.",
+      "validate": "Potvrdit workflow",
+      "steps": {
+        "receive_request": "Přijmout žádost",
+        "verify_seal": "Ověřit pečeť",
+        "check_index": "Prověřit kartotéku",
+        "annotate_margin": "Dopsat poznámku do okraje",
+        "store_duplicate": "Uložit ověřený opis"
+      }
+    },
+    "level4": {
+      "subtitle": "Směrování indexu",
+      "title": "Nastavení rozhodovacích pravidel",
+      "story": "Žádosti o nahlédnutí do záznamů putují přes tři rozhodovací uzly. Každý uzel potřebuje pravidlo, podle kterého dokument pošle dál správným směrem.",
+      "feedback": {
+        "start": "Přiřaď ke každému uzlu jedno pravidlo. Jen správná kombinace udrží žádosti ve správných archivních větvích.",
+        "updated": "Směrovací tabule se mění. Porovnej každé pravidlo s popisem uzlu.",
+        "failure": "Některá rozhodovací pravidla stále posílají žádosti do špatné větve.",
+        "success": "Indexová tabule je opravená a směrovací razítko potvrzuje další část trasy."
+      },
+      "junctions": {
+        "junction_alpha": {
+          "label": "Uzel A",
+          "title": "První rozcestník",
+          "body": "Rozhoduje, zda dokument postupuje po hlavní ověřené trase, nebo spadne do vedlejší kontroly."
+        },
+        "junction_beta": {
+          "label": "Uzel B",
+          "title": "Hlavní spisovna",
+          "body": "Rozlišuje dokumenty, které nesou archivní značku a mohou jít přímo do potvrzené větve."
+        },
+        "junction_gamma": {
+          "label": "Uzel C",
+          "title": "Vedlejší kontrola",
+          "body": "Zachytává dokumenty s modrým označením a posílá je na zvláštní revizi."
+        }
+      },
+      "rules": {
+        "stable": "Pouze ověřené záznamy",
+        "archive_tag": "Archivní značka",
+        "high_priority": "Přednostní žádost",
+        "cyan_tag": "Modré označení"
+      },
+      "assignedRules": "Nastavená pravidla",
+      "routerState": "Stav směrování",
+      "hintTitle": "Kontrolní poznámka",
+      "hint": "První uzel oddělí ověřené záznamy od zbytku. Druhý pak pouští jen archivní značku, třetí vybírá modré označení.",
+      "validate": "Potvrdit směrování"
+    },
+    "level5": {
+      "subtitle": "Překryvná mapa",
+      "title": "Sladění mapových vrstev",
+      "story": "Každý svazek údajů patří k jiné vrstvě městské mapy. Pokud je přiřadíš chybně, bude model města odporovat záznamům v ledgeru i svědeckým poznámkám.",
+      "feedback": {
+        "start": "Klikáním měň čísla vrstev, dokud každý svazek nepatří do správného mapového překryvu.",
+        "updated": "Překryvy se mění. Srovnávej je s tím, co víš o severním, říčním a tržním okrsku.",
+        "failure": "Mapové vrstvy stále neodpovídají obnoveným registrům.",
+        "success": "Mapa souhlasí s evidencí a okresní překryv je připraven pro finální rekonstrukci."
+      },
+      "bundleLabel": "Datový svazek",
+      "bundles": {
+        "north_register": {
+          "title": "Severní registr",
+          "body": "Obsahuje přepisy domů z horního okraje města."
+        },
+        "river_parcels": {
+          "title": "Říční parcely",
+          "body": "Zachycuje pozemky přiléhající k náhonu a mlýnu."
+        },
+        "market_rolls": {
+          "title": "Tržní svitky",
+          "body": "Patří do oblasti kolem náměstí a tržiště."
+        },
+        "council_minutes": {
+          "title": "Zápisy rady",
+          "body": "Obsahují odkazy na severní část města a potvrzují tamní rozhodnutí."
+        }
+      },
+      "mapLayer": "Vrstva {{value}}",
+      "overlayCount": "Počet svazků",
+      "mapState": "Stav mapy",
+      "hintTitle": "Jak číst model",
+      "hint": "Dva svazky mohou ukazovat na stejnou vrstvu. Důležité je, aby model odpovídal tomu, co jsi obnovil v registrech.",
+      "validate": "Potvrdit mapu"
+    },
+    "level6": {
+      "subtitle": "Závěrečná rekonstrukce",
+      "title": "Ověření pravé listiny",
+      "story": "Poslední krok je nejtěžší: z několika dokumentů, míst uložení, pečetí a závěrů musíš sestavit finální sadu důkazů, která určí pravou verzi listiny.",
+      "feedback": {
+        "start": "Poskládej tři důkazní řádky tak, aby každému dokumentu odpovídalo správné místo, pečeť i závěr.",
+        "incomplete": "Aspoň jeden důkazní řádek je stále neúplný. Před kontrolou doplň dokument, uložení, pečeť i závěr.",
+        "updated": "Důkazní tabule se skládá. Ověřuj vždy celý řádek, ne jednotlivé položky zvlášť.",
+        "fieldMismatch": "Vybraná karta patří do jiného důkazního sloupce.",
+        "failure": "Finální porovnání stále nevede k správné rekonstrukci listiny.",
+        "success": "Pravá listina byla určena a ověřený fragment může být vrácen městu.",
+        "verified": "Síť důkazů se srovnala čistě. Město dostává plně ověřený verdikt.",
+        "contested": "Důkazní tabule potřebovala opravu, než se ustálila. Verdikt je správný, ale archiv ho zapisuje jako spornou rekonstrukci vyřešenou revizí."
+      },
+      "evidenceRow": "Důkaz",
+      "recordLabel": "Řádek {{index}}",
+      "fields": {
+        "document": "Dokument",
+        "archive": "Uložení",
+        "seal": "Pečeť",
+        "verdict": "Závěr"
+      },
+      "values": {
+        "document": {
+          "charter_page": "Hlavní listina",
+          "registry_copy": "Opis v registru",
+          "witness_roll": "Svědecký svitek"
+        },
+        "archive": {
+          "inner_vault": "Vnitřní trezor",
+          "clerk_drawer": "Zásuvka kanceláře",
+          "north_shelf": "Severní police"
+        },
+        "seal": {
+          "wax_valid": "Nezlomená vosková pečeť",
+          "wax_broken": "Nalomená pečeť",
+          "countermark": "Kancelářská protiznačka"
+        },
+        "verdict": {
+          "authentic": "Pravý dokument",
+          "supporting": "Podpůrný doklad",
+          "disputed": "Sporný důkaz"
+        }
+      },
+      "emptySlot": "Prázdné pole",
+      "cardBank": "Banka důkazů",
+      "completeRows": "Hotové řádky",
+      "consistentRows": "Shodné řádky",
+      "finalState": "Stav rekonstrukce",
+      "rowAudit": "Kontroly řádku {{index}}",
+      "status": {
+        "ok": "souhlasí",
+        "warning": "rozpor",
+        "pending": "čeká"
+      },
+      "checks": {
+        "documentArchive": "Dokument -> Uložení",
+        "documentSeal": "Dokument -> Pečeť",
+        "sealVerdict": "Pečeť -> Závěr"
+      },
+      "sources": {
+        "documentArchive": {
+          "title": "Kniha původu",
+          "body": "Tento zdroj zaznamenává, kde byl který dokument naposledy uložen."
+        },
+        "documentSeal": {
+          "title": "Registr pečetí",
+          "body": "Tento zdroj propojuje typ dokumentu s pečetí, která u něj byla nalezena."
+        },
+        "sealVerdict": {
+          "title": "Rozhodovací pravidlo",
+          "body": "Tahle tabulka klasifikuje, co jednotlivé stavy pečetě znamenají pro finální závěr."
+        }
+      },
+      "hintTitle": "Finální kontrola",
+      "hint": "Ber to jako klasifikační řetězec. Nejprve přiřaď dokument k uložení, pak dokument k pečeti a nakonec pečeť k verdiktu. Celý řádek musí přežít všechny tři kontroly.",
+      "validate": "Potvrdit rekonstrukci"
+    }
   },
   "campaigns": {
     "elem_6": {
       "grade": "6. třída",
       "grade_short": "ZŠ",
-      "title": "Protokol Obnovy Zařízení",
-      "desc": "Obnov poškozené systémy, získej záznamy o personálu a pronikni do dalšího zapečetěného sektoru."
+      "title": "Protokol: Obnova zařízení",
+      "desc": "Oprav poškozené systémy, získej skryté archivy personálu a pronikni do zapečetěného centra stanice dřív, než selže podpora života."
+    },
+    "elem_7": {
+      "grade": "7. třída",
+      "grade_short": "ZŠ",
+      "title": "Archiv ztracené radnice",
+      "desc": "Historicko-detektivní kampaň o rozbitých záznamech, chybějících stránkách a hledání pravdivé podoby městských evidencí."
+    },
+    "elem_8": {
+      "grade": "8. třída",
+      "grade_short": "ZŠ",
+      "title": "Kampaň 8",
+      "desc": "Připravujeme další svět a další sadu hádanek."
+    },
+    "elem_9": {
+      "grade": "9. třída",
+      "grade_short": "ZŠ",
+      "title": "Kampaň 9",
+      "desc": "Připravujeme další svět a další sadu hádanek."
+    },
+    "hs_1": {
+      "grade": "SŠ 1. ročník",
+      "grade_short": "SŠ",
+      "title": "Středoškolská kampaň 1",
+      "desc": "Připravujeme další svět a další sadu hádanek."
+    },
+    "hs_2": {
+      "grade": "SŠ 2. ročník",
+      "grade_short": "SŠ",
+      "title": "Středoškolská kampaň 2",
+      "desc": "Připravujeme další svět a další sadu hádanek."
+    },
+    "hs_3": {
+      "grade": "SŠ 3. ročník",
+      "grade_short": "SŠ",
+      "title": "Středoškolská kampaň 3",
+      "desc": "Připravujeme další svět a další sadu hádanek."
+    },
+    "hs_4": {
+      "grade": "SŠ 4. ročník",
+      "grade_short": "SŠ",
+      "title": "Středoškolská kampaň 4",
+      "desc": "Připravujeme další svět a další sadu hádanek."
     }
   }
 }

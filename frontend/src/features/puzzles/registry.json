@@ -2,6 +2,225 @@
   "campaigns": {
     "elem_6": {
       "timeLimitMinutes": 45,
+      "theme": {
+        "primary": "#3b82f6",
+        "secondary": "#22d3ee",
+        "surface": "#14213d"
+      },
+      "debugProgressPresets": {
+        "0": {
+          "inventoryItems": []
+        },
+        "1": {
+          "inventoryItems": [],
+          "roomId": "room_airlock",
+          "roomInteractions": [
+            "mysterious_note",
+            "employee_log",
+            "mainframe"
+          ]
+        },
+        "2": {
+          "inventoryItems": [],
+          "roomId": "room_airlock",
+          "roomInteractions": [
+            "mysterious_note",
+            "employee_log",
+            "mainframe"
+          ]
+        },
+        "3": {
+          "inventoryItems": [
+            "module_ram"
+          ],
+          "roomId": "room_airlock",
+          "roomInteractions": [
+            "mysterious_note",
+            "employee_log",
+            "mainframe"
+          ]
+        },
+        "4": {
+          "inventoryItems": [
+            "module_ram",
+            "module_loop",
+            "usb_decryptor"
+          ],
+          "roomId": "room_airlock",
+          "roomInteractions": [
+            "mysterious_note",
+            "employee_log",
+            "mainframe"
+          ]
+        },
+        "5": {
+          "inventoryItems": [
+            "module_ram",
+            "module_loop",
+            "usb_decryptor"
+          ],
+          "roomId": "room_airlock",
+          "roomInteractions": [
+            "mysterious_note",
+            "employee_log",
+            "mainframe"
+          ]
+        },
+        "6": {
+          "inventoryItems": [
+            "module_ram",
+            "module_loop",
+            "usb_decryptor"
+          ],
+          "roomId": "room_airlock",
+          "roomInteractions": [
+            "mysterious_note",
+            "employee_log",
+            "mainframe"
+          ]
+        },
+        "7": {
+          "inventoryItems": [
+            "module_ram",
+            "module_loop",
+            "usb_decryptor",
+            "storage"
+          ],
+          "roomId": "room_airlock",
+          "roomInteractions": [
+            "mysterious_note",
+            "employee_log",
+            "mainframe"
+          ]
+        },
+        "8": {
+          "inventoryItems": [
+            "module_ram",
+            "module_loop",
+            "usb_decryptor",
+            "storage"
+          ],
+          "roomId": "room_airlock",
+          "roomInteractions": [
+            "mysterious_note",
+            "employee_log",
+            "mainframe"
+          ]
+        },
+        "9": {
+          "inventoryItems": [
+            "module_ram",
+            "module_loop",
+            "usb_decryptor",
+            "storage"
+          ],
+          "roomId": "room_airlock",
+          "roomInteractions": [
+            "mysterious_note",
+            "employee_log",
+            "mainframe"
+          ]
+        },
+        "10": {
+          "inventoryItems": [
+            "module_ram",
+            "module_loop",
+            "usb_decryptor",
+            "storage"
+          ],
+          "roomId": "room_airlock",
+          "roomInteractions": [
+            "mysterious_note",
+            "employee_log",
+            "mainframe"
+          ]
+        },
+        "11": {
+          "inventoryItems": [
+            "module_ram",
+            "module_loop",
+            "usb_decryptor",
+            "storage"
+          ],
+          "roomId": "room_airlock",
+          "roomInteractions": [
+            "mysterious_note",
+            "employee_log",
+            "mainframe"
+          ]
+        },
+        "12": {
+          "inventoryItems": [
+            "module_ram",
+            "module_loop",
+            "usb_decryptor",
+            "storage"
+          ],
+          "roomId": "room_airlock",
+          "roomInteractions": [
+            "mysterious_note",
+            "employee_log",
+            "mainframe"
+          ]
+        },
+        "13": {
+          "inventoryItems": [
+            "module_ram",
+            "module_loop",
+            "usb_decryptor",
+            "storage"
+          ],
+          "roomId": "room_airlock",
+          "roomInteractions": [
+            "mysterious_note",
+            "employee_log",
+            "mainframe"
+          ]
+        },
+        "14": {
+          "inventoryItems": [
+            "module_ram",
+            "module_loop",
+            "usb_decryptor",
+            "storage"
+          ],
+          "roomId": "room_airlock",
+          "roomInteractions": [
+            "mysterious_note",
+            "employee_log",
+            "mainframe"
+          ]
+        },
+        "15": {
+          "inventoryItems": [
+            "module_ram",
+            "module_loop",
+            "usb_decryptor",
+            "storage",
+            "sector_map"
+          ],
+          "roomId": "room_airlock",
+          "roomInteractions": [
+            "mysterious_note",
+            "employee_log",
+            "mainframe"
+          ]
+        }
+      },
+      "debrief": {
+        "routeStages": [
+          "airlock",
+          "loops",
+          "archive",
+          "branch",
+          "twin",
+          "autopilot"
+        ],
+        "branch": {
+          "interactionKey": "junction_choice",
+          "defaultPath": "left"
+        }
+      },
       "levels": [
         {
           "id": "room_airlock",
@@ -41,7 +260,7 @@
         },
         {
           "id": "1",
-          "componentPath": "Level1_Sorting"
+          "componentPath": "elem_6/Level1_Sorting"
         },
         {
           "id": "room_airlock_return",
@@ -71,78 +290,280 @@
         },
         {
           "id": "desktop",
-          "componentPath": "DesktopSim"
+          "componentPath": "elem_6/DesktopSim"
         },
         {
           "id": "2",
-          "componentPath": "Level2_Loops"
+          "componentPath": "elem_6/Level2_Loops"
         },
         {
           "id": "3",
-          "componentPath": "Level3_SignalRelay"
+          "componentPath": "elem_6/Level3_SignalRelay"
         },
         {
           "id": "archive_bridge",
-          "componentPath": "ArchiveBridge"
+          "componentPath": "elem_6/ArchiveBridge"
         },
         {
           "id": "4",
-          "componentPath": "Level4_TransitHub"
+          "componentPath": "elem_6/Level4_TransitHub"
         },
         {
           "id": "junction_choice",
-          "componentPath": "BranchJunction",
+          "componentPath": "elem_6/BranchJunction",
           "backgroundUrl": "/assets/rooms/corridor_forward.png"
         },
         {
           "id": "5_left",
-          "componentPath": "BranchLeft_NetworkRelay"
+          "componentPath": "elem_6/BranchLeft_NetworkRelay"
         },
         {
           "id": "5_right",
-          "componentPath": "BranchRight_DecisionArray"
+          "componentPath": "elem_6/BranchRight_DecisionArray"
         },
         {
           "id": "6_left",
-          "componentPath": "BranchLeft_RamBuffer"
+          "componentPath": "elem_6/BranchLeft_RamBuffer"
         },
         {
           "id": "6_right",
-          "componentPath": "BranchRight_Decryptor"
+          "componentPath": "elem_6/BranchRight_Decryptor"
         },
         {
           "id": "merge_convergence",
-          "componentPath": "BranchConvergence"
+          "componentPath": "elem_6/BranchConvergence"
         },
         {
           "id": "7",
-          "componentPath": "Level7_SectorTwin"
+          "componentPath": "elem_6/Level7_SectorTwin"
         },
         {
           "id": "8",
-          "componentPath": "Level8_DroneAutopilot"
+          "componentPath": "elem_6/Level8_DroneAutopilot"
         }
       ]
     },
     "elem_7": {
-      "levels": []
+      "timeLimitMinutes": 45,
+      "theme": {
+        "primary": "#a16207",
+        "secondary": "#eab308",
+        "surface": "#2c1f12"
+      },
+      "debugProgressPresets": {
+        "0": {
+          "inventoryItems": []
+        },
+        "1": {
+          "inventoryItems": [
+            "archive_notice",
+            "shelf_guide"
+          ]
+        },
+        "2": {
+          "inventoryItems": [
+            "archive_notice",
+            "shelf_guide",
+            "clerk_index"
+          ]
+        },
+        "3": {
+          "inventoryItems": [
+            "archive_notice",
+            "shelf_guide",
+            "clerk_index",
+            "wax_seal"
+          ]
+        },
+        "4": {
+          "inventoryItems": [
+            "archive_notice",
+            "shelf_guide",
+            "clerk_index",
+            "wax_seal",
+            "ledger_bundle"
+          ]
+        },
+        "5": {
+          "inventoryItems": [
+            "archive_notice",
+            "shelf_guide",
+            "clerk_index",
+            "wax_seal",
+            "ledger_bundle"
+          ]
+        },
+        "6": {
+          "inventoryItems": [
+            "archive_notice",
+            "shelf_guide",
+            "clerk_index",
+            "wax_seal",
+            "ledger_bundle"
+          ]
+        },
+        "7": {
+          "inventoryItems": [
+            "archive_notice",
+            "shelf_guide",
+            "clerk_index",
+            "wax_seal",
+            "ledger_bundle"
+          ]
+        },
+        "8": {
+          "inventoryItems": [
+            "archive_notice",
+            "shelf_guide",
+            "clerk_index",
+            "wax_seal",
+            "ledger_bundle",
+            "routing_stamp"
+          ]
+        },
+        "9": {
+          "inventoryItems": [
+            "archive_notice",
+            "shelf_guide",
+            "clerk_index",
+            "wax_seal",
+            "ledger_bundle",
+            "routing_stamp",
+            "witness_note"
+          ]
+        },
+        "10": {
+          "inventoryItems": [
+            "archive_notice",
+            "shelf_guide",
+            "clerk_index",
+            "wax_seal",
+            "ledger_bundle",
+            "routing_stamp",
+            "witness_note",
+            "district_map"
+          ]
+        }
+      },
+      "decisionRoutes": {
+        "2": {
+          "defaultOutcome": "review_track",
+          "routes": {
+            "fast_track": "room_ledger_fast_track",
+            "review_track": "room_ledger_review"
+          }
+        }
+      },
+      "debrief": {
+        "routeStages": [
+          "archive_entry",
+          "shelf_audit",
+          "ledger_rebuild",
+          "branch",
+          "procedure",
+          "index_router",
+          "evidence_vault",
+          "map_room",
+          "reconciliation"
+        ],
+        "pathDecisionLevelId": "2",
+        "defaultPath": "review_track",
+        "resultDecisionLevelId": "6",
+        "defaultResult": "contested"
+      },
+      "levels": [
+        {
+          "id": "room_archive_entry",
+          "componentPath": "elem_7/RoomArchiveEntry"
+        },
+        {
+          "id": "1",
+          "componentPath": "elem_7/Level1_ShelfAudit"
+        },
+        {
+          "id": "room_clerk_desk",
+          "componentPath": "elem_7/RoomClerkDesk"
+        },
+        {
+          "id": "2",
+          "componentPath": "elem_7/Level2_LedgerLinking"
+        },
+        {
+          "id": "room_ledger_fast_track",
+          "componentPath": "elem_7/RoomLedgerFastTrack"
+        },
+        {
+          "id": "room_ledger_review",
+          "componentPath": "elem_7/RoomLedgerReview"
+        },
+        {
+          "id": "3",
+          "componentPath": "elem_7/Level3_FilingProcedure"
+        },
+        {
+          "id": "4",
+          "componentPath": "elem_7/Level4_IndexRouter"
+        },
+        {
+          "id": "room_evidence_vault",
+          "componentPath": "elem_7/RoomEvidenceVault"
+        },
+        {
+          "id": "5",
+          "componentPath": "elem_7/Level5_MapOverlay"
+        },
+        {
+          "id": "6",
+          "componentPath": "elem_7/Level6_FinalReconciliation"
+        }
+      ]
     },
     "elem_8": {
+      "theme": {
+        "primary": "#166534",
+        "secondary": "#86efac",
+        "surface": "#13261b"
+      },
       "levels": []
     },
     "elem_9": {
+      "theme": {
+        "primary": "#7c3aed",
+        "secondary": "#c4b5fd",
+        "surface": "#211439"
+      },
       "levels": []
     },
     "hs_1": {
+      "theme": {
+        "primary": "#b91c1c",
+        "secondary": "#fca5a5",
+        "surface": "#311313"
+      },
       "levels": []
     },
     "hs_2": {
+      "theme": {
+        "primary": "#0f766e",
+        "secondary": "#5eead4",
+        "surface": "#122929"
+      },
       "levels": []
     },
     "hs_3": {
+      "theme": {
+        "primary": "#1d4ed8",
+        "secondary": "#93c5fd",
+        "surface": "#132442"
+      },
       "levels": []
     },
     "hs_4": {
+      "theme": {
+        "primary": "#be123c",
+        "secondary": "#fda4af",
+        "surface": "#321222"
+      },
       "levels": []
     }
   }

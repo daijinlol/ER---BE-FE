@@ -18,8 +18,43 @@ export interface PuzzleConfig {
     hotspots?: PuzzleHotspot[];
 }
 
+export interface CampaignThemeConfig {
+    primary: string;
+    secondary: string;
+    surface: string;
+}
+
+export interface CampaignDebugProgressPreset {
+    inventoryItems: string[];
+    roomId?: string;
+    roomInteractions?: string[];
+}
+
+export interface CampaignDebriefBranchConfig {
+    interactionKey: string;
+    defaultPath: string;
+}
+
+export interface CampaignDecisionRouteConfig {
+    defaultOutcome?: string;
+    routes: Record<string, string | number>;
+}
+
+export interface CampaignDebriefConfig {
+    routeStages: string[];
+    branch?: CampaignDebriefBranchConfig;
+    pathDecisionLevelId?: string;
+    defaultPath?: string;
+    resultDecisionLevelId?: string;
+    defaultResult?: string;
+}
+
 export interface CampaignConfig {
     timeLimitMinutes?: number;
+    theme: CampaignThemeConfig;
+    debugProgressPresets?: Record<string, CampaignDebugProgressPreset>;
+    decisionRoutes?: Record<string, CampaignDecisionRouteConfig>;
+    debrief?: CampaignDebriefConfig;
     levels: PuzzleConfig[];
 }
 

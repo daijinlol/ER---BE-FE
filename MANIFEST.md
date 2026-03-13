@@ -20,11 +20,12 @@ Puzzles are designed to be strictly environmental and interactive avoiding multi
 ## Campaign Authoring Checklist
 
 1. Add the campaign metadata and `timeLimitMinutes` to `frontend/src/features/puzzles/registry.json`.
-2. Define each level with a unique `id` and `componentPath`. Interstitial room or desktop screens count as levels and should be authored the same way.
-3. Start new puzzle screens from `frontend/src/features/puzzles/_TEMPLATE/index.tsx` so every module uses the shared `PuzzleComponentProps` contract.
-4. Keep room interactions, inventory, notes, timer state, and resume behavior inside the shared campaign session model instead of component-local storage.
-5. Register the backend validation rule in `backend/puzzles/validation_schema.json` using one of the supported validation `type` handlers, or add a new generic handler when introducing a new puzzle category.
-6. Prefer extending the typed registry and schema-driven validation flow over hardcoding campaign or level IDs in component code.
+2. Place campaign-owned puzzle screens under `frontend/src/features/puzzles/<campaignId>/` and keep shared infrastructure such as registry/types/template outside campaign folders.
+3. Define each level with a unique `id` and `componentPath`. Interstitial room or desktop screens count as levels and should be authored the same way.
+4. Start new puzzle screens from `frontend/src/features/puzzles/_TEMPLATE/index.tsx` so every module uses the shared `PuzzleComponentProps` contract.
+5. Keep room interactions, inventory, notes, timer state, and resume behavior inside the shared campaign session model instead of component-local storage.
+6. Register the backend validation rule in `backend/puzzles/validation_schema.json` using one of the supported validation `type` handlers, or add a new generic handler when introducing a new puzzle category.
+7. Prefer extending the typed registry and schema-driven validation flow over hardcoding campaign or level IDs in component code.
 
 ## Scaling Notes
 

@@ -1,15 +1,30 @@
 {
   "system": {
-    "title": "Escape_Platform",
+    "title": "Informatics Campaigns",
     "os": "OS",
-    "subtitle": "An interactive learning environment for CS competencies under the Czech RVP standards.",
+    "subtitle": "An escape-room learning environment for informatics competencies under the Czech RVP standards.",
     "version": "System v0.1.0-alpha"
   },
   "inventory": {
     "title": "Inventory",
     "empty": "Empty",
     "detailLabel": "Selected Item",
-    "hoverHint": "Hover over an item to inspect it."
+    "hoverHint": "Hover over an item to inspect it.",
+    "count_one": "{{count}} item",
+    "count_other": "{{count}} items",
+    "recoveredItems": "Recovered Items",
+    "emptyState": "No recovered items yet.",
+    "selectPrompt": "Select an item to inspect its details.",
+    "readableHint": "This recovered document can be opened again at any time.",
+    "unreadableHint": "This item is stored equipment, not a readable document.",
+    "openReadable": "Open Document",
+    "documentTitle": "Recovered Document",
+    "defaultSummary": "Recovered equipment preserved in the campaign inventory.",
+    "types": {
+      "document": "Document",
+      "tool": "Tool",
+      "artifact": "Artifact"
+    }
   },
   "items": {
     "module_ram": "RAM Buffer Module",
@@ -20,7 +35,77 @@
     "gpu": "GPU",
     "storage": "Storage",
     "sector_map": "Digital Twin Core",
-    "flight_chip": "Autopilot Flight Chip"
+    "flight_chip": "Autopilot Flight Chip",
+    "archive_notice": "Town Council Notice",
+    "shelf_guide": "Archive Shelf Guide",
+    "clerk_index": "Clerk Index",
+    "ledger_bundle": "Restored Ledger Bundle",
+    "wax_seal": "Wax Seal",
+    "routing_stamp": "Routing Stamp",
+    "witness_note": "Witness Note",
+    "district_map": "District Overlay Map",
+    "charter_fragment": "Verified Charter Fragment"
+  },
+  "itemDetails": {
+    "module_ram": {
+      "summary": "A recovered RAM buffer module carrying short-term restoration data.",
+      "body": "EJECTED MEMORY CARTRIDGE\n\nThe repaired mainframe pushed a maintenance cartridge through the airlock slot. The casing marks it as a RAM buffer module used to hold short bursts of restored data while damaged systems reboot.\n\nYou pocket it before the slot locks again."
+    },
+    "module_loop": {
+      "summary": "A loop-control module used to repeat short command routines.",
+      "body": "OVERRIDE DUMP // LOOP CONTROL MODULE\n\nThe override executable flushed a hardware shim onto the maintenance desktop. Its registry tag identifies it as a loop control module used to repeat short command routines inside patrol firmware.\n\nIt looks portable enough to carry deeper into the facility."
+    },
+    "usb_decryptor": {
+      "summary": "A legacy decryptor still accepted by older archive systems.",
+      "body": "LEGACY PATCH CONTAINER // OPENED\n\nInside the old admin patch bundle you find a compact USB decryptor once used to open sealed archive drawers during emergency audits.\n\nThe label says the cipher routines are outdated, but still accepted by the transit hub."
+    },
+    "storage": {
+      "summary": "Transit archive access restored. The recovered storage marker confirms the records can be opened again."
+    },
+    "sector_map": {
+      "summary": "The restored digital twin core summarizing the evacuation sector model.",
+      "body": "DIGITAL TWIN CORE\n\nThe recovered core contains the final stabilized model of the evacuation wing. Pressure, seal, thermal, scrubber, battery, and rail data now map cleanly onto the right subsystems.\n\nIt proves that the facility can only report a safe state once the correct relationships between data sources are restored."
+    },
+    "flight_chip": {
+      "summary": "A service-drone flight routine preserved as a recovered autopilot chip.",
+      "body": "AUTOPILOT FLIGHT CHIP\n\nThe merged corridor repair routine has been committed into a portable flight chip. It stores the shortest repeatable service path that reaches every damaged panel before returning the drone to the exit route.\n\nThe chip is a reminder that good automation depends on a model, a route, and a procedure that can be executed reliably."
+    },
+    "archive_notice": {
+      "summary": "Council notice describing the disputed charter and the need to restore archival order.",
+      "body": "COUNCIL NOTICE\n\nToday's inspection found a conflict between the main charter and its copied registry books. Until the authentic version is proven, no official approval may be issued.\n\nAnyone entering the archive must first restore the shelf order and recover the guides used to arrange the records."
+    },
+    "shelf_guide": {
+      "summary": "Shelf-ordering guide explaining the archive's chronological sorting rule.",
+      "body": "ARCHIVE SHELF GUIDE\n\nThe soaked board still preserves one rule: shelves were sorted by year of entry, and only inside the same year by record type.\n\nIf you want to find anything, you must restore the card order first. Otherwise every later clue will sit in the wrong place."
+    },
+    "clerk_index": {
+      "summary": "Index procedure showing how names, streets, parcels, and districts verify one another.",
+      "body": "INDEX PROCEDURE\n\nEach name in the residence book must point to the correct street, parcel, and district. If even one field is missing, the record has to be checked against another book.\n\nMeaning appears only when the related fields verify one another."
+    },
+    "ledger_bundle": {
+      "summary": "Rebuilt ledger rows preserving the matched municipal record combinations.",
+      "body": "RESTORED LEDGER BUNDLE\n\nRecord 1: Eliska -> Bridge Street -> Parcel A-12 -> North District\nRecord 2: Jan -> Square Street -> Parcel B-07 -> Market District\nRecord 3: Marta -> Mill Street -> Parcel C-19 -> River District\n\nThese rows are now preserved as verified combinations rather than loose scraps of data."
+    },
+    "wax_seal": {
+      "summary": "Seal-handling rule confirming that authenticity must be checked before copying content forward.",
+      "body": "SEAL REVIEW NOTE\n\nWhen records disagree, we must never rewrite the main charter from the first convenient note. First we verify the seal, then we compare the index, address, and parcel number.\n\nWithout a seal, even a well-written page is only a suspicious copy."
+    },
+    "routing_stamp": {
+      "summary": "Routing reminder that document flow changes which evidence can be trusted or recovered.",
+      "body": "ROUTING CONTROL STAMP\n\nAt high traffic, check the routing flow first. Otherwise the paper disappears into the wrong drawer and will never be found again.\n\nA correct filing system is not only about storage. It is also about the rules that decide where information travels next."
+    },
+    "witness_note": {
+      "summary": "Witness statement about where the authentic charter and its copy were last placed.",
+      "body": "WITNESS NOTE\n\nAn old town messenger states that the authentic charter was returned to the inner vault after review, while one working copy remained in the clerk's drawer.\n\nIf that claim is true, the other records must reflect it as well."
+    },
+    "district_map": {
+      "summary": "Transparent district overlay explaining the three map layers used in the archive comparison.",
+      "body": "DISTRICT OVERLAY MAP\n\nA thin transparent sheet shows three map layers. One marks the north district, one the riverside parcels, and one the market quarter. Only the correct layer assignments will reveal where the disputed records truly belong."
+    },
+    "charter_fragment": {
+      "summary": "Verified charter fragment preserved with its final archival verdict.",
+      "body": "VERIFIED CHARTER FRAGMENT\n\nReview outcome:\n- Charter page -> Inner Vault -> Valid Wax Seal -> Authentic\n- Registry copy -> Clerk Drawer -> Countermark -> Supporting\n- Witness roll -> North Shelf -> Broken Seal -> Disputed\n\nThe fragment is now backed by matching archive location, seal state, and supporting evidence."
+    }
   },
   "level1": {
     "title": "Memory Defragmentation",
@@ -210,6 +295,8 @@
     "validate": "Run Audit",
     "validating": "Auditing...",
     "statusHint": "Rebuild the ledger until every route row is complete, then run the archive audit.",
+    "selectedFragmentTitle": "Selected Fragment",
+    "selectedFragmentHint": "Select a fragment from the archive bank, then place it into a matching ledger column.",
     "categories": {
       "person": "Person",
       "sector": "Sector",
@@ -655,16 +742,22 @@
       "MOVE": "MOVE FORWARD",
       "TURN_LEFT": "TURN LEFT",
       "TURN_RIGHT": "TURN RIGHT"
+    },
+    "gridLabels": {
+      "fixed": "FIX",
+      "repair": "REP",
+      "exit": "EXIT"
     }
   },
   "campaignDebrief": {
     "kicker": "Campaign Complete",
-    "title": "The facility control spine responds again.",
-    "body": "You did not clear a test. You repaired a system. You restored ordering, loops, signalling, archives, decisions, sector modelling, and the final automated repair. The complex is no longer trapped inside corrupted guesses.",
+    "title": "The key trail is readable again.",
+    "body": "This was not only a checklist of tasks. You restored order inside data, procedures, and relationships between parts of a system. Each future campaign can use a different setting, but the goal stays the same: understand the problem, verify information, and make it reliable again.",
     "metrics": {
       "time": "Time Remaining",
       "modules": "Recovered Modules",
-      "path": "Chosen Branch"
+      "path": "Chosen Branch",
+      "outcome": "Final Outcome"
     },
     "routeTitle": "Recovered Mission Route",
     "tabs": {
@@ -728,49 +821,171 @@
         "body": "The network, archive, model, and drone only work when you understand how their parts affect one another. Informatics is not just clicking controls. It is finding those links."
       }
     },
-    "nextDirectiveTitle": "Next Directive",
-    "nextDirectiveBody": "The central sector is stable. Survivor records and the service route are readable again. You can return to the menu, replay the campaign through the other branch, or continue into the next protocol once it is ready.",
+    "nextDirectiveTitle": "Next Step",
+    "nextDirectiveBody": "You can return to the menu, replay the campaign through another path, or continue into the next world once it is ready.",
     "exit": "Return To Main Menu"
+  },
+  "campaignDebriefCampaigns": {
+    "elem_7": {
+      "title": "The town archive speaks truth again.",
+      "body": "You did not repair a machine. You restored trust in a public record. You rebuilt the shelf order, reconnected torn ledgers, repaired the clerk workflow, set the request routing logic, and proved that map, index, and charter describe the same town.",
+      "systemsTitle": "Recovered Evidence",
+      "systemsBody": "Each recovered item represents a verified part of the evidence chain. Together they form the record trail that keeps the town from approving the wrong version of its own history.",
+      "nextDirectiveTitle": "Next Step",
+      "nextDirectiveBody": "The archive is readable again. You can return to the menu, replay the campaign, or continue into the next world once it is ready.",
+      "paths": {
+        "fast_track": {
+          "title": "Direct Archive Trail",
+          "body": "You rebuilt the ledger cleanly enough that the archive could send you straight into the procedural repair track. Your run emphasized confident data-linking: once the records aligned, the office could trust the next steps without an extra detour."
+        },
+        "review_track": {
+          "title": "Secondary Review Trail",
+          "body": "Your ledger reconstruction needed an additional review stop before the office could continue. That route underlined an important informatics lesson: when linked data becomes uncertain, a system needs a verification branch rather than blind confidence."
+        }
+      },
+      "results": {
+        "verified": {
+          "title": "Verified Verdict",
+          "body": "The final evidence board aligned without forcing a later correction. You reached a clean, well-supported conclusion and returned the charter with a strong audit trail behind it."
+        },
+        "contested": {
+          "title": "Contested But Resolved",
+          "body": "You still reached the authentic charter, but only after the evidence board had to be corrected. The town receives the right verdict together with proof that weak reconstructions must be challenged and repaired."
+        }
+      },
+      "route": {
+        "archive_entry": {
+          "tag": "Start",
+          "title": "Archive Entrance"
+        },
+        "shelf_audit": {
+          "tag": "Order",
+          "title": "Shelf Audit"
+        },
+        "ledger_rebuild": {
+          "tag": "Data",
+          "title": "Ledger Rebuild"
+        },
+        "fast_track": {
+          "tag": "Branch",
+          "title": "Direct Review"
+        },
+        "review_track": {
+          "tag": "Branch",
+          "title": "Secondary Review"
+        },
+        "procedure": {
+          "tag": "Procedure",
+          "title": "Clerk Workflow"
+        },
+        "index_router": {
+          "tag": "System",
+          "title": "Index Router"
+        },
+        "evidence_vault": {
+          "tag": "Clues",
+          "title": "Evidence Vault"
+        },
+        "map_room": {
+          "tag": "Model",
+          "title": "Overlay Map"
+        },
+        "reconciliation": {
+          "tag": "Finale",
+          "title": "Final Reconciliation"
+        }
+      },
+      "learning": {
+        "1": {
+          "title": "Data without context is not enough",
+          "body": "One card or one page does not prove the truth. Meaning appears when multiple records agree and can verify each other."
+        },
+        "2": {
+          "title": "Procedure is part of informatics",
+          "body": "Office workflow is not random. If one step is skipped or misplaced, errors appear just as easily as in a broken algorithm."
+        },
+        "3": {
+          "title": "A model must match its records",
+          "body": "The map, the index, and the charter are different views of the same reality. Informatics helps keep those models consistent."
+        }
+      }
+    }
+  },
+  "errorBoundary": {
+    "title": "Critical Runtime Fault",
+    "body": "The current protocol encountered an unrecoverable UI error. Return to the main menu to restart the run safely.",
+    "reset": "Return to Main Menu"
+  },
+  "common": {
+    "closeInterface": "Close Interface",
+    "clear": "Clear",
+    "lockedIn": "Locked In",
+    "active": "Active"
   },
   "gameContainer": {
     "puzzleNotFound": "Puzzle logic not found for level {{level}}",
     "level": "Level",
     "unknownZone": "Unknown Zone",
+    "loadingTitle": "Loading Module",
     "loadingModule": "Loading Module {{module}}...",
+    "transitionTitle": "Protocol Transition",
     "purging": "SYSTEM PURGING... INITIALIZING NEXT PROTOCOL",
-    "returning": "ACCESSING PREVIOUS NODE..."
+    "returning": "ACCESSING PREVIOUS NODE...",
+    "abortButton": "ABORT PROTOCOL",
+    "exitConfirmTitle": "Abort Protocol?",
+    "exitConfirmBody": "Returning to the main menu will end the current run for {{campaign}}.",
+    "exitConfirmNote": "Closing an individual puzzle preserves your current run. Aborting the protocol does not.",
+    "continueRun": "Continue Run",
+    "exitToMenu": "Exit to Menu",
+    "gameOverTitle": "System Locked",
+    "gameOverBody": "Security breach detected. All logical sectors have been frozen.",
+    "returnToMainMenu": "RETURN TO MAIN MENU",
+    "debug": {
+      "openTitle": "Open development jump menu",
+      "title": "Development Jump Menu",
+      "body": "Skip directly to any registered screen in the current campaign.",
+      "close": "Close",
+      "autoSeed": "Auto-seed prerequisite items and room progress",
+      "screenLabel": "Screen {{index}}",
+      "shortcut": "Shortcut: Ctrl+Shift+D"
+    }
   },
   "menu": {
     "main": {
       "difficulty": {
-        "title": "Initialize Protocol",
-        "subtitle": "Select simulation difficulty"
+        "title": "Choose Campaign",
+        "subtitle": "Browse the available worlds"
       },
       "options": {
-        "title": "System Configuration",
+        "title": "Settings",
         "subtitle": "Audio, Video & Accessibility"
       },
       "credits": {
-        "title": "Core Contributors",
-        "subtitle": "Development team & credits"
+        "title": "Credits",
+        "subtitle": "Team and project information"
       },
       "exit": {
         "title": "Terminate Session",
-        "subtitle": "Exit the platform"
+        "subtitle": "Close the interface"
       }
     },
     "difficultyView": {
-      "title": "Select Simulation Protocol",
-      "levelPrefix": "LEVEL"
+      "title": "Choose Campaign",
+      "levelPrefix": "LEVEL",
+      "resumeAvailable": "Resume available: Level {{level}}",
+      "resumeRun": "Resume Run",
+      "startFresh": "Start Fresh",
+      "startRun": "Start Run",
+      "comingSoon": "In development"
     },
     "optionsView": {
-      "title": "System Configuration",
+      "title": "Interface Settings",
       "crt": {
         "title": "Terminal CRT Effect",
         "desc": "Enable retro scanlines and chromatic aberration"
       },
       "audio": {
-        "title": "Audio Telemetry",
+        "title": "Audio Volume",
         "desc": "Master volume control for environment and FX ({{volume}}%)"
       },
       "dyslexia": {
@@ -778,7 +993,7 @@
         "desc": "Use specialized fonts across all terminal outputs"
       },
       "language": {
-        "title": "System Language",
+        "title": "Interface Language",
         "desc": "Toggle between English and Czech interface"
       }
     },
@@ -787,45 +1002,45 @@
       "lead": "Lead Architect & Pedagogy",
       "ai": "AI Systems Integration",
       "footer": "Built for the Revize RVP 2021/2026"
-    }
-  },
-  "difficulties": {
-    "1": {
-      "title": "Algorithmic Sequence",
-      "desc": "Move a character using blocks."
     },
-    "2": {
-      "title": "The Repetitive Lock",
-      "desc": "Implementing basic loops to bypass security."
+    "status": {
+      "activeCampaigns": "Active Campaigns",
+      "resumeSlots": "Resume Slots",
+      "interface": "Interface",
+      "crt": "CRT",
+      "clean": "Clean"
     },
-    "3": {
-      "title": "Binary Torch",
-      "desc": "Toggle lights to match patterns."
+    "commandSurface": {
+      "title": "Campaign Overview",
+      "body": "Choose a world, tune the interface, or resume a suspended run."
     },
-    "4": {
-      "title": "The Archives",
-      "desc": "Organizing physical objects into arrays."
-    },
-    "5": {
-      "title": "Wire the Gate",
-      "desc": "Use AND/OR gates to power locks."
-    },
-    "6": {
-      "title": "Phishing the Guard",
-      "desc": "Identifying safe digital messages."
-    },
-    "7": {
-      "title": "Brute Force Generator",
-      "desc": "Optimizing a processing path to crack a PIN."
-    },
-    "8": {
-      "title": "SQL Infiltration",
-      "desc": "Terminal interface crafting queries."
+    "views": {
+      "main": "Main",
+      "difficulty": "Protocols",
+      "options": "Options",
+      "credits": "Credits"
     }
   },
   "desktopSim": {
+    "title": "Desktop Recovery Console",
+    "instructions": "Open folders, inspect archived files, and execute the legacy override to restore the missing loop control module.",
+    "remoteLink": "Remote Desktop Link",
+    "recoveredArtifacts": "Recovered Artifacts",
+    "workstationState": "Workstation State",
+    "loopOverrideExecuted": "Loop override executed.",
+    "legacyOverridePending": "Legacy override pending.",
+    "operatorNotesTitle": "Operator Notes",
+    "operatorNotesBody": "Double-click any node to inspect it. Executables run immediately. Collected rewards are added to the run inventory the first time they are opened.",
+    "recoveredItemsTitle": "Recovered Items",
+    "recoveredState": "Recovered",
+    "missingState": "Missing",
+    "recoveryWorkspaceTitle": "Recovery Workspace",
+    "recoveryWorkspaceBody": "Archived logs, admin tools, and dropped modules appear on this desktop surface.",
+    "nodesAvailable": "{{count}} nodes available",
     "emptyFolder": "This folder is empty.",
     "executing": "EXECUTING OVERRIDE PROTOCOL...",
+    "overrideInProgress": "Legacy override sequence in progress",
+    "recoveredItemTitle": "Recovered Item",
     "pickups": {
       "usb_decryptor": "USB Decryptor recovered from legacy admin tools.",
       "module_loop": "Loop Control Module recovered from the override dump.",
@@ -841,6 +1056,7 @@
   },
   "room": {
     "scanRecovered": "Environmental Scan",
+    "noVisualSignal": "NO VISUAL SIGNAL",
     "interactHint": "Recovered objects now project field markers. Notes appear as tagged evidence cards, while active machinery opens a transit route deeper into the facility.",
     "loreRecovered": "Recovered Record",
     "recoveredState": "Reviewed",
@@ -859,12 +1075,471 @@
     "placeholder": "Record protocol observations and sequences here...",
     "saved": "SAVED"
   },
+  "elem7": {
+    "common": {
+      "restored": "Restored",
+      "pending": "Pending",
+      "selected": "Selected",
+      "none": "None"
+    },
+    "rooms": {
+      "archiveEntry": {
+        "subtitle": "Municipal Archive",
+        "title": "Archive Entrance Hall",
+        "body": "Floodwater reached the first hall and collapsed the opening shelves into a single pile. The town council still demands a rapid verdict on a disputed charter page, but first you need to understand how the records were originally arranged.",
+        "objective": "Read every clue. Once you understand the notice, the shelf guide, and the damage log, you can continue to the first shelf audit.",
+        "reviewed": "Reviewed",
+        "new": "New",
+        "evidenceCount": "Reviewed clues",
+        "instructionTitle": "Archivist Note",
+        "instruction": "Each clue explains a different part of the problem. Continue only after you understand why one surviving page is not enough on its own.",
+        "continue": "Continue To Shelves",
+        "evidenceLabel": "Evidence Record",
+        "notes": {
+          "mayorNotice": {
+            "title": "Town Council Notice",
+            "body": "COUNCIL NOTICE\n\nToday's inspection found a conflict between the main charter and its copied registry books. Until the authentic version is proven, no official approval may be issued.\n\nAnyone entering the archive must first restore the shelf order and recover the guides used to arrange the records."
+          },
+          "shelfGuide": {
+            "title": "Archive Shelf Guide",
+            "body": "The soaked board still preserves one rule: shelves were sorted by year of entry, and only inside the same year by record type.\n\nIf you want to find anything, you must restore the card order first. Otherwise every later clue will sit in the wrong place."
+          },
+          "waterLog": {
+            "title": "Damage Report",
+            "body": "The building steward reports that the north wall suffered the worst damage and that the auxiliary copies were scattered into nearby rooms.\n\nThe main charter may have survived, but its supporting evidence is now split across multiple sources."
+          }
+        }
+      },
+      "clerkDesk": {
+        "subtitle": "Clerk Office",
+        "title": "Municipal Clerk Desk",
+        "body": "Open registers, sealing wax, and index drawers still lie across the desk. It is clear that the clerk was comparing several sources at once in order to trace the origin of one disputed page.",
+        "objective": "Read the diary, the index manual, and the margin note. Without them it will not be clear how the town records were meant to fit together.",
+        "reviewed": "Reviewed",
+        "new": "New",
+        "evidenceCount": "Reviewed clues",
+        "instructionTitle": "Control Note",
+        "instruction": "This room explains why shelf order alone is not enough. The real problem is that the same people and parcels appear in several record systems at once.",
+        "continue": "Continue To Ledger",
+        "evidenceLabel": "Office Document",
+        "notes": {
+          "clerkDiary": {
+            "title": "Clerk Diary",
+            "body": "DAILY ENTRY\n\nWhen records disagree, we must never rewrite the main charter from the first convenient note. First we verify the seal, then we compare the index, address, and parcel number.\n\nWithout a seal, even a well-written page is only a suspicious copy."
+          },
+          "indexManual": {
+            "title": "Index Manual",
+            "body": "INDEX PROCEDURE\n\nEach name in the residence book must point to the correct street, parcel, and district. If even one field is missing, the record has to be checked against another book.\n\nMeaning appears only when the related fields verify one another."
+          },
+          "marginNote": {
+            "title": "Margin Note",
+            "body": "A short note in the margin reads: 'At high traffic, check the routing flow first. Otherwise the paper disappears into the wrong drawer and will never be found again.'\n\nThis is almost certainly a reference to the routing board in the next room."
+          }
+        }
+      },
+      "ledgerFastTrack": {
+        "subtitle": "Record Corridor",
+        "title": "Direct Review Slip",
+        "body": "The rebuilt ledger rows agree so cleanly that the archive allows the file to proceed without a secondary stop. The clerk leaves only a short procedural briefing before handing the case to the workflow desk.",
+        "objective": "Review both notes. This branch exists because the data links were restored cleanly enough to skip manual re-sorting.",
+        "reviewed": "Reviewed",
+        "new": "New",
+        "evidenceCount": "Reviewed notes",
+        "instructionTitle": "Branch Note",
+        "instruction": "A good information system does not only reject errors. It also rewards a clean reconstruction by shortening the path to the next verified step.",
+        "continue": "Continue To Procedure",
+        "evidenceLabel": "Routing Note",
+        "notes": {
+          "directReviewSlip": {
+            "title": "Direct Review Slip",
+            "body": "DIRECT REVIEW AUTHORIZED\n\nThe rebuilt ledger rows match across every field. No extra sorting clerk is required. The case may proceed directly to procedure repair."
+          },
+          "routingBrief": {
+            "title": "Routing Brief",
+            "body": "When linked records agree, the office saves time by following the shorter verified route. This is still a decision process: a system can branch because the data is reliable enough to skip an intermediate correction step."
+          }
+        }
+      },
+      "ledgerReview": {
+        "subtitle": "Record Corridor",
+        "title": "Secondary Review Desk",
+        "body": "The archive accepts your repaired ledger, but only after routing it through a short secondary review. The case can continue, yet the office leaves a warning about what happens when linked data is repaired late.",
+        "objective": "Review both notes. This branch exists because the restored data needed a verification stop before the clerk trusted it enough to continue.",
+        "reviewed": "Reviewed",
+        "new": "New",
+        "evidenceCount": "Reviewed notes",
+        "instructionTitle": "Branch Note",
+        "instruction": "Information systems need fallback branches when a result arrives with uncertainty. Extra verification is not failure. It is how a trustworthy process protects itself.",
+        "continue": "Continue To Procedure",
+        "evidenceLabel": "Review Note",
+        "notes": {
+          "secondaryReviewNotice": {
+            "title": "Secondary Review Notice",
+            "body": "SECONDARY REVIEW REQUIRED\n\nThe municipal ledger has been restored, but the chain of linked fields was not stable on the first pass. Route the file through the review desk before returning it to the main procedure."
+          },
+          "procedureWarning": {
+            "title": "Procedure Warning",
+            "body": "When linked data becomes uncertain, the office must not pretend that nothing happened. The correct response is to branch into an additional verification step and only then continue with the main workflow."
+          }
+        }
+      },
+      "evidenceVault": {
+        "subtitle": "Evidence Vault",
+        "title": "Room Of Stored Proof",
+        "body": "Beyond the last door lie maps, seal boxes, and witness notes. At this point the task is no longer only to repair books, but to prove that every model of the town points to the same reality.",
+        "objective": "Review all three clues. Only then will the overlay map and final evidence board make sense together.",
+        "reviewed": "Reviewed",
+        "new": "New",
+        "evidenceCount": "Reviewed clues",
+        "instructionTitle": "Before Final Review",
+        "instruction": "The map, the witness note, and the seal box are three different sources. In the finale you must show that they agree and support the same conclusion.",
+        "continue": "Continue To Map",
+        "evidenceLabel": "Stored Evidence",
+        "notes": {
+          "witnessNote": {
+            "title": "Witness Note",
+            "body": "An old town messenger states that the authentic charter was returned to the inner vault after review, while one working copy remained in the clerk's drawer.\n\nIf that claim is true, the other records must reflect it as well."
+          },
+          "districtOverlay": {
+            "title": "District Overlay Map",
+            "body": "A thin transparent sheet shows three map layers. One marks the north district, one the riverside parcels, and one the market quarter. Only the correct layer assignments will reveal where the disputed records truly belong."
+          },
+          "sealBox": {
+            "title": "Seal Box",
+            "body": "Inside the box are three marks: an intact wax seal, a broken seal, and an office countermark. Each belongs to a different kind of document, and none of them may be confused."
+          }
+        }
+      }
+    },
+    "level1": {
+      "subtitle": "Shelf Audit",
+      "title": "Restore The Archive Cards",
+      "story": "Only part of the shelf guide survived. You need to return the cards to the correct chronological order before any connected records can be trusted or located in context.",
+      "feedback": {
+        "start": "Move the cards until they run from the oldest year to the newest.",
+        "updated": "The order is changing. Check whether the timeline on the shelf now makes historical sense.",
+        "failure": "The archive row is still not sorted from the oldest year to the newest.",
+        "success": "The shelf order is restored. A clerk index has appeared in the next drawer."
+      },
+      "shelfCode": "Record Year",
+      "totalRecords": "Total Cards",
+      "validationState": "Order State",
+      "hintTitle": "Sorting Rule",
+      "hint": "The archivist sorted these cards only by year. The smallest number must be at the top and the largest at the bottom.",
+      "validate": "Confirm Order",
+      "entries": {
+        "deed_b": "Charter Ledger B",
+        "register_f": "Residence Register F",
+        "parcel_c": "Parcel Survey C",
+        "roll_a": "Town Roll A",
+        "ledger_d": "Tax Ledger D",
+        "index_e": "Name Index E"
+      }
+    },
+    "level2": {
+      "subtitle": "Cross-Checking Ledgers",
+      "title": "Reconnect The Municipal Ledger",
+      "story": "Several torn books preserve only fragments of names, streets, parcels, and districts. Rebuild three complete rows so the town ledger becomes trustworthy again.",
+      "feedback": {
+        "start": "Fill all three rows so that no field contradicts the others in the same row.",
+        "incomplete": "At least one ledger row is still incomplete. Finish all four fields before validating.",
+        "updated": "The rows are filling in. Keep checking whether the name, street, parcel, and district really belong together.",
+        "fieldMismatch": "The selected value belongs to a different ledger column.",
+        "failure": "Some field combinations still conflict. Re-check the full rows.",
+        "success": "The municipal ledger is readable again and produced a bundle of confirmed records.",
+        "fastTrack": "The ledger aligned cleanly. The archive grants a direct review slip and opens the shorter branch.",
+        "reviewTrack": "The ledger is restored, but the archive sends it through a secondary review branch before continuing."
+      },
+      "record": "Row",
+      "recordLabel": "Record {{index}}",
+      "fields": {
+        "resident": "Resident",
+        "street": "Street",
+        "parcel": "Parcel",
+        "district": "District"
+      },
+      "values": {
+        "resident": {
+          "eliska": "Eliska",
+          "jan": "Jan",
+          "marta": "Marta"
+        },
+        "street": {
+          "bridge": "Bridge Street",
+          "mill": "Mill Street",
+          "square": "Town Square"
+        },
+        "parcel": {
+          "A_12": "A-12",
+          "B_07": "B-07",
+          "C_19": "C-19"
+        },
+        "district": {
+          "north": "North",
+          "river": "River",
+          "market": "Market"
+        }
+      },
+      "emptySlot": "Empty Slot",
+      "cardBank": "Card Bank",
+      "completeRows": "Completed Rows",
+      "consistentRows": "Consistent Rows",
+      "selection": "Selection",
+      "rowAudit": "Row {{index}} Checks",
+      "status": {
+        "ok": "match",
+        "warning": "conflict",
+        "pending": "pending"
+      },
+      "checks": {
+        "residentStreet": "Resident -> Street",
+        "streetParcel": "Street -> Parcel",
+        "parcelDistrict": "Parcel -> District"
+      },
+      "sources": {
+        "residentStreet": {
+          "title": "Residence Book",
+          "body": "Use this table as the first join: each resident points to exactly one street."
+        },
+        "streetParcel": {
+          "title": "Parcel Ledger",
+          "body": "The second join maps each street to a parcel identifier."
+        },
+        "parcelDistrict": {
+          "title": "District Register",
+          "body": "The last join maps each parcel to the district where it belongs."
+        }
+      },
+      "hintTitle": "Check Yourself",
+      "hint": "Treat this as linked data reconstruction. Join resident to street, street to parcel, and parcel to district. A row is only valid when all three joins stay consistent.",
+      "validate": "Confirm Ledger"
+    },
+    "level3": {
+      "subtitle": "Office Workflow",
+      "title": "Restore The Clerk Procedure",
+      "story": "Without the correct workflow the office would approve the wrong copy. Rebuild the procedure in the proper order from request intake to secure duplicate storage.",
+      "feedback": {
+        "start": "Move the steps until they form a sensible office workflow from request intake to stored duplicate.",
+        "updated": "The workflow is taking shape. Make sure verification happens before annotation and storage.",
+        "failure": "The sequence still does not reflect the correct clerk procedure.",
+        "success": "The office procedure is repaired and the wax seal confirms the next clue."
+      },
+      "stepLabel": "Step",
+      "totalSteps": "Total Steps",
+      "sequenceState": "Procedure State",
+      "hintTitle": "How To Reason",
+      "hint": "The request has to arrive first, then the seal is checked, then the index is consulted, then the margin note is written, and only then is the duplicate stored.",
+      "validate": "Confirm Workflow",
+      "steps": {
+        "receive_request": "Receive Request",
+        "verify_seal": "Verify Seal",
+        "check_index": "Check Index",
+        "annotate_margin": "Annotate Margin",
+        "store_duplicate": "Store Verified Copy"
+      }
+    },
+    "level4": {
+      "subtitle": "Index Routing",
+      "title": "Set The Decision Rules",
+      "story": "Requests for record access pass through three routing nodes. Each node needs the correct rule so the document continues into the proper archive branch.",
+      "feedback": {
+        "start": "Assign one rule to each node. Only the right combination keeps requests in the correct archive branches.",
+        "updated": "The routing board is changing. Compare each rule with the description of its node.",
+        "failure": "Some routing rules still send requests into the wrong branch.",
+        "success": "The index board is repaired and a routing stamp confirms the next stage."
+      },
+      "junctions": {
+        "junction_alpha": {
+          "label": "Node A",
+          "title": "First Split",
+          "body": "Decides whether a request continues through the verified main route or falls into secondary review."
+        },
+        "junction_beta": {
+          "label": "Node B",
+          "title": "Main Archive Branch",
+          "body": "Allows only documents carrying the archive mark to continue through the confirmed route."
+        },
+        "junction_gamma": {
+          "label": "Node C",
+          "title": "Secondary Review",
+          "body": "Catches the papers marked in blue and redirects them into a special control branch."
+        }
+      },
+      "rules": {
+        "stable": "Verified Records Only",
+        "archive_tag": "Archive Mark",
+        "high_priority": "Priority Request",
+        "cyan_tag": "Blue Mark"
+      },
+      "assignedRules": "Assigned Rules",
+      "routerState": "Routing State",
+      "hintTitle": "Clerk Reminder",
+      "hint": "The first node separates verified records from the rest. The second accepts the archive mark, and the third selects the blue-marked papers.",
+      "validate": "Confirm Routing"
+    },
+    "level5": {
+      "subtitle": "Overlay Map",
+      "title": "Align The Map Layers",
+      "story": "Each data bundle belongs to a different municipal map layer. If the assignments are wrong, the town model will contradict the restored ledgers and witness notes.",
+      "feedback": {
+        "start": "Click to cycle the layer numbers until every bundle belongs to the correct overlay.",
+        "updated": "The overlays are changing. Compare them with what you already know about the north, river, and market districts.",
+        "failure": "The map layers still do not match the restored records.",
+        "success": "The map now agrees with the evidence and the district overlay is ready for the finale."
+      },
+      "bundleLabel": "Data Bundle",
+      "bundles": {
+        "north_register": {
+          "title": "North Register",
+          "body": "Contains house references from the upper edge of the town."
+        },
+        "river_parcels": {
+          "title": "River Parcels",
+          "body": "Tracks plots beside the canal and mill."
+        },
+        "market_rolls": {
+          "title": "Market Rolls",
+          "body": "Belongs to the area around the square and marketplace."
+        },
+        "council_minutes": {
+          "title": "Council Minutes",
+          "body": "Contains references to the north district and confirms council actions there."
+        }
+      },
+      "mapLayer": "Layer {{value}}",
+      "overlayCount": "Total Bundles",
+      "mapState": "Map State",
+      "hintTitle": "How To Read The Model",
+      "hint": "Two bundles may point to the same layer. What matters is that the model stays consistent with the restored records.",
+      "validate": "Confirm Map"
+    },
+    "level6": {
+      "subtitle": "Final Reconciliation",
+      "title": "Verify The Authentic Charter",
+      "story": "The last task is the hardest: build a final evidence set from documents, storage locations, seals, and conclusions so the town can identify the authentic charter version.",
+      "feedback": {
+        "start": "Assemble three evidence rows so each document matches the correct storage place, seal, and conclusion.",
+        "incomplete": "At least one evidence row is still incomplete. Fill every document, storage, seal, and verdict slot before validating.",
+        "updated": "The evidence board is taking shape. Check full rows, not single fields in isolation.",
+        "fieldMismatch": "The selected card belongs to a different evidence column.",
+        "failure": "The final comparison still does not support the correct charter reconstruction.",
+        "success": "The authentic charter has been identified and the verified fragment can return to the town.",
+        "verified": "The evidence network aligned cleanly. The town receives a fully verified verdict.",
+        "contested": "The evidence board required correction before it stabilized. The verdict is authentic, but the archive records it as a contested reconstruction resolved through review."
+      },
+      "evidenceRow": "Evidence",
+      "recordLabel": "Row {{index}}",
+      "fields": {
+        "document": "Document",
+        "archive": "Storage",
+        "seal": "Seal",
+        "verdict": "Verdict"
+      },
+      "values": {
+        "document": {
+          "charter_page": "Main Charter",
+          "registry_copy": "Registry Copy",
+          "witness_roll": "Witness Roll"
+        },
+        "archive": {
+          "inner_vault": "Inner Vault",
+          "clerk_drawer": "Clerk Drawer",
+          "north_shelf": "North Shelf"
+        },
+        "seal": {
+          "wax_valid": "Intact Wax Seal",
+          "wax_broken": "Broken Wax Seal",
+          "countermark": "Office Countermark"
+        },
+        "verdict": {
+          "authentic": "Authentic Document",
+          "supporting": "Supporting Evidence",
+          "disputed": "Disputed Record"
+        }
+      },
+      "emptySlot": "Empty Slot",
+      "cardBank": "Evidence Bank",
+      "completeRows": "Completed Rows",
+      "consistentRows": "Consistent Rows",
+      "finalState": "Reconstruction State",
+      "rowAudit": "Row {{index}} Checks",
+      "status": {
+        "ok": "match",
+        "warning": "conflict",
+        "pending": "pending"
+      },
+      "checks": {
+        "documentArchive": "Document -> Storage",
+        "documentSeal": "Document -> Seal",
+        "sealVerdict": "Seal -> Verdict"
+      },
+      "sources": {
+        "documentArchive": {
+          "title": "Provenance Ledger",
+          "body": "This source records where each document was last stored."
+        },
+        "documentSeal": {
+          "title": "Seal Register",
+          "body": "This source links each document type to the seal found with it."
+        },
+        "sealVerdict": {
+          "title": "Verdict Rubric",
+          "body": "This rule table classifies what each seal state means for the final verdict."
+        }
+      },
+      "hintTitle": "Final Check",
+      "hint": "Treat this as a classification pipeline. First map document to storage, then document to seal, and finally seal to verdict. The whole row must survive all three checks.",
+      "validate": "Confirm Reconstruction"
+    }
+  },
   "campaigns": {
     "elem_6": {
       "grade": "Grade 6",
       "grade_short": "Elem",
       "title": "Facility Recovery Protocol",
       "desc": "Restore scrambled systems, recover staff records, and reach the next sealed sector."
+    },
+    "elem_7": {
+      "grade": "Grade 7",
+      "grade_short": "Elem",
+      "title": "Archive of the Missing Town",
+      "desc": "A historical mystery campaign about broken ledgers, missing pages, and rebuilding a trustworthy town record system."
+    },
+    "elem_8": {
+      "grade": "Grade 8",
+      "grade_short": "Elem",
+      "title": "Campaign 8",
+      "desc": "Another world and another puzzle set are in preparation."
+    },
+    "elem_9": {
+      "grade": "Grade 9",
+      "grade_short": "Elem",
+      "title": "Campaign 9",
+      "desc": "Another world and another puzzle set are in preparation."
+    },
+    "hs_1": {
+      "grade": "High School Year 1",
+      "grade_short": "HS",
+      "title": "High School Campaign 1",
+      "desc": "Another world and another puzzle set are in preparation."
+    },
+    "hs_2": {
+      "grade": "High School Year 2",
+      "grade_short": "HS",
+      "title": "High School Campaign 2",
+      "desc": "Another world and another puzzle set are in preparation."
+    },
+    "hs_3": {
+      "grade": "High School Year 3",
+      "grade_short": "HS",
+      "title": "High School Campaign 3",
+      "desc": "Another world and another puzzle set are in preparation."
+    },
+    "hs_4": {
+      "grade": "High School Year 4",
+      "grade_short": "HS",
+      "title": "High School Campaign 4",
+      "desc": "Another world and another puzzle set are in preparation."
     }
   }
 }

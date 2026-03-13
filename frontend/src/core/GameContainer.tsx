@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { gameEvents } from './EventBus';
 import { registry } from '../features/puzzles/registry';
-import type { PuzzleComponentProps, PuzzleRegistry } from '../features/puzzles/types';
+import type { CampaignConfig, PuzzleComponentProps, PuzzleRegistry } from '../features/puzzles/types';
 import { InventorySystem } from './InventorySystem';
 import { CampaignTimer } from './CampaignTimer';
 import { Notepad } from './Notepad';
@@ -13,6 +13,7 @@ import { audio } from './AudioEngine';
 import { GameSessionProvider, useGameSession, type CampaignSessionSnapshot } from './GameSession';
 import { GameErrorBoundary } from './GameErrorBoundary';
 import { DEFAULT_CAMPAIGN_TIME_MINUTES, PUZZLE_BACKWARD_TRANSITION_MS, PUZZLE_FORWARD_TRANSITION_MS } from './gameConstants';
+import { getCampaignTheme, withAlpha } from './campaignTheme';
 
 interface GameContainerProps {
   campaignId: string;
@@ -24,42 +25,17 @@ interface GameContainerShellProps {
   campaignId: string;
   onExit: () => void;
 }
+const puzzleModules = import.meta.glob('../features/puzzles/**/index.tsx');
 
-interface DebugProgressPreset {
-  inventoryItems: string[];
-  roomInteractions?: string[];
-}
-
-const DEBUG_PROGRESS_PRESETS: Record<string, Record<number, DebugProgressPreset>> = {
-  elem_6: {
-    0: { inventoryItems: [] },
-    1: { inventoryItems: [], roomInteractions: ['mysterious_note', 'employee_log', 'mainframe'] },
-    2: { inventoryItems: [], roomInteractions: ['mysterious_note', 'employee_log', 'mainframe'] },
-    3: { inventoryItems: ['module_ram'], roomInteractions: ['mysterious_note', 'employee_log', 'mainframe'] },
-    4: { inventoryItems: ['module_ram', 'module_loop', 'usb_decryptor'], roomInteractions: ['mysterious_note', 'employee_log', 'mainframe'] },
-    5: { inventoryItems: ['module_ram', 'module_loop', 'usb_decryptor'], roomInteractions: ['mysterious_note', 'employee_log', 'mainframe'] },
-    6: { inventoryItems: ['module_ram', 'module_loop', 'usb_decryptor'], roomInteractions: ['mysterious_note', 'employee_log', 'mainframe'] },
-    7: { inventoryItems: ['module_ram', 'module_loop', 'usb_decryptor', 'storage'], roomInteractions: ['mysterious_note', 'employee_log', 'mainframe'] },
-    8: { inventoryItems: ['module_ram', 'module_loop', 'usb_decryptor', 'storage'], roomInteractions: ['mysterious_note', 'employee_log', 'mainframe'] },
-    9: { inventoryItems: ['module_ram', 'module_loop', 'usb_decryptor', 'storage'], roomInteractions: ['mysterious_note', 'employee_log', 'mainframe'] },
-    10: { inventoryItems: ['module_ram', 'module_loop', 'usb_decryptor', 'storage'], roomInteractions: ['mysterious_note', 'employee_log', 'mainframe'] },
-    11: { inventoryItems: ['module_ram', 'module_loop', 'usb_decryptor', 'storage'], roomInteractions: ['mysterious_note', 'employee_log', 'mainframe'] },
-    12: { inventoryItems: ['module_ram', 'module_loop', 'usb_decryptor', 'storage'], roomInteractions: ['mysterious_note', 'employee_log', 'mainframe'] },
-    13: { inventoryItems: ['module_ram', 'module_loop', 'usb_decryptor', 'storage'], roomInteractions: ['mysterious_note', 'employee_log', 'mainframe'] },
-    14: { inventoryItems: ['module_ram', 'module_loop', 'usb_decryptor', 'storage'], roomInteractions: ['mysterious_note', 'employee_log', 'mainframe'] },
-    15: { inventoryItems: ['module_ram', 'module_loop', 'usb_decryptor', 'storage', 'sector_map'], roomInteractions: ['mysterious_note', 'employee_log', 'mainframe'] },
-  },
-};
-
-function getDebugProgressPreset(campaignId: string, targetIndex: number, campaignSessionKey: string) {
-  const preset = DEBUG_PROGRESS_PRESETS[campaignId]?.[targetIndex];
+function getDebugProgressPreset(campaign: CampaignConfig | undefined, targetIndex: number, campaignSessionKey: string) {
+  const preset = campaign?.debugProgressPresets?.[String(targetIndex)];
   if (!preset) {
     return null;
   }
 
-  const roomInteractions = preset.roomInteractions
+  const roomInteractions = preset.roomId && preset.roomInteractions
     ? {
-      [`${campaignSessionKey}:room_airlock`]: preset.roomInteractions,
+      [`${campaignSessionKey}:${preset.roomId}`]: preset.roomInteractions,
     }
     : {};
 
@@ -72,7 +48,7 @@ function getDebugProgressPreset(campaignId: string, targetIndex: number, campaig
 const GameContainerShell: React.FC<GameContainerShellProps> = ({ campaignId, onExit }) => {
   const { t } = useTranslation();
   const puzzleRegistry = registry as PuzzleRegistry;
-  const { session, setLevelIndex, addInventoryItem, markStatus, patchSession, clearPersistedSession } = useGameSession();
+  const { session, setLevelIndex, addInventoryItem, recordDecisionOutcome, markStatus, patchSession, clearPersistedSession } = useGameSession();
   const [isTransitioning, setIsTransitioning] = useState<boolean>(false);
   const [transitionType, setTransitionType] = useState<'FORWARD' | 'BACKWARD'>('FORWARD');
   const [isNotepadOpen, setIsNotepadOpen] = useState<boolean>(false);
@@ -85,7 +61,9 @@ const GameContainerShell: React.FC<GameContainerShellProps> = ({ campaignId, onE
   const campaignSessionKey = session.sessionId;
   const campaign = puzzleRegistry.campaigns[campaignId];
   const puzzleConfig = campaign?.levels[session.levelIndex];
+  const currentLevelId = puzzleConfig?.id;
   const isDebugToolsEnabled = import.meta.env.DEV;
+  const theme = campaign?.theme ?? getCampaignTheme(campaignId);
 
   useEffect(() => {
     if (!isDebugToolsEnabled) {
@@ -125,11 +103,37 @@ const GameContainerShell: React.FC<GameContainerShellProps> = ({ campaignId, onE
       return levelIndex >= 0 ? levelIndex : currentLevelIndex + 1;
     };
 
-    const handlePuzzleSolved = ({ nextLevel }: { nextLevel: number | string }) => {
+    const resolveDecisionTarget = (requestedLevel: number | string, outcomeId?: string) => {
+      if (!campaign || !currentLevelId || requestedLevel !== 'NEXT') {
+        return requestedLevel;
+      }
+
+      const routeConfig = campaign.decisionRoutes?.[currentLevelId];
+      if (!routeConfig) {
+        return requestedLevel;
+      }
+
+      const resolvedOutcome = outcomeId
+        ?? session.decisionOutcomes[currentLevelId]
+        ?? routeConfig.defaultOutcome;
+
+      if (!resolvedOutcome) {
+        return requestedLevel;
+      }
+
+      return routeConfig.routes[resolvedOutcome] ?? requestedLevel;
+    };
+
+    const handlePuzzleSolved = ({ nextLevel, outcomeId }: { nextLevel: number | string; outcomeId?: string }) => {
+      if (currentLevelId && outcomeId) {
+        recordDecisionOutcome(currentLevelId, outcomeId);
+      }
+
       setTransitionType('FORWARD');
       setIsTransitioning(true);
       setTimeout(() => {
-        const nextLevelIndex = resolveNextLevelIndex(nextLevel);
+        const routedNextLevel = resolveDecisionTarget(nextLevel, outcomeId);
+        const nextLevelIndex = resolveNextLevelIndex(routedNextLevel);
         setLevelIndex(nextLevelIndex);
         if (nextLevelIndex >= (campaign?.levels.length ?? 0)) {
           markStatus('completed');
@@ -170,7 +174,7 @@ const GameContainerShell: React.FC<GameContainerShellProps> = ({ campaignId, onE
       unsubscribeFail();
       unsubscribeItemFound();
     };
-  }, [addInventoryItem, campaign?.levels.length, campaignId, clearPersistedSession, currentLevelIndex, markStatus, setLevelIndex]);
+  }, [addInventoryItem, campaign, campaignId, clearPersistedSession, currentLevelId, currentLevelIndex, markStatus, recordDecisionOutcome, session.decisionOutcomes, setLevelIndex]);
 
   const handleExitToMenu = (discardRun = false) => {
     setIsExitConfirmOpen(false);
@@ -190,7 +194,7 @@ const GameContainerShell: React.FC<GameContainerShellProps> = ({ campaignId, onE
     }
 
     const progressPreset = autoSeedProgress
-      ? getDebugProgressPreset(campaignId, targetIndex, campaignSessionKey)
+      ? getDebugProgressPreset(campaign, targetIndex, campaignSessionKey)
       : null;
 
     audio.playClick();
@@ -217,10 +221,17 @@ const GameContainerShell: React.FC<GameContainerShellProps> = ({ campaignId, onE
       return null;
     }
 
+    const modulePath = `../features/puzzles/${puzzleConfig.componentPath}/index.tsx`;
+    const loader = puzzleModules[modulePath];
+
+    if (!loader) {
+      throw new Error(`Puzzle module not found: ${modulePath}`);
+    }
+
     return React.lazy(async () => {
-      const module = await import(`../features/puzzles/${puzzleConfig.componentPath}/index.tsx`);
+      const module = await loader();
       return {
-        default: module.default as React.ComponentType<PuzzleComponentProps>,
+        default: (module as { default: React.ComponentType<PuzzleComponentProps> }).default,
       };
     });
   }, [puzzleConfig?.componentPath]);
@@ -231,7 +242,10 @@ const GameContainerShell: React.FC<GameContainerShellProps> = ({ campaignId, onE
       {/* Header UI */}
       <header className="absolute top-0 z-10 flex w-full items-center justify-between px-6 py-1.5">
         <div>
-          <h1 className="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-brand-400 to-indigo-400">
+          <h1
+            className="text-lg font-bold bg-clip-text text-transparent"
+            style={{ backgroundImage: `linear-gradient(90deg, ${theme.secondary}, ${theme.primary})` }}
+          >
             {t('system.title')} {t('system.os')}
           </h1>
           <p className="text-slate-500 text-xs font-mono">{t('system.version')}</p>
@@ -246,8 +260,11 @@ const GameContainerShell: React.FC<GameContainerShellProps> = ({ campaignId, onE
               <div className="text-sm font-medium text-slate-300">{t(`campaigns.${campaignId}.grade`, { defaultValue: `Grade ${campaignId.split('_')[1]}` })} - {t('gameContainer.level', { defaultValue: 'Level' })} {currentLevelIndex + 1}</div>
               <div className="text-xs text-slate-500 mt-1">{t(`campaigns.${campaignId}.title`, { defaultValue: `Campaign ${campaignId}` })}</div>
             </div>
-            <div className="w-10 h-10 rounded-full border-2 border-brand-500 flex items-center justify-center bg-surface-dark shadow-[0_0_15px_rgba(59,130,246,0.3)]">
-              <span className="font-mono font-bold text-brand-400">{currentLevelIndex + 1}</span>
+            <div
+              className="w-10 h-10 rounded-full border-2 flex items-center justify-center bg-surface-dark"
+              style={{ borderColor: theme.primary, boxShadow: `0 0 15px ${withAlpha(theme.primary, 0.3)}` }}
+            >
+              <span className="font-mono font-bold" style={{ color: theme.secondary }}>{currentLevelIndex + 1}</span>
             </div>
 
             {/* Inventory Toggle Button */}
@@ -256,7 +273,13 @@ const GameContainerShell: React.FC<GameContainerShellProps> = ({ campaignId, onE
                 audio.playClick();
                 setIsInventoryOpen(true);
               }}
-              className="ml-4 w-10 h-10 flex items-center justify-center rounded border border-brand-500/40 bg-brand-500/10 text-brand-400 hover:bg-brand-500/30 hover:text-brand-300 transition-colors shadow-[0_0_10px_rgba(59,130,246,0.2)]"
+              className="ml-4 w-10 h-10 flex items-center justify-center rounded border transition-colors"
+              style={{
+                borderColor: withAlpha(theme.primary, 0.4),
+                backgroundColor: withAlpha(theme.primary, 0.1),
+                color: theme.secondary,
+                boxShadow: `0 0 10px ${withAlpha(theme.primary, 0.2)}`,
+              }}
               title={t('inventory.title', { defaultValue: 'INVENTORY' })}
             >
               <Box size={18} />
@@ -268,7 +291,13 @@ const GameContainerShell: React.FC<GameContainerShellProps> = ({ campaignId, onE
                 audio.playClick();
                 setIsNotepadOpen(true);
               }}
-              className="ml-2 w-10 h-10 flex items-center justify-center rounded border border-brand-500/40 bg-brand-500/10 text-brand-400 hover:bg-brand-500/30 hover:text-brand-300 transition-colors shadow-[0_0_10px_rgba(59,130,246,0.2)]"
+              className="ml-2 w-10 h-10 flex items-center justify-center rounded border transition-colors"
+              style={{
+                borderColor: withAlpha(theme.primary, 0.4),
+                backgroundColor: withAlpha(theme.primary, 0.1),
+                color: theme.secondary,
+                boxShadow: `0 0 10px ${withAlpha(theme.primary, 0.2)}`,
+              }}
               title={t('notepad.title')}
             >
               <FileText size={18} />
@@ -279,7 +308,7 @@ const GameContainerShell: React.FC<GameContainerShellProps> = ({ campaignId, onE
               onClick={() => setIsExitConfirmOpen(true)}
               className="ml-4 px-4 py-2 border border-red-500/50 bg-red-500/10 text-red-400 hover:bg-red-500/20 hover:text-red-300 rounded font-mono text-xs tracking-wider transition-colors"
             >
-              ABORT PROTOCOL
+              {t('gameContainer.abortButton')}
             </button>
 
             {isDebugToolsEnabled && (
@@ -289,7 +318,7 @@ const GameContainerShell: React.FC<GameContainerShellProps> = ({ campaignId, onE
                   setIsDebugMenuOpen((prev) => !prev);
                 }}
                 className="ml-2 flex items-center gap-2 rounded border border-amber-400/50 bg-amber-500/10 px-3 py-2 font-mono text-xs tracking-wider text-amber-200 transition-colors hover:bg-amber-500/20"
-                title="Open development jump menu"
+                title={t('gameContainer.debug.openTitle')}
               >
                 <Bug size={14} />
                 DEBUG
@@ -303,8 +332,8 @@ const GameContainerShell: React.FC<GameContainerShellProps> = ({ campaignId, onE
         <div className="absolute right-6 top-16 z-40 w-full max-w-sm max-h-[calc(100vh-5.5rem)] overflow-hidden rounded-2xl border border-amber-400/40 bg-slate-950/95 p-4 shadow-[0_0_40px_rgba(245,158,11,0.18)] backdrop-blur-md">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <div className="text-[11px] font-mono uppercase tracking-[0.24em] text-amber-300">Development Jump Menu</div>
-              <div className="mt-1 text-sm text-slate-300">Skip directly to any registered screen in the current campaign.</div>
+              <div className="text-[11px] font-mono uppercase tracking-[0.24em] text-amber-300">{t('gameContainer.debug.title')}</div>
+              <div className="mt-1 text-sm text-slate-300">{t('gameContainer.debug.body')}</div>
             </div>
             <button
               onClick={() => {
@@ -313,7 +342,7 @@ const GameContainerShell: React.FC<GameContainerShellProps> = ({ campaignId, onE
               }}
               className="rounded border border-slate-700 bg-slate-900 px-2 py-1 text-[11px] font-mono uppercase tracking-[0.18em] text-slate-400 transition-colors hover:border-slate-500 hover:text-slate-200"
             >
-              Close
+              {t('gameContainer.debug.close')}
             </button>
           </div>
 
@@ -325,7 +354,7 @@ const GameContainerShell: React.FC<GameContainerShellProps> = ({ campaignId, onE
               className="h-4 w-4 rounded border-slate-600 bg-slate-950 text-amber-400 focus:ring-amber-400"
             />
             <span>
-              Auto-seed prerequisite items and room progress
+              {t('gameContainer.debug.autoSeed')}
             </span>
           </label>
 
@@ -343,8 +372,8 @@ const GameContainerShell: React.FC<GameContainerShellProps> = ({ campaignId, onE
                       }`}
                   >
                     <div className="flex items-center justify-between gap-3">
-                      <span className="font-mono text-xs uppercase tracking-[0.22em] text-slate-500">Screen {index + 1}</span>
-                      {isActive && <span className="rounded border border-amber-300/40 px-2 py-1 text-[10px] font-mono uppercase tracking-[0.18em] text-amber-200">Active</span>}
+                      <span className="font-mono text-xs uppercase tracking-[0.22em] text-slate-500">{t('gameContainer.debug.screenLabel', { index: index + 1 })}</span>
+                      {isActive && <span className="rounded border border-amber-300/40 px-2 py-1 text-[10px] font-mono uppercase tracking-[0.18em] text-amber-200">{t('common.active')}</span>}
                     </div>
                     <div className="mt-2 font-mono text-sm text-slate-100">{level.id}</div>
                     <div className="mt-1 text-xs text-slate-500">{level.componentPath}</div>
@@ -355,7 +384,7 @@ const GameContainerShell: React.FC<GameContainerShellProps> = ({ campaignId, onE
           </div>
 
           <div className="mt-3 text-[11px] font-mono uppercase tracking-[0.16em] text-slate-500">
-            Shortcut: Ctrl+Shift+D
+            {t('gameContainer.debug.shortcut')}
           </div>
         </div>
       )}
@@ -399,17 +428,21 @@ const GameContainerShell: React.FC<GameContainerShellProps> = ({ campaignId, onE
               exit={{ opacity: 0 }}
               className="w-full h-full absolute inset-0 z-50 overflow-hidden bg-slate-950/92 backdrop-blur-md"
             >
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.16),rgba(2,6,23,1)_64%)]" />
+              <div className="absolute inset-0" style={{ background: `radial-gradient(circle at top, ${withAlpha(theme.primary, 0.16)}, rgba(2,6,23,1) 64%)` }} />
               <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(30,41,59,0.5)_1px,transparent_1px),linear-gradient(to_bottom,rgba(30,41,59,0.45)_1px,transparent_1px)] bg-[size:3.5rem_3.5rem] opacity-20" />
               <div className="relative flex h-full items-center justify-center px-6">
-                <div className="w-full max-w-xl rounded-[1.75rem] border border-brand-500/30 bg-slate-950/84 p-8 text-center shadow-[0_0_44px_rgba(59,130,246,0.16)]">
-                  <div className="text-[11px] font-mono uppercase tracking-[0.34em] text-brand-300">Protocol Transition</div>
+                <div
+                  className="w-full max-w-xl rounded-[1.75rem] border bg-slate-950/84 p-8 text-center"
+                  style={{ borderColor: withAlpha(theme.primary, 0.3), boxShadow: `0 0 44px ${withAlpha(theme.primary, 0.16)}` }}
+                >
+                  <div className="text-[11px] font-mono uppercase tracking-[0.34em]" style={{ color: theme.secondary }}>{t('gameContainer.transitionTitle')}</div>
                   <div className="mt-4 text-2xl font-mono uppercase tracking-[0.2em] text-slate-100">
                     {transitionType === 'FORWARD' ? t('gameContainer.purging') : t('gameContainer.returning', { defaultValue: 'RETURNING TO HUB...' })}
                   </div>
                   <div className="relative mt-6 h-2 overflow-hidden rounded-full bg-slate-900">
                     <motion.div
-                      className="absolute inset-y-0 w-1/2 rounded-full bg-gradient-to-r from-brand-500 via-cyan-300 to-brand-600 shadow-[0_0_18px_rgba(59,130,246,0.35)]"
+                      className="absolute inset-y-0 w-1/2 rounded-full"
+                      style={{ backgroundImage: `linear-gradient(90deg, ${theme.primary}, ${theme.secondary}, ${theme.primary})`, boxShadow: `0 0 18px ${withAlpha(theme.primary, 0.35)}` }}
                       animate={{ x: ['-110%', '220%'] }}
                       transition={{ duration: 1.25, ease: 'easeInOut', repeat: Infinity }}
                     />
@@ -445,25 +478,25 @@ const GameContainerShell: React.FC<GameContainerShellProps> = ({ campaignId, onE
               onClick={(event) => event.stopPropagation()}
               className="w-full max-w-md rounded-2xl border border-red-500/40 bg-slate-950/95 p-6 shadow-[0_0_40px_rgba(239,68,68,0.2)]"
             >
-              <h2 className="text-xl font-mono font-bold tracking-widest text-red-300 uppercase">Abort Protocol?</h2>
+              <h2 className="text-xl font-mono font-bold tracking-widest text-red-300 uppercase">{t('gameContainer.exitConfirmTitle')}</h2>
               <p className="mt-3 text-sm leading-relaxed text-slate-300">
-                Returning to the main menu will end the current run for {t(`campaigns.${campaignId}.title`, { defaultValue: `Campaign ${campaignId}` })}.
+                {t('gameContainer.exitConfirmBody', { campaign: t(`campaigns.${campaignId}.title`, { defaultValue: `Campaign ${campaignId}` }) })}
               </p>
               <p className="mt-2 text-xs font-mono uppercase tracking-wider text-slate-500">
-                Closing an individual puzzle preserves your current run. Aborting the protocol does not.
+                {t('gameContainer.exitConfirmNote')}
               </p>
               <div className="mt-6 flex gap-3">
                 <button
                   onClick={() => setIsExitConfirmOpen(false)}
                   className="flex-1 rounded-lg border border-slate-700 bg-slate-900 px-4 py-3 font-mono text-sm tracking-wider text-slate-300 transition-colors hover:bg-slate-800"
                 >
-                  Continue Run
+                  {t('gameContainer.continueRun')}
                 </button>
                 <button
                   onClick={() => handleExitToMenu(true)}
                   className="flex-1 rounded-lg border border-red-400/70 bg-red-600 px-4 py-3 font-mono text-sm font-bold tracking-wider text-white transition-colors hover:bg-red-500"
                 >
-                  Exit to Menu
+                  {t('gameContainer.exitToMenu')}
                 </button>
               </div>
             </motion.div>
@@ -488,14 +521,14 @@ const GameContainerShell: React.FC<GameContainerShellProps> = ({ campaignId, onE
               className="flex flex-col items-center justify-center p-12 bg-black/60 border-2 border-red-500/50 rounded-2xl shadow-[0_0_100px_rgba(239,68,68,0.4)] relative z-10 text-center max-w-lg w-full"
             >
               <ShieldAlert size={80} className="mb-6 animate-pulse" />
-              <h1 className="text-5xl font-mono font-bold tracking-widest mb-2 uppercase">System Locked</h1>
-              <p className="text-red-400 font-mono tracking-wider mb-8 uppercase text-sm">Security breach detected. All logical sectors have been frozen.</p>
+              <h1 className="text-5xl font-mono font-bold tracking-widest mb-2 uppercase">{t('gameContainer.gameOverTitle')}</h1>
+              <p className="text-red-400 font-mono tracking-wider mb-8 uppercase text-sm">{t('gameContainer.gameOverBody')}</p>
 
               <button
                 onClick={() => handleExitToMenu(true)}
                 className="px-8 py-4 bg-red-600 hover:bg-red-500 text-white font-mono font-bold tracking-widest rounded transition-all shadow-[0_0_20px_rgba(239,68,68,0.5)] border border-red-400"
               >
-                RETURN TO MAIN MENU
+                {t('gameContainer.returnToMainMenu')}
               </button>
             </motion.div>
           </motion.div>
@@ -525,17 +558,24 @@ export const GameContainer: React.FC<GameContainerProps> = ({ campaignId, onExit
 };
 
 function PuzzleLoadingFallback({ moduleName }: { moduleName: string }) {
+  const { t } = useTranslation();
+  const theme = getCampaignTheme();
+
   return (
     <div className="relative w-full h-full overflow-hidden bg-slate-950">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.18),rgba(2,6,23,1)_65%)]" />
+      <div className="absolute inset-0" style={{ background: `radial-gradient(circle at top, ${withAlpha(theme.primary, 0.18)}, rgba(2,6,23,1) 65%)` }} />
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(30,41,59,0.5)_1px,transparent_1px),linear-gradient(to_bottom,rgba(30,41,59,0.45)_1px,transparent_1px)] bg-[size:3.25rem_3.25rem] opacity-20" />
       <div className="relative flex h-full items-center justify-center p-6">
-        <div className="w-full max-w-lg rounded-[1.75rem] border border-brand-500/30 bg-slate-950/84 px-8 py-7 text-center shadow-[0_0_38px_rgba(59,130,246,0.16)]">
-          <div className="text-[11px] font-mono uppercase tracking-[0.34em] text-slate-500">Loading Module</div>
-          <div className="mt-3 text-lg font-mono uppercase tracking-[0.22em] text-brand-300">{moduleName}</div>
+        <div
+          className="w-full max-w-lg rounded-[1.75rem] border bg-slate-950/84 px-8 py-7 text-center"
+          style={{ borderColor: withAlpha(theme.primary, 0.3), boxShadow: `0 0 38px ${withAlpha(theme.primary, 0.16)}` }}
+        >
+          <div className="text-[11px] font-mono uppercase tracking-[0.34em] text-slate-500">{t('gameContainer.loadingTitle')}</div>
+          <div className="mt-3 text-lg font-mono uppercase tracking-[0.22em]" style={{ color: theme.secondary }}>{moduleName}</div>
           <div className="relative mt-6 h-2 overflow-hidden rounded-full bg-slate-900">
             <motion.div
-              className="absolute inset-y-0 w-1/2 rounded-full bg-gradient-to-r from-brand-500 via-cyan-300 to-brand-600 shadow-[0_0_18px_rgba(59,130,246,0.35)]"
+              className="absolute inset-y-0 w-1/2 rounded-full"
+              style={{ backgroundImage: `linear-gradient(90deg, ${theme.primary}, ${theme.secondary}, ${theme.primary})`, boxShadow: `0 0 18px ${withAlpha(theme.primary, 0.35)}` }}
               animate={{ x: ['-110%', '220%'] }}
               transition={{ duration: 1.25, ease: 'easeInOut', repeat: Infinity }}
             />

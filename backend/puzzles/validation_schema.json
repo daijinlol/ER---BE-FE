@@ -371,5 +371,149 @@
                 "failure": "The drone still fails to stabilize the merged corridor."
             }
         }
+    },
+    "elem_7": {
+        "1": {
+            "type": "sorted_sequence",
+            "expectedSorted": [
+                1842,
+                1851,
+                1860,
+                1872,
+                1888,
+                1895
+            ],
+            "unlocks": [
+                "clerk_index"
+            ],
+            "messages": {
+                "failure": "Archive cards are still out of chronological order."
+            }
+        },
+        "2": {
+            "type": "archive_records",
+            "requiredFields": [
+                "resident",
+                "street",
+                "parcel",
+                "district"
+            ],
+            "expectedRows": [
+                {
+                    "resident": "eliska",
+                    "street": "bridge",
+                    "parcel": "A-12",
+                    "district": "north"
+                },
+                {
+                    "resident": "jan",
+                    "street": "square",
+                    "parcel": "B-07",
+                    "district": "market"
+                },
+                {
+                    "resident": "marta",
+                    "street": "mill",
+                    "parcel": "C-19",
+                    "district": "river"
+                }
+            ],
+            "unlocks": [
+                "ledger_bundle"
+            ],
+            "messages": {
+                "invalid": "The rebuilt ledger rows are malformed.",
+                "incomplete": "Some municipal ledger fields are still empty.",
+                "failure": "The municipal records still contain conflicting pairs of data."
+            }
+        },
+        "3": {
+            "type": "ordered_sequence",
+            "expectedSequence": [
+                "receive_request",
+                "verify_seal",
+                "check_index",
+                "annotate_margin",
+                "store_duplicate"
+            ],
+            "unlocks": [
+                "wax_seal"
+            ],
+            "messages": {
+                "invalid": "The clerk workflow is malformed.",
+                "incomplete": "At least one office step is still missing.",
+                "failure": "The office workflow is still in the wrong order."
+            }
+        },
+        "4": {
+            "type": "decision_rules",
+            "expectedRules": {
+                "junction_alpha": "stable",
+                "junction_beta": "archive_tag",
+                "junction_gamma": "cyan_tag"
+            },
+            "unlocks": [
+                "routing_stamp"
+            ],
+            "messages": {
+                "invalid": "The index routing rules are malformed.",
+                "incomplete": "Some routing nodes still have no assigned rule.",
+                "failure": "Requests are still being sent into the wrong archive branches."
+            }
+        },
+        "5": {
+            "type": "value_map",
+            "expectedValues": {
+                "north_register": 1,
+                "river_parcels": 2,
+                "market_rolls": 3,
+                "council_minutes": 1
+            },
+            "unlocks": [
+                "district_map"
+            ],
+            "messages": {
+                "invalid": "The map layer payload is malformed.",
+                "incomplete": "At least one map layer is still unset.",
+                "failure": "The overlay map still conflicts with the restored ledgers."
+            }
+        },
+        "6": {
+            "type": "archive_records",
+            "requiredFields": [
+                "document",
+                "archive",
+                "seal",
+                "verdict"
+            ],
+            "expectedRows": [
+                {
+                    "document": "charter_page",
+                    "archive": "inner_vault",
+                    "seal": "wax_valid",
+                    "verdict": "authentic"
+                },
+                {
+                    "document": "registry_copy",
+                    "archive": "clerk_drawer",
+                    "seal": "countermark",
+                    "verdict": "supporting"
+                },
+                {
+                    "document": "witness_roll",
+                    "archive": "north_shelf",
+                    "seal": "wax_broken",
+                    "verdict": "disputed"
+                }
+            ],
+            "unlocks": [
+                "charter_fragment"
+            ],
+            "messages": {
+                "invalid": "The final evidence comparison is malformed.",
+                "incomplete": "Some final evidence slots are still empty.",
+                "failure": "The final reconstruction still does not support the authentic charter."
+            }
+        }
     }
 }

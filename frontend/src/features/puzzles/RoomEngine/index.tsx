@@ -50,7 +50,7 @@ export default function RoomEngine({ config, campaignSessionKey }: PuzzleCompone
                 />
             ) : (
                 <div className="absolute inset-0 flex items-center justify-center bg-slate-900 pointer-events-none">
-                    <span className="font-mono text-xl tracking-widest text-slate-700">NO VISUAL SIGNAL</span>
+                    <span className="font-mono text-xl tracking-widest text-slate-700">{t('room.noVisualSignal')}</span>
                 </div>
             )}
 

@@ -12,6 +12,7 @@ export interface CampaignSessionSnapshot {
     timeLeftSeconds: number;
     notes: string;
     roomInteractions: Record<string, string[]>;
+    decisionOutcomes: Record<string, string>;
     status: CampaignSessionStatus;
     updatedAt: string;
 }
@@ -22,6 +23,7 @@ export type CampaignSessionPatch = Partial<Pick<CampaignSessionSnapshot,
     | 'timeLeftSeconds'
     | 'notes'
     | 'roomInteractions'
+    | 'decisionOutcomes'
     | 'status'
 >>;
 
@@ -34,6 +36,7 @@ interface GameSessionContextValue {
     setTimeLeftSeconds: (timeLeftSeconds: number) => void;
     setNotes: (notes: string) => void;
     recordRoomInteraction: (roomId: string, hotspotId: string) => void;
+    recordDecisionOutcome: (decisionKey: string, outcomeId: string) => void;
     markStatus: (status: CampaignSessionStatus) => void;
     patchSession: (patch: CampaignSessionPatch) => void;
     clearPersistedSession: () => void;
@@ -43,6 +46,13 @@ const GameSessionContext = createContext<GameSessionContextValue | null>(null);
 
 function canUseStorage() {
     return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
+}
+
+function normalizeSessionSnapshot(snapshot: CampaignSessionSnapshot) {
+    return {
+        ...snapshot,
+        decisionOutcomes: snapshot.decisionOutcomes ?? {},
+    };
 }
 
 export function loadStoredSessions(): CampaignSessionMap {
@@ -57,7 +67,13 @@ export function loadStoredSessions(): CampaignSessionMap {
         }
 
         const parsed = JSON.parse(raw) as CampaignSessionMap;
-        return parsed && typeof parsed === 'object' ? parsed : {};
+        if (!parsed || typeof parsed !== 'object') {
+            return {};
+        }
+
+        return Object.fromEntries(
+            Object.entries(parsed).map(([campaignId, snapshot]) => [campaignId, normalizeSessionSnapshot(snapshot)])
+        );
     } catch {
         return {};
     }
@@ -115,6 +131,7 @@ function createFreshSession(campaignId: string, initialTimeSeconds: number): Cam
         timeLeftSeconds: initialTimeSeconds,
         notes: '',
         roomInteractions: {},
+        decisionOutcomes: {},
         status: 'active',
         updatedAt: new Date().toISOString(),
     };
@@ -131,7 +148,7 @@ export function GameSessionProvider({ campaignId, initialTimeSeconds, initialSna
     const [session, setSession] = useState<CampaignSessionSnapshot>(() => {
         if (initialSnapshot && initialSnapshot.campaignId === campaignId) {
             return {
-                ...initialSnapshot,
+                ...normalizeSessionSnapshot(initialSnapshot),
                 status: 'active',
             };
         }
@@ -175,6 +192,19 @@ export function GameSessionProvider({ campaignId, initialTimeSeconds, initialSna
                 roomInteractions: {
                     ...prev.roomInteractions,
                     [roomId]: [...currentRoomHistory, hotspotId],
+                },
+            };
+        }),
+        recordDecisionOutcome: (decisionKey, outcomeId) => setSession((prev) => {
+            if (prev.decisionOutcomes[decisionKey] === outcomeId) {
+                return prev;
+            }
+
+            return {
+                ...prev,
+                decisionOutcomes: {
+                    ...prev.decisionOutcomes,
+                    [decisionKey]: outcomeId,
                 },
             };
         }),

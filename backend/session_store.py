@@ -27,6 +27,7 @@ class CampaignSessionSnapshot(BaseModel):
     timeLeftSeconds: int = Field(..., ge=0)
     notes: str = ""
     roomInteractions: dict[str, list[str]] = Field(default_factory=dict)
+    decisionOutcomes: dict[str, str] = Field(default_factory=dict)
     status: SessionStatus = "active"
     updatedAt: str = Field(..., min_length=1)
 

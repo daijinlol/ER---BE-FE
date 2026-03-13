@@ -1,7 +1,7 @@
 export interface EventPayloadMap {
   ITEM_FOUND: string;
   DOOR_UNLOCKED: { doorId: string };
-  PUZZLE_SOLVED: { nextLevel: number | string };
+  PUZZLE_SOLVED: { nextLevel: number | string; outcomeId?: string };
   PUZZLE_CLOSED: undefined;
   STATE_CHANGED: { key: string; value: unknown };
   CAMPAIGN_COMPLETED: { campaignId: string };

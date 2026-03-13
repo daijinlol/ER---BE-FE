@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Terminal, Settings, Users, Power, ChevronRight, X, ShieldAlert } from 'lucide-react';
+import { BookOpenText, Settings, Users, Power, ChevronRight, X, Landmark } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { audio } from './AudioEngine';
 import { registry } from '../features/puzzles/registry';
 import type { CampaignSessionSnapshot } from './GameSession';
+import { getCampaignTheme, withAlpha } from './campaignTheme';
 
 type MenuView = 'MAIN' | 'OPTIONS' | 'CREDITS' | 'DIFFICULTY';
 
@@ -57,7 +58,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStart, resumeSessions, opt
          className="flex w-full max-w-xl flex-col gap-3 z-10"
       >
          <MenuButton
-            icon={<Terminal size={20} />}
+            icon={<BookOpenText size={20} />}
             title={t('menu.main.difficulty.title')}
             subtitle={t('menu.main.difficulty.subtitle')}
             onClick={() => changeView('DIFFICULTY')}
@@ -100,46 +101,67 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStart, resumeSessions, opt
          <h2 className="mb-6 border-b border-brand-500/20 pb-4 text-2xl font-mono font-bold text-brand-300">{t('menu.difficultyView.title')}</h2>
 
          <div className="grid max-h-[65vh] grid-cols-1 gap-4 overflow-x-hidden overflow-y-auto p-1 pr-2 custom-scrollbar md:grid-cols-2">
-            {Object.entries(registry.campaigns).map(([campaignId]) => {
+            {Object.entries(registry.campaigns).map(([campaignId, campaign]) => {
                const resumeSession = resumeSessions[campaignId];
                const canResume = resumeSession?.status === 'active';
+               const isAvailable = campaign.levels.length > 0;
+               const theme = getCampaignTheme(campaignId);
 
                return (
                   <motion.div
                      key={campaignId}
                      whileHover={{ scale: 1.02 }}
                      whileTap={{ scale: 0.98 }}
-                     onMouseEnter={() => { audio.init(); audio.playHover(); }}
-                     className="group relative overflow-hidden rounded-2xl border border-slate-700 bg-slate-950/88 p-4 text-left transition-colors hover:border-brand-500/50 hover:bg-brand-500/10"
+                     onMouseEnter={() => {
+                        if (isAvailable) {
+                           audio.init();
+                           audio.playHover();
+                        }
+                     }}
+                     className="group relative overflow-hidden rounded-2xl border p-4 text-left transition-colors"
+                     style={{
+                        borderColor: withAlpha(theme.primary, isAvailable ? 0.4 : 0.18),
+                        background: `linear-gradient(180deg, ${withAlpha(theme.surface, 0.92)} 0%, rgba(2,6,23,0.94) 100%)`,
+                        boxShadow: isAvailable ? `0 18px 50px ${withAlpha(theme.primary, 0.12)}` : 'none',
+                        opacity: isAvailable ? 1 : 0.72,
+                     }}
                   >
-                     <div className="absolute top-0 right-0 p-2 opacity-10 transition-opacity group-hover:opacity-30">
-                        <ShieldAlert size={48} />
+                     <div className="absolute top-0 right-0 p-2 opacity-10 transition-opacity group-hover:opacity-30" style={{ color: theme.secondary }}>
+                        <Landmark size={48} />
                      </div>
                      <div className="flex justify-between items-start mb-2 relative z-10">
-                        <span className="text-brand-400 font-mono text-sm font-bold">{t('menu.difficultyView.levelPrefix', { defaultValue: 'GRADE' })} {t(`campaigns.${campaignId}.grade`, { defaultValue: campaignId.split('_')[1] })}</span>
+                        <span className="font-mono text-sm font-bold" style={{ color: theme.secondary }}>{t('menu.difficultyView.levelPrefix', { defaultValue: 'GRADE' })} {t(`campaigns.${campaignId}.grade`, { defaultValue: campaignId.split('_')[1] })}</span>
                         <span className="text-slate-500 text-xs tracking-wider">{t(`campaigns.${campaignId}.grade_short`, { defaultValue: campaignId.startsWith('elem') ? 'Elem' : 'HS' })}</span>
                      </div>
                      <h3 className="font-bold text-slate-200 text-lg mb-1 relative z-10">{t(`campaigns.${campaignId}.title`, { defaultValue: `Campaign ${campaignId}` })}</h3>
                      <p className="text-sm text-slate-400 relative z-10">{t(`campaigns.${campaignId}.desc`, { defaultValue: 'Select this protocol to begin.' })}</p>
+                     {!isAvailable && (
+                        <p className="mt-3 text-xs font-mono uppercase tracking-wider text-slate-400 relative z-10">
+                           {t('menu.difficultyView.comingSoon')}
+                        </p>
+                     )}
                      {canResume && (
                         <p className="mt-3 text-xs font-mono uppercase tracking-wider text-emerald-300 relative z-10">
-                           Resume available: Level {resumeSession.levelIndex + 1}
+                           {t('menu.difficultyView.resumeAvailable', { level: resumeSession.levelIndex + 1 })}
                         </p>
                      )}
                      <div className="mt-4 flex gap-2 relative z-10">
                         {canResume && (
                            <button
                               onClick={() => handleStart(campaignId, 'resume')}
+                              disabled={!isAvailable}
                               className="flex-1 rounded-xl border border-emerald-400/40 bg-emerald-500/10 px-3 py-2 text-xs font-mono font-bold uppercase tracking-wider text-emerald-200 transition-colors hover:bg-emerald-500/20"
                            >
-                              Resume Run
+                              {t('menu.difficultyView.resumeRun')}
                            </button>
                         )}
                         <button
-                           onClick={() => handleStart(campaignId, 'fresh')}
-                           className="flex-1 rounded-xl border border-brand-500/50 bg-brand-500/10 px-3 py-2 text-xs font-mono font-bold uppercase tracking-wider text-brand-100 transition-colors hover:bg-brand-500/20"
+                           onClick={() => isAvailable && handleStart(campaignId, 'fresh')}
+                           disabled={!isAvailable}
+                           className="flex-1 rounded-xl border px-3 py-2 text-xs font-mono font-bold uppercase tracking-wider transition-colors disabled:cursor-not-allowed disabled:border-slate-800 disabled:bg-slate-900/70 disabled:text-slate-500"
+                           style={isAvailable ? { borderColor: withAlpha(theme.primary, 0.45), backgroundColor: withAlpha(theme.primary, 0.12), color: '#f8fafc' } : undefined}
                         >
-                           {canResume ? 'Start Fresh' : 'Start Run'}
+                           {canResume ? t('menu.difficultyView.startFresh') : t('menu.difficultyView.startRun')}
                         </button>
                      </div>
                   </motion.div>
@@ -252,10 +274,10 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStart, resumeSessions, opt
    return (
       <div className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-slate-950 px-4 py-6 sm:px-6 sm:py-8">
          <div className="absolute inset-0 z-0">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.18)_0%,rgba(2,6,23,1)_68%)]" />
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(30,41,59,0.45)_1px,transparent_1px),linear-gradient(to_bottom,rgba(30,41,59,0.35)_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-25" />
-            <div className="absolute top-16 left-[12%] h-56 w-56 rounded-full bg-brand-600/15 blur-[120px]" />
-            <div className="absolute bottom-10 right-[10%] h-64 w-64 rounded-full bg-cyan-400/10 blur-[140px]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(245,158,11,0.12)_0%,rgba(2,6,23,1)_68%)]" />
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(51,65,85,0.32)_1px,transparent_1px),linear-gradient(to_bottom,rgba(51,65,85,0.28)_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-20" />
+            <div className="absolute top-16 left-[12%] h-56 w-56 rounded-full bg-amber-500/10 blur-[120px]" />
+            <div className="absolute bottom-10 right-[10%] h-64 w-64 rounded-full bg-sky-400/10 blur-[140px]" />
          </div>
 
          <div className="relative z-10 mx-auto grid w-full max-w-7xl gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-stretch">
@@ -279,20 +301,20 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStart, resumeSessions, opt
                </div>
 
                <div className="mt-8 grid gap-3 sm:grid-cols-3">
-                  <StatusTile label="Active Campaigns" value={`${availableCampaigns.length}`} accent="brand" />
-                  <StatusTile label="Resume Slots" value={`${resumableCampaigns}`} accent="emerald" />
-                  <StatusTile label="Interface" value={options.enableCrt ? 'CRT' : 'Clean'} accent="slate" />
+                  <StatusTile label={t('menu.status.activeCampaigns')} value={`${availableCampaigns.length}`} accent="brand" />
+                  <StatusTile label={t('menu.status.resumeSlots')} value={`${resumableCampaigns}`} accent="emerald" />
+                  <StatusTile label={t('menu.status.interface')} value={options.enableCrt ? t('menu.status.crt') : t('menu.status.clean')} accent="slate" />
                </div>
             </motion.div>
 
             <div className="rounded-[2rem] border border-slate-700/70 bg-slate-950/80 p-4 shadow-2xl backdrop-blur-md sm:p-6">
-               <div className="mb-5 flex items-center justify-between rounded-2xl border border-brand-500/20 bg-brand-500/8 px-4 py-3">
+               <div className="mb-5 flex items-center justify-between rounded-2xl border border-amber-500/20 bg-amber-500/8 px-4 py-3">
                   <div>
-                     <div className="text-[11px] font-mono uppercase tracking-[0.24em] text-brand-300">Command Surface</div>
-                     <div className="mt-1 text-sm text-slate-400">Select a protocol, tune the interface, or resume a suspended run.</div>
+                     <div className="text-[11px] font-mono uppercase tracking-[0.24em] text-amber-200">{t('menu.commandSurface.title')}</div>
+                     <div className="mt-1 text-sm text-slate-400">{t('menu.commandSurface.body')}</div>
                   </div>
                   <div className="hidden rounded-full border border-slate-700 bg-slate-900/85 px-3 py-2 text-[10px] font-mono uppercase tracking-[0.18em] text-slate-500 sm:block">
-                     {currentView}
+                     {t(`menu.views.${currentView.toLowerCase()}`)}
                   </div>
                </div>
 
@@ -312,7 +334,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStart, resumeSessions, opt
 const MenuButton = ({ icon, title, subtitle, onClick, primary = false }: any) => {
    const baseClass = "group relative flex w-full cursor-pointer items-center overflow-hidden rounded-2xl border p-4 text-left transition-all duration-300";
    const colorClass = primary
-      ? "border-brand-500/40 bg-brand-500/10 hover:border-brand-300 hover:bg-brand-500/16 hover:shadow-[0_0_20px_rgba(59,130,246,0.18)]"
+      ? "border-amber-400/35 bg-amber-500/10 hover:border-amber-300 hover:bg-amber-500/16 hover:shadow-[0_0_20px_rgba(245,158,11,0.16)]"
       : "border-slate-700 bg-slate-950/82 hover:border-slate-500 hover:bg-slate-900";
 
    return (
@@ -332,23 +354,23 @@ const MenuButton = ({ icon, title, subtitle, onClick, primary = false }: any) =>
       >
          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
 
-         <div className={`mr-4 rounded-xl p-3 ${primary ? 'bg-brand-500/20 text-brand-300' : 'bg-slate-900 text-slate-400 group-hover:text-slate-200'}`}>
+         <div className={`mr-4 rounded-xl p-3 ${primary ? 'bg-amber-500/20 text-amber-200' : 'bg-slate-900 text-slate-400 group-hover:text-slate-200'}`}>
             {icon}
          </div>
 
          <div className="flex-1">
-            <h3 className={`text-lg font-bold ${primary ? 'text-brand-200' : 'text-slate-100'}`}>{title}</h3>
+            <h3 className={`text-lg font-bold ${primary ? 'text-amber-100' : 'text-slate-100'}`}>{title}</h3>
             <p className="text-sm text-slate-500">{subtitle}</p>
          </div>
 
-         <ChevronRight className={`transition-transform duration-300 transform group-hover:translate-x-2 ${primary ? 'text-brand-400' : 'text-slate-600'}`} />
+         <ChevronRight className={`transition-transform duration-300 transform group-hover:translate-x-2 ${primary ? 'text-amber-300' : 'text-slate-600'}`} />
       </motion.button>
    );
 };
 
 const StatusTile = ({ label, value, accent }: { label: string; value: string; accent: 'brand' | 'emerald' | 'slate' }) => {
    const accentClass = accent === 'brand'
-      ? 'border-brand-500/20 bg-brand-500/10 text-brand-200'
+      ? 'border-amber-500/20 bg-amber-500/10 text-amber-100'
       : accent === 'emerald'
          ? 'border-emerald-500/20 bg-emerald-500/10 text-emerald-200'
          : 'border-slate-700 bg-slate-950/80 text-slate-200';
